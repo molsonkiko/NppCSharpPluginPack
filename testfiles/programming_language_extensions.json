@@ -1,0 +1,1115 @@
+[
+	{"extensions": [".abap"], "name": "ABAP", "type": "programming"},
+	{"extensions": [".asc", ".ash"], "name": "AGS Script", "type": "programming"},
+	{"extensions": [".ampl", ".mod"], "name": "AMPL", "type": "programming"},
+	{"extensions": [".g4"], "name": "ANTLR", "type": "programming"},
+	{"extensions": [".apib"], "name": "API Blueprint", "type": "markup"},
+	{"extensions": [".apl", ".dyalog"], "name": "APL", "type": "programming"},
+	{
+		"extensions": [".asp", ".asax", ".ascx", ".ashx", ".asmx", ".aspx", ".axd"],
+		"name": "ASP",
+		"type": "programming"
+	},
+	{
+		"extensions": [".dats", ".hats", ".sats"],
+		"name": "ATS",
+		"type": "programming"
+	},
+	{"extensions": [".as"], "name": "ActionScript", "type": "programming"},
+	{"extensions": [".adb", ".ada", ".ads"], "name": "Ada", "type": "programming"},
+	{"extensions": [".agda"], "name": "Agda", "type": "programming"},
+	{"extensions": [".als"], "name": "Alloy", "type": "programming"},
+	{"name": "Ant Build System", "type": "data"},
+	{
+		"extensions": [".apacheconf", ".vhost"],
+		"name": "ApacheConf",
+		"type": "markup"
+	},
+	{"extensions": [".cls"], "name": "Apex", "type": "programming"},
+	{
+		"extensions": [".applescript", ".scpt"],
+		"name": "AppleScript",
+		"type": "programming"
+	},
+	{"extensions": [".arc"], "name": "Arc", "type": "programming"},
+	{"extensions": [".ino"], "name": "Arduino", "type": "programming"},
+	{
+		"extensions": [".asciidoc", ".adoc", ".asc"],
+		"name": "AsciiDoc",
+		"type": "prose"
+	},
+	{"extensions": [".aj"], "name": "AspectJ", "type": "programming"},
+	{
+		"extensions": [".asm", ".a51", ".inc", ".nasm"],
+		"name": "Assembly",
+		"type": "programming"
+	},
+	{"extensions": [".aug"], "name": "Augeas", "type": "programming"},
+	{"extensions": [".ahk", ".ahkl"], "name": "AutoHotkey", "type": "programming"},
+	{"extensions": [".au3"], "name": "AutoIt", "type": "programming"},
+	{
+		"extensions": [".awk", ".auk", ".gawk", ".mawk", ".nawk"],
+		"name": "Awk",
+		"type": "programming"
+	},
+	{"extensions": [".bat", ".cmd"], "name": "Batchfile", "type": "programming"},
+	{"extensions": [".befunge"], "name": "Befunge", "type": "programming"},
+	{"extensions": [".bison"], "name": "Bison", "type": "programming"},
+	{"extensions": [".bb"], "name": "BitBake", "type": "programming"},
+	{"extensions": [".bb", ".decls"], "name": "BlitzBasic", "type": "programming"},
+	{"extensions": [".bmx"], "name": "BlitzMax", "type": "programming"},
+	{"extensions": [".bsv"], "name": "Bluespec", "type": "programming"},
+	{"extensions": [".boo"], "name": "Boo", "type": "programming"},
+	{"extensions": [".b", ".bf"], "name": "Brainfuck", "type": "programming"},
+	{"extensions": [".brs"], "name": "Brightscript", "type": "programming"},
+	{"extensions": [".bro"], "name": "Bro", "type": "programming"},
+	{
+		"extensions": [".c", ".cats", ".h", ".idc", ".w"],
+		"name": "C",
+		"type": "programming"
+	},
+	{
+		"extensions": [".cs", ".cake", ".cshtml", ".csx"],
+		"name": "C#",
+		"type": "programming"
+	},
+	{
+		"extensions": [
+			".cpp",
+			".c++",
+			".cc",
+			".cp",
+			".cxx",
+			".h",
+			".h++",
+			".hh",
+			".hpp",
+			".hxx",
+			".inc",
+			".inl",
+			".ipp",
+			".tcc",
+			".tpp"
+		],
+		"name": "C++",
+		"type": "programming"
+	},
+	{"extensions": [".c-objdump"], "name": "C-ObjDump", "type": "data"},
+	{"extensions": [".chs"], "name": "C2hs Haskell", "type": "programming"},
+	{"extensions": [".clp"], "name": "CLIPS", "type": "programming"},
+	{
+		"extensions": [".cmake", ".cmake.in"],
+		"name": "CMake",
+		"type": "programming"
+	},
+	{
+		"extensions": [".cob", ".cbl", ".ccp", ".cobol", ".cpy"],
+		"name": "COBOL",
+		"type": "programming"
+	},
+	{"extensions": [".css"], "name": "CSS", "type": "markup"},
+	{"extensions": [".csv"], "name": "CSV", "type": "data"},
+	{"extensions": [".capnp"], "name": "Cap'n Proto", "type": "programming"},
+	{"extensions": [".mss"], "name": "CartoCSS", "type": "programming"},
+	{"extensions": [".ceylon"], "name": "Ceylon", "type": "programming"},
+	{"extensions": [".chpl"], "name": "Chapel", "type": "programming"},
+	{"extensions": [".ch"], "name": "Charity", "type": "programming"},
+	{"extensions": [".ck"], "name": "ChucK", "type": "programming"},
+	{"extensions": [".cirru"], "name": "Cirru", "type": "programming"},
+	{"extensions": [".clw"], "name": "Clarion", "type": "programming"},
+	{"extensions": [".icl", ".dcl"], "name": "Clean", "type": "programming"},
+	{"extensions": [".click"], "name": "Click", "type": "programming"},
+	{
+		"extensions": [
+			".clj",
+			".boot",
+			".cl2",
+			".cljc",
+			".cljs",
+			".cljs.hl",
+			".cljscm",
+			".cljx",
+			".hic"
+		],
+		"name": "Clojure",
+		"type": "programming"
+	},
+	{
+		"extensions": [".coffee", "._coffee", ".cake", ".cjsx", ".cson", ".iced"],
+		"name": "CoffeeScript",
+		"type": "programming"
+	},
+	{"extensions": [".cfm", ".cfml"], "name": "ColdFusion", "type": "programming"},
+	{"extensions": [".cfc"], "name": "ColdFusion CFC", "type": "programming"},
+	{
+		"extensions": [
+			".lisp",
+			".asd",
+			".cl",
+			".l",
+			".lsp",
+			".ny",
+			".podsl",
+			".sexp"
+		],
+		"name": "Common Lisp",
+		"type": "programming"
+	},
+	{
+		"extensions": [".cp", ".cps"],
+		"name": "Component Pascal",
+		"type": "programming"
+	},
+	{"extensions": [".cl"], "name": "Cool", "type": "programming"},
+	{"extensions": [".coq", ".v"], "name": "Coq", "type": "programming"},
+	{
+		"extensions": [
+			".cppobjdump",
+			".c++-objdump",
+			".c++objdump",
+			".cpp-objdump",
+			".cxx-objdump"
+		],
+		"name": "Cpp-ObjDump",
+		"type": "data"
+	},
+	{"extensions": [".creole"], "name": "Creole", "type": "prose"},
+	{"extensions": [".cr"], "name": "Crystal", "type": "programming"},
+	{"extensions": [".feature"], "name": "Cucumber", "type": "programming"},
+	{"extensions": [".cu", ".cuh"], "name": "Cuda", "type": "programming"},
+	{"extensions": [".cy"], "name": "Cycript", "type": "programming"},
+	{
+		"extensions": [".pyx", ".pxd", ".pxi"],
+		"name": "Cython",
+		"type": "programming"
+	},
+	{"extensions": [".d", ".di"], "name": "D", "type": "programming"},
+	{"extensions": [".d-objdump"], "name": "D-ObjDump", "type": "data"},
+	{
+		"extensions": [".com"],
+		"name": "DIGITAL Command Language",
+		"type": "programming"
+	},
+	{"extensions": [".dm"], "name": "DM", "type": "programming"},
+	{"extensions": [".zone", ".arpa"], "name": "DNS Zone", "type": "data"},
+	{"extensions": [".d"], "name": "DTrace", "type": "programming"},
+	{
+		"extensions": [".darcspatch", ".dpatch"],
+		"name": "Darcs Patch",
+		"type": "data"
+	},
+	{"extensions": [".dart"], "name": "Dart", "type": "programming"},
+	{"extensions": [".diff", ".patch"], "name": "Diff", "type": "data"},
+	{"extensions": [".dockerfile"], "name": "Dockerfile", "type": "data"},
+	{"extensions": [".djs"], "name": "Dogescript", "type": "programming"},
+	{
+		"extensions": [".dylan", ".dyl", ".intr", ".lid"],
+		"name": "Dylan",
+		"type": "programming"
+	},
+	{"extensions": [".E"], "name": "E", "type": "programming"},
+	{"extensions": [".ecl", ".eclxml"], "name": "ECL", "type": "programming"},
+	{"extensions": [".ecl"], "name": "ECLiPSe", "type": "programming"},
+	{"extensions": [".sch", ".brd"], "name": "Eagle", "type": "markup"},
+	{"extensions": [".epj"], "name": "Ecere Projects", "type": "data"},
+	{"extensions": [".e"], "name": "Eiffel", "type": "programming"},
+	{"extensions": [".ex", ".exs"], "name": "Elixir", "type": "programming"},
+	{"extensions": [".elm"], "name": "Elm", "type": "programming"},
+	{
+		"extensions": [".el", ".emacs", ".emacs.desktop"],
+		"name": "Emacs Lisp",
+		"type": "programming"
+	},
+	{
+		"extensions": [".em", ".emberscript"],
+		"name": "EmberScript",
+		"type": "programming"
+	},
+	{
+		"extensions": [".erl", ".es", ".escript", ".hrl", ".xrl", ".yrl"],
+		"name": "Erlang",
+		"type": "programming"
+	},
+	{"extensions": [".fs", ".fsi", ".fsx"], "name": "F#", "type": "programming"},
+	{"extensions": [".fx", ".flux"], "name": "FLUX", "type": "programming"},
+	{
+		"extensions": [".f90", ".f", ".f03", ".f08", ".f77", ".f95", ".for", ".fpp"],
+		"name": "FORTRAN",
+		"type": "programming"
+	},
+	{"extensions": [".factor"], "name": "Factor", "type": "programming"},
+	{"extensions": [".fy", ".fancypack"], "name": "Fancy", "type": "programming"},
+	{"extensions": [".fan"], "name": "Fantom", "type": "programming"},
+	{"extensions": [".fs"], "name": "Filterscript", "type": "programming"},
+	{"extensions": [".for", ".eam.fs"], "name": "Formatted", "type": "data"},
+	{
+		"extensions": [".fth", ".4th", ".f", ".for", ".forth", ".fr", ".frt", ".fs"],
+		"name": "Forth",
+		"type": "programming"
+	},
+	{"extensions": [".ftl"], "name": "FreeMarker", "type": "programming"},
+	{"extensions": [".fr"], "name": "Frege", "type": "programming"},
+	{"extensions": [".g", ".gco", ".gcode"], "name": "G-code", "type": "data"},
+	{"extensions": [".gms"], "name": "GAMS", "type": "programming"},
+	{
+		"extensions": [".g", ".gap", ".gd", ".gi", ".tst"],
+		"name": "GAP",
+		"type": "programming"
+	},
+	{"extensions": [".s", ".ms"], "name": "GAS", "type": "programming"},
+	{"extensions": [".gd"], "name": "GDScript", "type": "programming"},
+	{
+		"extensions": [
+			".glsl",
+			".fp",
+			".frag",
+			".frg",
+			".fs",
+			".fsh",
+			".fshader",
+			".geo",
+			".geom",
+			".glslv",
+			".gshader",
+			".shader",
+			".vert",
+			".vrx",
+			".vsh",
+			".vshader"
+		],
+		"name": "GLSL",
+		"type": "programming"
+	},
+	{"extensions": [".gml"], "name": "Game Maker Language", "type": "programming"},
+	{"extensions": [".kid"], "name": "Genshi", "type": "programming"},
+	{"extensions": [".ebuild"], "name": "Gentoo Ebuild", "type": "programming"},
+	{"extensions": [".eclass"], "name": "Gentoo Eclass", "type": "programming"},
+	{"extensions": [".po", ".pot"], "name": "Gettext Catalog", "type": "prose"},
+	{"extensions": [".glf"], "name": "Glyph", "type": "programming"},
+	{
+		"extensions": [".gp", ".gnu", ".gnuplot", ".plot", ".plt"],
+		"name": "Gnuplot",
+		"type": "programming"
+	},
+	{"extensions": [".go"], "name": "Go", "type": "programming"},
+	{"extensions": [".golo"], "name": "Golo", "type": "programming"},
+	{
+		"extensions": [".gs", ".gst", ".gsx", ".vark"],
+		"name": "Gosu",
+		"type": "programming"
+	},
+	{"extensions": [".grace"], "name": "Grace", "type": "programming"},
+	{"extensions": [".gradle"], "name": "Gradle", "type": "data"},
+	{
+		"extensions": [".gf"],
+		"name": "Grammatical Framework",
+		"type": "programming"
+	},
+	{"extensions": [".gml"], "name": "Graph Modeling Language", "type": "data"},
+	{"extensions": [".graphql"], "name": "GraphQL", "type": "data"},
+	{"extensions": [".dot", ".gv"], "name": "Graphviz (DOT)", "type": "data"},
+	{
+		"extensions": [
+			".man",
+			".1",
+			".1in",
+			".1m",
+			".1x",
+			".2",
+			".3",
+			".3in",
+			".3m",
+			".3qt",
+			".3x",
+			".4",
+			".5",
+			".6",
+			".7",
+			".8",
+			".9",
+			".l",
+			".me",
+			".ms",
+			".n",
+			".rno",
+			".roff"
+		],
+		"name": "Groff",
+		"type": "markup"
+	},
+	{
+		"extensions": [".groovy", ".grt", ".gtpl", ".gvy"],
+		"name": "Groovy",
+		"type": "programming"
+	},
+	{"extensions": [".gsp"], "name": "Groovy Server Pages", "type": "programming"},
+	{"extensions": [".hcl", ".tf"], "name": "HCL", "type": "programming"},
+	{
+		"extensions": [".hlsl", ".fx", ".fxh", ".hlsli"],
+		"name": "HLSL",
+		"type": "programming"
+	},
+	{
+		"extensions": [".html", ".htm", ".html.hl", ".inc", ".st", ".xht", ".xhtml"],
+		"name": "HTML",
+		"type": "markup"
+	},
+	{
+		"extensions": [".mustache", ".jinja"],
+		"name": "HTML+Django",
+		"type": "markup"
+	},
+	{"extensions": [".eex"], "name": "HTML+EEX", "type": "markup"},
+	{"extensions": [".erb", ".erb.deface"], "name": "HTML+ERB", "type": "markup"},
+	{"extensions": [".phtml"], "name": "HTML+PHP", "type": "markup"},
+	{"extensions": [".http"], "name": "HTTP", "type": "data"},
+	{"extensions": [".hh", ".php"], "name": "Hack", "type": "programming"},
+	{"extensions": [".haml", ".haml.deface"], "name": "Haml", "type": "markup"},
+	{
+		"extensions": [".handlebars", ".hbs"],
+		"name": "Handlebars",
+		"type": "markup"
+	},
+	{"extensions": [".hb"], "name": "Harbour", "type": "programming"},
+	{"extensions": [".hs", ".hsc"], "name": "Haskell", "type": "programming"},
+	{"extensions": [".hx", ".hxsl"], "name": "Haxe", "type": "programming"},
+	{"extensions": [".hy"], "name": "Hy", "type": "programming"},
+	{"extensions": [".bf"], "name": "HyPhy", "type": "programming"},
+	{"extensions": [".pro", ".dlm"], "name": "IDL", "type": "programming"},
+	{"extensions": [".ipf"], "name": "IGOR Pro", "type": "programming"},
+	{
+		"extensions": [".ini", ".cfg", ".prefs", ".pro", ".properties"],
+		"name": "INI",
+		"type": "data"
+	},
+	{"extensions": [".irclog", ".weechatlog"], "name": "IRC log", "type": "data"},
+	{"extensions": [".idr", ".lidr"], "name": "Idris", "type": "programming"},
+	{"extensions": [".ni", ".i7x"], "name": "Inform 7", "type": "programming"},
+	{"extensions": [".iss"], "name": "Inno Setup", "type": "programming"},
+	{"extensions": [".io"], "name": "Io", "type": "programming"},
+	{"extensions": [".ik"], "name": "Ioke", "type": "programming"},
+	{"extensions": [".thy"], "name": "Isabelle", "type": "programming"},
+	{"name": "Isabelle ROOT", "type": "programming"},
+	{"extensions": [".ijs"], "name": "J", "type": "programming"},
+	{"extensions": [".flex", ".jflex"], "name": "JFlex", "type": "programming"},
+	{
+		"extensions": [".json", ".geojson", ".lock", ".topojson"],
+		"name": "JSON",
+		"type": "data"
+	},
+	{"extensions": [".json5"], "name": "JSON5", "type": "data"},
+	{"extensions": [".jsonld"], "name": "JSONLD", "type": "data"},
+	{"extensions": [".jq"], "name": "JSONiq", "type": "programming"},
+	{"extensions": [".jsx"], "name": "JSX", "type": "programming"},
+	{"extensions": [".jade"], "name": "Jade", "type": "markup"},
+	{"extensions": [".j"], "name": "Jasmin", "type": "programming"},
+	{"extensions": [".java"], "name": "Java", "type": "programming"},
+	{"extensions": [".jsp"], "name": "Java Server Pages", "type": "programming"},
+	{
+		"extensions": [
+			".js",
+			"._js",
+			".bones",
+			".es",
+			".es6",
+			".frag",
+			".gs",
+			".jake",
+			".jsb",
+			".jscad",
+			".jsfl",
+			".jsm",
+			".jss",
+			".njs",
+			".pac",
+			".sjs",
+			".ssjs",
+			".sublime-build",
+			".sublime-commands",
+			".sublime-completions",
+			".sublime-keymap",
+			".sublime-macro",
+			".sublime-menu",
+			".sublime-mousemap",
+			".sublime-project",
+			".sublime-settings",
+			".sublime-theme",
+			".sublime-workspace",
+			".sublime_metrics",
+			".sublime_session",
+			".xsjs",
+			".xsjslib"
+		],
+		"name": "JavaScript",
+		"type": "programming"
+	},
+	{"extensions": [".jl"], "name": "Julia", "type": "programming"},
+	{"extensions": [".ipynb"], "name": "Jupyter Notebook", "type": "markup"},
+	{"extensions": [".krl"], "name": "KRL", "type": "programming"},
+	{
+		"extensions": [".sch", ".brd", ".kicad_pcb"],
+		"name": "KiCad",
+		"type": "programming"
+	},
+	{"extensions": [".kit"], "name": "Kit", "type": "markup"},
+	{
+		"extensions": [".kt", ".ktm", ".kts"],
+		"name": "Kotlin",
+		"type": "programming"
+	},
+	{"extensions": [".lfe"], "name": "LFE", "type": "programming"},
+	{"extensions": [".ll"], "name": "LLVM", "type": "programming"},
+	{"extensions": [".lol"], "name": "LOLCODE", "type": "programming"},
+	{"extensions": [".lsl", ".lslp"], "name": "LSL", "type": "programming"},
+	{"extensions": [".lvproj"], "name": "LabVIEW", "type": "programming"},
+	{
+		"extensions": [".lasso", ".las", ".lasso8", ".lasso9", ".ldml"],
+		"name": "Lasso",
+		"type": "programming"
+	},
+	{"extensions": [".latte"], "name": "Latte", "type": "markup"},
+	{"extensions": [".lean", ".hlean"], "name": "Lean", "type": "programming"},
+	{"extensions": [".less"], "name": "Less", "type": "markup"},
+	{"extensions": [".l", ".lex"], "name": "Lex", "type": "programming"},
+	{"extensions": [".ly", ".ily"], "name": "LilyPond", "type": "programming"},
+	{"extensions": [".b", ".m"], "name": "Limbo", "type": "programming"},
+	{"extensions": [".ld", ".lds"], "name": "Linker Script", "type": "data"},
+	{"extensions": [".mod"], "name": "Linux Kernel Module", "type": "data"},
+	{"extensions": [".liquid"], "name": "Liquid", "type": "markup"},
+	{"extensions": [".lagda"], "name": "Literate Agda", "type": "programming"},
+	{
+		"extensions": [".litcoffee"],
+		"name": "Literate CoffeeScript",
+		"type": "programming"
+	},
+	{"extensions": [".lhs"], "name": "Literate Haskell", "type": "programming"},
+	{"extensions": [".ls", "._ls"], "name": "LiveScript", "type": "programming"},
+	{"extensions": [".xm", ".x", ".xi"], "name": "Logos", "type": "programming"},
+	{"extensions": [".lgt", ".logtalk"], "name": "Logtalk", "type": "programming"},
+	{"extensions": [".lookml"], "name": "LookML", "type": "programming"},
+	{"extensions": [".ls"], "name": "LoomScript", "type": "programming"},
+	{
+		"extensions": [".lua", ".fcgi", ".nse", ".pd_lua", ".rbxs", ".wlua"],
+		"name": "Lua",
+		"type": "programming"
+	},
+	{"extensions": [".mumps", ".m"], "name": "M", "type": "programming"},
+	{"extensions": [".m4"], "name": "M4", "type": "programming"},
+	{"extensions": [".m4"], "name": "M4Sugar", "type": "programming"},
+	{"extensions": [".ms", ".mcr"], "name": "MAXScript", "type": "programming"},
+	{"extensions": [".mtml"], "name": "MTML", "type": "markup"},
+	{"extensions": [".muf", ".m"], "name": "MUF", "type": "programming"},
+	{
+		"extensions": [".mak", ".d", ".mk", ".mkfile"],
+		"name": "Makefile",
+		"type": "programming"
+	},
+	{"extensions": [".mako", ".mao"], "name": "Mako", "type": "programming"},
+	{
+		"extensions": [".md", ".markdown", ".mkd", ".mkdn", ".mkdown", ".ron"],
+		"name": "Markdown",
+		"type": "prose"
+	},
+	{"extensions": [".mask"], "name": "Mask", "type": "markup"},
+	{
+		"extensions": [
+			".mathematica",
+			".cdf",
+			".m",
+			".ma",
+			".mt",
+			".nb",
+			".nbp",
+			".wl",
+			".wlt"
+		],
+		"name": "Mathematica",
+		"type": "programming"
+	},
+	{"extensions": [".matlab", ".m"], "name": "Matlab", "type": "programming"},
+	{"name": "Maven POM", "type": "data"},
+	{
+		"extensions": [".maxpat", ".maxhelp", ".maxproj", ".mxt", ".pat"],
+		"name": "Max",
+		"type": "programming"
+	},
+	{"extensions": [".mediawiki", ".wiki"], "name": "MediaWiki", "type": "prose"},
+	{"extensions": [".m", ".moo"], "name": "Mercury", "type": "programming"},
+	{"extensions": [".metal"], "name": "Metal", "type": "programming"},
+	{"extensions": [".minid"], "name": "MiniD", "type": "programming"},
+	{
+		"extensions": [".druby", ".duby", ".mir", ".mirah"],
+		"name": "Mirah",
+		"type": "programming"
+	},
+	{"extensions": [".mo"], "name": "Modelica", "type": "programming"},
+	{"extensions": [".mod"], "name": "Modula-2", "type": "programming"},
+	{
+		"extensions": [".mms", ".mmk"],
+		"name": "Module Management System",
+		"type": "programming"
+	},
+	{"extensions": [".monkey"], "name": "Monkey", "type": "programming"},
+	{"extensions": [".moo"], "name": "Moocode", "type": "programming"},
+	{"extensions": [".moon"], "name": "MoonScript", "type": "programming"},
+	{"extensions": [".myt"], "name": "Myghty", "type": "programming"},
+	{"extensions": [".ncl"], "name": "NCL", "type": "programming"},
+	{"extensions": [".nl"], "name": "NL", "type": "data"},
+	{"extensions": [".nsi", ".nsh"], "name": "NSIS", "type": "programming"},
+	{"extensions": [".n"], "name": "Nemerle", "type": "programming"},
+	{"extensions": [".axs", ".axi"], "name": "NetLinx", "type": "programming"},
+	{
+		"extensions": [".axs.erb", ".axi.erb"],
+		"name": "NetLinx+ERB",
+		"type": "programming"
+	},
+	{"extensions": [".nlogo"], "name": "NetLogo", "type": "programming"},
+	{
+		"extensions": [".nl", ".lisp", ".lsp"],
+		"name": "NewLisp",
+		"type": "programming"
+	},
+	{"extensions": [".nginxconf", ".vhost"], "name": "Nginx", "type": "markup"},
+	{"extensions": [".nim", ".nimrod"], "name": "Nimrod", "type": "programming"},
+	{"extensions": [".ninja"], "name": "Ninja", "type": "data"},
+	{"extensions": [".nit"], "name": "Nit", "type": "programming"},
+	{"extensions": [".nix"], "name": "Nix", "type": "programming"},
+	{"extensions": [".nu"], "name": "Nu", "type": "programming"},
+	{
+		"extensions": [".numpy", ".numpyw", ".numsc"],
+		"name": "NumPy",
+		"type": "programming"
+	},
+	{
+		"extensions": [".ml", ".eliom", ".eliomi", ".ml4", ".mli", ".mll", ".mly"],
+		"name": "OCaml",
+		"type": "programming"
+	},
+	{"extensions": [".objdump"], "name": "ObjDump", "type": "data"},
+	{"extensions": [".m", ".h"], "name": "Objective-C", "type": "programming"},
+	{"extensions": [".mm"], "name": "Objective-C++", "type": "programming"},
+	{"extensions": [".j", ".sj"], "name": "Objective-J", "type": "programming"},
+	{"extensions": [".omgrofl"], "name": "Omgrofl", "type": "programming"},
+	{"extensions": [".opa"], "name": "Opa", "type": "programming"},
+	{"extensions": [".opal"], "name": "Opal", "type": "programming"},
+	{"extensions": [".cl", ".opencl"], "name": "OpenCL", "type": "programming"},
+	{"extensions": [".p", ".cls"], "name": "OpenEdge ABL", "type": "programming"},
+	{"extensions": [".scad"], "name": "OpenSCAD", "type": "programming"},
+	{"extensions": [".org"], "name": "Org", "type": "prose"},
+	{"extensions": [".ox", ".oxh", ".oxo"], "name": "Ox", "type": "programming"},
+	{"extensions": [".oxygene"], "name": "Oxygene", "type": "programming"},
+	{"extensions": [".oz"], "name": "Oz", "type": "programming"},
+	{"extensions": [".pwn", ".inc"], "name": "PAWN", "type": "programming"},
+	{
+		"extensions": [
+			".php",
+			".aw",
+			".ctp",
+			".fcgi",
+			".inc",
+			".php3",
+			".php4",
+			".php5",
+			".phps",
+			".phpt"
+		],
+		"name": "PHP",
+		"type": "programming"
+	},
+	{
+		"extensions": [".pls", ".pck", ".pkb", ".pks", ".plb", ".plsql", ".sql"],
+		"name": "PLSQL",
+		"type": "programming"
+	},
+	{"extensions": [".sql"], "name": "PLpgSQL", "type": "programming"},
+	{"extensions": [".pov", ".inc"], "name": "POV-Ray SDL", "type": "programming"},
+	{"extensions": [".pan"], "name": "Pan", "type": "programming"},
+	{"extensions": [".psc"], "name": "Papyrus", "type": "programming"},
+	{"extensions": [".parrot"], "name": "Parrot", "type": "programming"},
+	{"extensions": [".pasm"], "name": "Parrot Assembly", "type": "programming"},
+	{
+		"extensions": [".pir"],
+		"name": "Parrot Internal Representation",
+		"type": "programming"
+	},
+	{
+		"extensions": [".pas", ".dfm", ".dpr", ".inc", ".lpr", ".pp"],
+		"name": "Pascal",
+		"type": "programming"
+	},
+	{
+		"extensions": [
+			".pl",
+			".al",
+			".cgi",
+			".fcgi",
+			".perl",
+			".ph",
+			".plx",
+			".pm",
+			".pod",
+			".psgi",
+			".t"
+		],
+		"name": "Perl",
+		"type": "programming"
+	},
+	{
+		"extensions": [
+			".6pl",
+			".6pm",
+			".nqp",
+			".p6",
+			".p6l",
+			".p6m",
+			".pl",
+			".pl6",
+			".pm",
+			".pm6",
+			".t"
+		],
+		"name": "Perl6",
+		"type": "programming"
+	},
+	{"extensions": [".pkl"], "name": "Pickle", "type": "data"},
+	{"extensions": [".l"], "name": "PicoLisp", "type": "programming"},
+	{"extensions": [".pig"], "name": "PigLatin", "type": "programming"},
+	{"extensions": [".pike", ".pmod"], "name": "Pike", "type": "programming"},
+	{"extensions": [".pod"], "name": "Pod", "type": "prose"},
+	{"extensions": [".pogo"], "name": "PogoScript", "type": "programming"},
+	{"extensions": [".pony"], "name": "Pony", "type": "programming"},
+	{"extensions": [".ps", ".eps"], "name": "PostScript", "type": "markup"},
+	{
+		"extensions": [".ps1", ".psd1", ".psm1"],
+		"name": "PowerShell",
+		"type": "programming"
+	},
+	{"extensions": [".pde"], "name": "Processing", "type": "programming"},
+	{
+		"extensions": [".pl", ".pro", ".prolog", ".yap"],
+		"name": "Prolog",
+		"type": "programming"
+	},
+	{"extensions": [".spin"], "name": "Propeller Spin", "type": "programming"},
+	{"extensions": [".proto"], "name": "Protocol Buffer", "type": "markup"},
+	{"extensions": [".asc", ".pub"], "name": "Public Key", "type": "data"},
+	{"extensions": [".pp"], "name": "Puppet", "type": "programming"},
+	{"extensions": [".pd"], "name": "Pure Data", "type": "programming"},
+	{"extensions": [".pb", ".pbi"], "name": "PureBasic", "type": "programming"},
+	{"extensions": [".purs"], "name": "PureScript", "type": "programming"},
+	{
+		"extensions": [
+			".py",
+			".bzl",
+			".cgi",
+			".fcgi",
+			".gyp",
+			".lmi",
+			".pyde",
+			".pyp",
+			".pyt",
+			".pyw",
+			".rpy",
+			".tac",
+			".wsgi",
+			".xpy"
+		],
+		"name": "Python",
+		"type": "programming"
+	},
+	{"extensions": [".pytb"], "name": "Python traceback", "type": "data"},
+	{"extensions": [".qml", ".qbs"], "name": "QML", "type": "programming"},
+	{"extensions": [".pro", ".pri"], "name": "QMake", "type": "programming"},
+	{"extensions": [".r", ".rd", ".rsx"], "name": "R", "type": "programming"},
+	{"extensions": [".raml"], "name": "RAML", "type": "markup"},
+	{"extensions": [".rdoc"], "name": "RDoc", "type": "prose"},
+	{
+		"extensions": [
+			".rbbas",
+			".rbfrm",
+			".rbmnu",
+			".rbres",
+			".rbtbar",
+			".rbuistate"
+		],
+		"name": "REALbasic",
+		"type": "programming"
+	},
+	{"extensions": [".rhtml"], "name": "RHTML", "type": "markup"},
+	{"extensions": [".rmd"], "name": "RMarkdown", "type": "prose"},
+	{
+		"extensions": [".rkt", ".rktd", ".rktl", ".scrbl"],
+		"name": "Racket",
+		"type": "programming"
+	},
+	{"extensions": [".rl"], "name": "Ragel in Ruby Host", "type": "programming"},
+	{"extensions": [".raw"], "name": "Raw token data", "type": "data"},
+	{
+		"extensions": [".reb", ".r", ".r2", ".r3", ".rebol"],
+		"name": "Rebol",
+		"type": "programming"
+	},
+	{"extensions": [".red", ".reds"], "name": "Red", "type": "programming"},
+	{"extensions": [".cw"], "name": "Redcode", "type": "programming"},
+	{"extensions": [".rpy"], "name": "Ren'Py", "type": "programming"},
+	{"extensions": [".rs", ".rsh"], "name": "RenderScript", "type": "programming"},
+	{"extensions": [".robot"], "name": "RobotFramework", "type": "programming"},
+	{"extensions": [".rg"], "name": "Rouge", "type": "programming"},
+	{
+		"extensions": [
+			".rb",
+			".builder",
+			".fcgi",
+			".gemspec",
+			".god",
+			".irbrc",
+			".jbuilder",
+			".mspec",
+			".pluginspec",
+			".podspec",
+			".rabl",
+			".rake",
+			".rbuild",
+			".rbw",
+			".rbx",
+			".ru",
+			".ruby",
+			".thor",
+			".watchr"
+		],
+		"name": "Ruby",
+		"type": "programming"
+	},
+	{"extensions": [".rs", ".rs.in"], "name": "Rust", "type": "programming"},
+	{"extensions": [".sas"], "name": "SAS", "type": "programming"},
+	{"extensions": [".scss"], "name": "SCSS", "type": "markup"},
+	{"extensions": [".smt2", ".smt"], "name": "SMT", "type": "programming"},
+	{"extensions": [".sparql", ".rq"], "name": "SPARQL", "type": "data"},
+	{"extensions": [".sqf", ".hqf"], "name": "SQF", "type": "programming"},
+	{
+		"extensions": [
+			".sql",
+			".cql",
+			".ddl",
+			".inc",
+			".prc",
+			".tab",
+			".udf",
+			".viw"
+		],
+		"name": "SQL",
+		"type": "data"
+	},
+	{"extensions": [".sql", ".db2"], "name": "SQLPL", "type": "programming"},
+	{"extensions": [".ston"], "name": "STON", "type": "data"},
+	{"extensions": [".svg"], "name": "SVG", "type": "data"},
+	{"extensions": [".sage", ".sagews"], "name": "Sage", "type": "programming"},
+	{"extensions": [".sls"], "name": "SaltStack", "type": "programming"},
+	{"extensions": [".sass"], "name": "Sass", "type": "markup"},
+	{
+		"extensions": [".scala", ".sbt", ".sc"],
+		"name": "Scala",
+		"type": "programming"
+	},
+	{"extensions": [".scaml"], "name": "Scaml", "type": "markup"},
+	{
+		"extensions": [".scm", ".sld", ".sls", ".sps", ".ss"],
+		"name": "Scheme",
+		"type": "programming"
+	},
+	{
+		"extensions": [".sci", ".sce", ".tst"],
+		"name": "Scilab",
+		"type": "programming"
+	},
+	{"extensions": [".self"], "name": "Self", "type": "programming"},
+	{
+		"extensions": [
+			".sh",
+			".bash",
+			".bats",
+			".cgi",
+			".command",
+			".fcgi",
+			".ksh",
+			".sh.in",
+			".tmux",
+			".tool",
+			".zsh"
+		],
+		"name": "Shell",
+		"type": "programming"
+	},
+	{"extensions": [".sh-session"], "name": "ShellSession", "type": "programming"},
+	{"extensions": [".shen"], "name": "Shen", "type": "programming"},
+	{"extensions": [".sl"], "name": "Slash", "type": "programming"},
+	{"extensions": [".slim"], "name": "Slim", "type": "markup"},
+	{"extensions": [".smali"], "name": "Smali", "type": "programming"},
+	{"extensions": [".st", ".cs"], "name": "Smalltalk", "type": "programming"},
+	{"extensions": [".tpl"], "name": "Smarty", "type": "programming"},
+	{
+		"extensions": [".sp", ".inc", ".sma"],
+		"name": "SourcePawn",
+		"type": "programming"
+	},
+	{"extensions": [".nut"], "name": "Squirrel", "type": "programming"},
+	{"extensions": [".stan"], "name": "Stan", "type": "programming"},
+	{
+		"extensions": [".ML", ".fun", ".sig", ".sml"],
+		"name": "Standard ML",
+		"type": "programming"
+	},
+	{
+		"extensions": [".do", ".ado", ".doh", ".ihlp", ".mata", ".matah", ".sthlp"],
+		"name": "Stata",
+		"type": "programming"
+	},
+	{"extensions": [".styl"], "name": "Stylus", "type": "markup"},
+	{
+		"extensions": [".sc", ".scd"],
+		"name": "SuperCollider",
+		"type": "programming"
+	},
+	{"extensions": [".swift"], "name": "Swift", "type": "programming"},
+	{
+		"extensions": [".sv", ".svh", ".vh"],
+		"name": "SystemVerilog",
+		"type": "programming"
+	},
+	{"extensions": [".toml"], "name": "TOML", "type": "data"},
+	{"extensions": [".txl"], "name": "TXL", "type": "programming"},
+	{"extensions": [".tcl", ".adp", ".tm"], "name": "Tcl", "type": "programming"},
+	{"extensions": [".tcsh", ".csh"], "name": "Tcsh", "type": "programming"},
+	{
+		"extensions": [
+			".tex",
+			".aux",
+			".bbx",
+			".bib",
+			".cbx",
+			".cls",
+			".dtx",
+			".ins",
+			".lbx",
+			".ltx",
+			".mkii",
+			".mkiv",
+			".mkvi",
+			".sty",
+			".toc"
+		],
+		"name": "TeX",
+		"type": "markup"
+	},
+	{"extensions": [".tea"], "name": "Tea", "type": "markup"},
+	{"extensions": [".t"], "name": "Terra", "type": "programming"},
+	{
+		"extensions": [".txt", ".fr", ".nb", ".ncl", ".no"],
+		"name": "Text",
+		"type": "prose"
+	},
+	{"extensions": [".textile"], "name": "Textile", "type": "prose"},
+	{"extensions": [".thrift"], "name": "Thrift", "type": "programming"},
+	{"extensions": [".t", ".tu"], "name": "Turing", "type": "programming"},
+	{"extensions": [".ttl"], "name": "Turtle", "type": "data"},
+	{"extensions": [".twig"], "name": "Twig", "type": "markup"},
+	{"extensions": [".ts", ".tsx"], "name": "TypeScript", "type": "programming"},
+	{"extensions": [".upc"], "name": "Unified Parallel C", "type": "programming"},
+	{
+		"extensions": [".anim", ".asset", ".mat", ".meta", ".prefab", ".unity"],
+		"name": "Unity3D Asset",
+		"type": "data"
+	},
+	{"extensions": [".uno"], "name": "Uno", "type": "programming"},
+	{"extensions": [".uc"], "name": "UnrealScript", "type": "programming"},
+	{"extensions": [".ur", ".urs"], "name": "UrWeb", "type": "programming"},
+	{"extensions": [".vcl"], "name": "VCL", "type": "programming"},
+	{
+		"extensions": [
+			".vhdl",
+			".vhd",
+			".vhf",
+			".vhi",
+			".vho",
+			".vhs",
+			".vht",
+			".vhw"
+		],
+		"name": "VHDL",
+		"type": "programming"
+	},
+	{"extensions": [".vala", ".vapi"], "name": "Vala", "type": "programming"},
+	{"extensions": [".v", ".veo"], "name": "Verilog", "type": "programming"},
+	{"extensions": [".vim"], "name": "VimL", "type": "programming"},
+	{
+		"extensions": [
+			".vb",
+			".bas",
+			".cls",
+			".frm",
+			".frx",
+			".vba",
+			".vbhtml",
+			".vbs"
+		],
+		"name": "Visual Basic",
+		"type": "programming"
+	},
+	{"extensions": [".volt"], "name": "Volt", "type": "programming"},
+	{"extensions": [".vue"], "name": "Vue", "type": "markup"},
+	{"extensions": [".owl"], "name": "Web Ontology Language", "type": "markup"},
+	{"extensions": [".webidl"], "name": "WebIDL", "type": "programming"},
+	{"extensions": [".x10"], "name": "X10", "type": "programming"},
+	{"extensions": [".xc"], "name": "XC", "type": "programming"},
+	{
+		"extensions": [
+			".xml",
+			".ant",
+			".axml",
+			".ccxml",
+			".clixml",
+			".cproject",
+			".csl",
+			".csproj",
+			".ct",
+			".dita",
+			".ditamap",
+			".ditaval",
+			".dll.config",
+			".dotsettings",
+			".filters",
+			".fsproj",
+			".fxml",
+			".glade",
+			".gml",
+			".grxml",
+			".iml",
+			".ivy",
+			".jelly",
+			".jsproj",
+			".kml",
+			".launch",
+			".mdpolicy",
+			".mm",
+			".mod",
+			".mxml",
+			".nproj",
+			".nuspec",
+			".odd",
+			".osm",
+			".plist",
+			".pluginspec",
+			".props",
+			".ps1xml",
+			".psc1",
+			".pt",
+			".rdf",
+			".rss",
+			".scxml",
+			".srdf",
+			".storyboard",
+			".stTheme",
+			".sublime-snippet",
+			".targets",
+			".tmCommand",
+			".tml",
+			".tmLanguage",
+			".tmPreferences",
+			".tmSnippet",
+			".tmTheme",
+			".ts",
+			".tsx",
+			".ui",
+			".urdf",
+			".ux",
+			".vbproj",
+			".vcxproj",
+			".vssettings",
+			".vxml",
+			".wsdl",
+			".wsf",
+			".wxi",
+			".wxl",
+			".wxs",
+			".x3d",
+			".xacro",
+			".xaml",
+			".xib",
+			".xlf",
+			".xliff",
+			".xmi",
+			".xml.dist",
+			".xproj",
+			".xsd",
+			".xul",
+			".zcml"
+		],
+		"name": "XML",
+		"type": "data"
+	},
+	{
+		"extensions": [".xsp-config", ".xsp.metadata"],
+		"name": "XPages",
+		"type": "programming"
+	},
+	{"extensions": [".xpl", ".xproc"], "name": "XProc", "type": "programming"},
+	{
+		"extensions": [".xquery", ".xq", ".xql", ".xqm", ".xqy"],
+		"name": "XQuery",
+		"type": "programming"
+	},
+	{"extensions": [".xs"], "name": "XS", "type": "programming"},
+	{"extensions": [".xslt", ".xsl"], "name": "XSLT", "type": "programming"},
+	{
+		"extensions": [
+			".xojo_code",
+			".xojo_menu",
+			".xojo_report",
+			".xojo_script",
+			".xojo_toolbar",
+			".xojo_window"
+		],
+		"name": "Xojo",
+		"type": "programming"
+	},
+	{"extensions": [".xtend"], "name": "Xtend", "type": "programming"},
+	{
+		"extensions": [
+			".yml",
+			".reek",
+			".rviz",
+			".sublime-syntax",
+			".syntax",
+			".yaml",
+			".yaml-tmlanguage"
+		],
+		"name": "YAML",
+		"type": "data"
+	},
+	{"extensions": [".yang"], "name": "YANG", "type": "data"},
+	{"extensions": [".y", ".yacc", ".yy"], "name": "Yacc", "type": "programming"},
+	{"extensions": [".zep"], "name": "Zephir", "type": "programming"},
+	{
+		"extensions": [".zimpl", ".zmpl", ".zpl"],
+		"name": "Zimpl",
+		"type": "programming"
+	},
+	{"extensions": [".desktop", ".desktop.in"], "name": "desktop", "type": "data"},
+	{"extensions": [".ec", ".eh"], "name": "eC", "type": "programming"},
+	{"extensions": [".edn"], "name": "edn", "type": "data"},
+	{"extensions": [".fish"], "name": "fish", "type": "programming"},
+	{"extensions": [".mu"], "name": "mupad", "type": "programming"},
+	{"extensions": [".nc"], "name": "nesC", "type": "programming"},
+	{"extensions": [".ooc"], "name": "ooc", "type": "programming"},
+	{
+		"extensions": [".rst", ".rest", ".rest.txt", ".rst.txt"],
+		"name": "reStructuredText",
+		"type": "prose"
+	},
+	{"extensions": [".wisp"], "name": "wisp", "type": "programming"},
+	{
+		"extensions": [".prg", ".ch", ".prw"],
+		"name": "xBase",
+		"type": "programming"
+	}
+]

@@ -1,0 +1,45 @@
+name: Continuous Integration
+
+on:
+  push:
+    paths-ignore:
+      - 'docs/**'
+      - '*.md'
+      - '*.txt'
+      - '*.PNG'
+      - 'makerelease.bat'
+      - 'testfiles/**'
+
+jobs:
+  build:
+    runs-on: windows-2022
+    strategy:
+      max-parallel: 4
+      matrix:
+        build_configuration: [Release, Debug]
+        build_platform: [x64, x86]
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v4
+
+    - name: Add msbuild to PATH
+      uses: microsoft/setup-msbuild@v1.3.1
+
+    - name: MSBuild of solution
+      run: msbuild NppCSharpPluginPack/NppCSharpPluginPack.sln /p:configuration="${{ matrix.build_configuration }}" /p:platform="${{ matrix.build_platform }}" /m /verbosity:minimal
+
+    - name: Archive artifacts for x64
+      if: matrix.build_platform == 'x64' && matrix.build_configuration == 'Release'
+      uses: actions/upload-artifact@v4
+      with:
+          name: plugin_dll_x64
+          path: NppCSharpPluginPack\bin\${{ matrix.build_configuration }}-x64\CSharpPluginPack.dll
+
+    - name: Archive artifacts for x86
+      if: matrix.build_platform == 'x86' && matrix.build_configuration == 'Release'
+      uses: actions/upload-artifact@v4
+      with:
+          name: plugin_dll_x86
+          path: NppCSharpPluginPack\bin\${{ matrix.build_configuration }}\CSharpPluginPack.dll
+
