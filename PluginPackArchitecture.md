@@ -1,6 +1,6 @@
 # NppPlugin .NET package for VS2019 and beyond for Notepad++ 32bit and 64 bit...
 
-__This documentation is largely umodified from the README of [the original plugin pack](https://github.com/kbilsted/NotepadPlusPlusPluginPack.Net).__
+__This documentation is largely umodified from the README of [the original plugin pack](https://github.com/kbilsted/NotepadPlusPlusPluginPack.Net).__ As such, the pronoun "I" generally refers to Kasper B. Graversen in this file, as opposed to the current maintainer, Mark J. Olson.
 
 What is this? Its a simple template for very fast and easy building plugins for Notepad++ in C#/.Net
 
@@ -40,7 +40,7 @@ This is a fork of UFO's plugin package updated for VS2015, 2017, 2019, and 2022 
   * https://github.com/wakatime/notepadpp-wakatime
   * https://github.com/alex-ilin/WebEdit
   * https://github.com/Fruchtzwerg94/PlantUmlViewer
-  * https://github.com/molsonkiko/NppCSharpPluginPack
+  * https://github.com/molsonkiko/JsonToolsNppPlugin
   * https://github.com/molsonkiko/HugeFiles
   
 If your plugin is not on the list, please make a PR with a link to it.. :-)
