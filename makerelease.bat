@@ -7,8 +7,8 @@ xcopy .\testfiles .\NppCSharpPluginPack\bin\Release\testfiles\ /s /y
 : also copy directories to Downloads for easy access later
 cd NppCSharpPluginPack\bin\Release-x64
 xcopy . "%userprofile%\Downloads\NppCSharpPluginPack NEWEST x64\" /s /y
-7z -r a ..\..\Release_x64.zip NppCSharpPluginPack.dll testfiles
+7z -r a ..\..\Release_x64.zip CSharpPluginPack.dll testfiles
 cd ..\Release
 xcopy . "%userprofile%\Downloads\NppCSharpPluginPack NEWEST x86\" /s /y
-7z -r a ..\..\Release_x86.zip NppCSharpPluginPack.dll testfiles
+7z -r a ..\..\Release_x86.zip CSharpPluginPack.dll testfiles
 cd ..\..\..

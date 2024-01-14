@@ -4,6 +4,7 @@ on:
   push:
     paths-ignore:
       - 'docs/**'
+      - 'NppCSharpPluginPack/*.zip'
       - '*.md'
       - '*.txt'
       - '*.PNG'
