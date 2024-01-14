@@ -1,4 +1,4 @@
-Test results for CSharpPluginPack v0.0.1.1 on Notepad++ 8.5.8 64bit
+Test results for CSharpPluginPack v0.0.1.2 on Notepad++ 8.5.8 64bit
 NOTE: Ctrl-F (regular expressions *on*) for "Failed [1-9]\d*" to find all failed tests
 No tests failed
 =========================

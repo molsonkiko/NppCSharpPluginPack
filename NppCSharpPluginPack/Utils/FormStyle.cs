@@ -54,12 +54,6 @@ namespace NppDemo.Utils
                         child.BackColor = SystemColors.Window; // white background
                         child.ForeColor = SystemColors.WindowText;
                     }
-                    else if (child is LinkLabel llbl)
-                    {
-                        llbl.LinkColor = Color.Blue;
-                        llbl.ActiveLinkColor = Color.Red;
-                        llbl.VisitedLinkColor = Color.Purple;
-                    }
                     else if (child is DataGridView dgv)
                     {
                         dgv.EnableHeadersVisualStyles = true;
@@ -74,6 +68,12 @@ namespace NppDemo.Utils
                         // buttons should be a bit darker but everything else is the same color as the background
                         child.BackColor = (child is Button) ? SlightlyDarkControl : SystemColors.Control;
                         child.ForeColor = SystemColors.ControlText;
+                        if (child is LinkLabel llbl)
+                        {
+                            llbl.LinkColor = Color.Blue;
+                            llbl.ActiveLinkColor = Color.Red;
+                            llbl.VisitedLinkColor = Color.Purple;
+                        }
                     }
                 }
                 return;

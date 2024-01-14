@@ -18,14 +18,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### To Be Fixed
 
 - Closing HTML/XML tags works inconsistently in Notepad++ v7.3.3.
-- Make [TestRunner.cs](/NppCSharpPluginPack/Tests/TestRunner.cs) restore clipboard after tests.
-- Fix styling of link labels. See DarkModeTestForm.
 
 ## [0.0.2] - (UNRELEASED) YYYY-MM-DD
 
 ### Changed
 
-1. Fix docs to remove references to JsonTools.
+1. Remove references and links to JsonTools (they now go to this project's GitHub repo).
+
+### Fixed
+
+1. [TestRunner.cs](/NppCSharpPluginPack/Tests/TestRunner.cs) now restores clipboard text after tests.
+2. Link label text and background now correctly switches back to defaults when going from a dark theme to default styles.
 
 ## [0.0.1] - 2024-01-13
 

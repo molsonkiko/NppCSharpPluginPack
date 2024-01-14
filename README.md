@@ -35,7 +35,7 @@ Alternatively, you can follow these [installation instructions](https://npp-user
 
 ## System Requirements ##
 
-This plugin is verified to work on versions of Notepad++ as old as [v7.3.3](https://notepad-plus-plus.org/downloads/v7.3.3/), but it has some bugs, mainly with HTML/XML tag matching.
+This plugin is verified to work on versions of Notepad++ as old as [v7.3.3](https://notepad-plus-plus.org/downloads/v7.3.3/), but it may have some bugs ([see the CHANGELOG](/CHANGELOG.md) to see the what bugs may still exist).
 
 It has also been tested and verified to work normally on the newest versions of Notepad++, [v8.6.1](https://notepad-plus-plus.org/downloads/v8.6.1/) and [v8.6.2 RC](https://community.notepad-plus-plus.org/topic/25341/notepad-v8-6-2-release-candidate/19).
 

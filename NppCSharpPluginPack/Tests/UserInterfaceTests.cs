@@ -202,6 +202,8 @@ namespace NppDemo.Tests
                     return true;
                 }
                 Main.selectionRememberingForm.CopySelectionsToStartEndsButton.PerformClick();
+                // need to do this, otherwise your clipboard will be overwritten
+                lastClipboardValue = Clipboard.GetText();
                 messages.Add("Copied selections to clipboard with selection remembering form");
                 break;
             case FileManipulation.SaveSelectionsWithSelectionRememberingForm:
