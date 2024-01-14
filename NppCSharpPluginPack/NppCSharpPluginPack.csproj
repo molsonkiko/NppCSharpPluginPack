@@ -180,8 +180,8 @@
     <ItemGroup>
         <TESTFILES Include="testfiles\**\*.*" />
     </ItemGroup>
-    <Copy SourceFiles="@(TESTFILES)" DestinationFolder="$(ProgramW6432)\Notepad++\plugins\JsonTools\%(RecursiveDir)" SkipUnchangedFiles="true" />
-    <Copy SourceFiles="@(TESTFILES)" DestinationFolder="$(MSBuildProgramFiles32)\Notepad++\plugins\JsonTools\%(RecursiveDir)" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="@(TESTFILES)" DestinationFolder="$(ProgramW6432)\Notepad++\plugins\CSharpPluginPack\%(RecursiveDir)" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="@(TESTFILES)" DestinationFolder="$(MSBuildProgramFiles32)\Notepad++\plugins\CSharpPluginPack\%(RecursiveDir)" SkipUnchangedFiles="true" />
   </Target>
   -->
 </Project>

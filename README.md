@@ -1,6 +1,7 @@
 # NppCSharpPluginPack
 
-[![Continuous Integration](https://github.com/molsonkiko/JsonToolsNppPlugin/actions/workflows/CI_build.yml/badge.svg)](https://github.com/molsonkiko/JsonToolsNppPlugin/actions/workflows/CI_build.yml)
+[![Continuous Integration](https://github.com/molsonkiko/NppCSharpPluginPack/actions/workflows/CI_build.yml/badge.svg)](https://github.com/molsonkiko/NppCSharpPluginPack/actions/workflows/CI_build.yml)
+
 [![License](http://img.shields.io/badge/License-Apache_2-red.svg?style=flat)](http://www.apache.org/licenses/LICENSE-2.0)
 
 This is a template for Notepad++ plugins written. The vast majority of the code (certainly all the parts that were really hard to implment) come from [kbilsted's now-archived `NotepadPlusPlusPluginPack.Net`](https://github.com/kbilsted/NotepadPlusPlusPluginPack.Net), with some significant changes, including:
@@ -10,7 +11,7 @@ This is a template for Notepad++ plugins written. The vast majority of the code 
 3. This plugin template includes a [settings form](/docs/README.md#settings-form) that makes it easy for the maintainer to add, remove or edit settings.
 4. This template has a template for [automated tests](/docs/README.md#running-tests) that can be run inside Notepad++, including a template for user interface tests that automatically test forms.
 
-If you have any issues, see if [updating to the latest release](https://github.com/molsonkiko/JsonToolsNppPlugin/releases) helps, and then feel free to raise an [issue](https://github.com/molsonkiko/JsonToolsNppPlugin/issues) on GitHub. Please be sure to include diagnostic information about your system, Notepad++ version, and plugin version (go to `?->Debug Info...` from the Notepad++ main menu).
+If you have any issues, see if [updating to the latest release](https://github.com/molsonkiko/NppCSharpPluginPack/releases) helps, and then feel free to raise an [issue](https://github.com/molsonkiko/NppCSharpPluginPack/issues) on GitHub. Please be sure to include diagnostic information about your system, Notepad++ version, and plugin version (go to `?->Debug Info...` from the Notepad++ main menu).
 
 [Read the docs.](/docs/README.md)
 
@@ -20,15 +21,15 @@ If you have any issues, see if [updating to the latest release](https://github.c
 
 ## Downloads and Installation ##
 
-Go to the [Releases page](https://github.com/molsonkiko/JsonToolsNppPlugin/releases) to see past releases.
+Go to the [Releases page](https://github.com/molsonkiko/NppCSharpPluginPack/releases) to see past releases.
 
-[Download latest 32-bit version](https://github.com/molsonkiko/JsonToolsNppPlugin/raw/main/JsonToolsNppPlugin/Release_x86.zip)
+[Download latest 32-bit version](https://github.com/molsonkiko/NppCSharpPluginPack/raw/main/NppCSharpPluginPack/Release_x86.zip)
 
-You can unzip the 32-bit download to `.\Program Files (x86)\Notepad++\plugins\JsonTools\JsonTools.dll`.
+You can unzip the 32-bit download to `.\Program Files (x86)\Notepad++\plugins\CSharpPluginPack\CSharpPluginPack.dll`.
 
-[Download latest 64-bit version](https://github.com/molsonkiko/JsonToolsNppPlugin/raw/main/JsonToolsNppPlugin/Release_x64.zip)
+[Download latest 64-bit version](https://github.com/molsonkiko/NppCSharpPluginPack/raw/main/NppCSharpPluginPack/Release_x64.zip)
 
-You can unzip the 64-bit download to `C:\Program Files\Notepad++\plugins\JsonTools\JsonTools.dll`.
+You can unzip the 64-bit download to `C:\Program Files\Notepad++\plugins\CSharpPluginPack\CSharpPluginPack.dll`.
 
 Alternatively, you can follow these [installation instructions](https://npp-user-manual.org/docs/plugins/) to install the latest version of the plugin from Notepad++.
 

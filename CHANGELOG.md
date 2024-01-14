@@ -21,6 +21,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Make [TestRunner.cs](/NppCSharpPluginPack/Tests/TestRunner.cs) restore clipboard after tests.
 - Fix styling of link labels. See DarkModeTestForm.
 
+## [0.0.2] - (UNRELEASED) YYYY-MM-DD
+
+### Changed
+
+1. Fix docs to remove references to JsonTools.
+
 ## [0.0.1] - 2024-01-13
 
 ### Added

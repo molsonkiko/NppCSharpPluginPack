@@ -40,7 +40,7 @@ This is a fork of UFO's plugin package updated for VS2015, 2017, 2019, and 2022 
   * https://github.com/wakatime/notepadpp-wakatime
   * https://github.com/alex-ilin/WebEdit
   * https://github.com/Fruchtzwerg94/PlantUmlViewer
-  * https://github.com/molsonkiko/JsonToolsNppPlugin
+  * https://github.com/molsonkiko/NppCSharpPluginPack
   * https://github.com/molsonkiko/HugeFiles
   
 If your plugin is not on the list, please make a PR with a link to it.. :-)

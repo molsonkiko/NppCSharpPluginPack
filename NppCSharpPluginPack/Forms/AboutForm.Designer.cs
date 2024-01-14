@@ -49,13 +49,13 @@
             // GitHubLink
             // 
             this.GitHubLink.AutoSize = true;
-            this.GitHubLink.LinkArea = new System.Windows.Forms.LinkArea(0, 50);
+            this.GitHubLink.LinkArea = new System.Windows.Forms.LinkArea(38, 36);
             this.GitHubLink.Location = new System.Drawing.Point(48, 145);
             this.GitHubLink.Name = "GitHubLink";
-            this.GitHubLink.Size = new System.Drawing.Size(243, 35);
+            this.GitHubLink.Size = new System.Drawing.Size(238, 35);
             this.GitHubLink.TabIndex = 1;
             this.GitHubLink.TabStop = true;
-            this.GitHubLink.Text = "Add a link to your plugin repo here:\r\nhttps://github.com/molsonkiko/yourRepo";
+            this.GitHubLink.Text = "Add a link to your plugin repo here:\r\nhttps://github.com/yourName/yourRepo";
             this.GitHubLink.UseCompatibleTextRendering = true;
             this.GitHubLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.GitHubLink_LinkClicked);
             // 

@@ -26,7 +26,7 @@ namespace Kbg.NppPluginNET
         internal const int UNDO_BUFFER_SIZE = 64;
         internal const string PluginName = "CSharpPluginPack";
         public static readonly string PluginConfigDirectory = Path.Combine(Npp.notepad.GetConfigDirectory(), PluginName);
-        public const string PluginRepository = "https://github.com/molsonkiko/JsonToolsNppPlugin";
+        public const string PluginRepository = "https://github.com/molsonkiko/NppCSharpPluginPack";
         // general stuff things
         static Icon dockingFormIcon = null;
         private static readonly string sessionFilePath = Path.Combine(PluginConfigDirectory, "savedNppSession.xml");
