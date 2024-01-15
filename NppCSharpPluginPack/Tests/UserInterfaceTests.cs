@@ -181,7 +181,8 @@ namespace NppDemo.Tests
                 messages.Add("compare_clipboard passed");
                 break;
             case FileManipulation.OpenSelectionRememberingForm:
-                Main.OpenSelectionRememberingForm();
+                if (Main.selectionRememberingForm == null || Main.selectionRememberingForm.IsDisposed || !Main.selectionRememberingForm.Visible)
+                    Main.OpenSelectionRememberingForm();
                 messages.Add("open selection remembering form");
                 break;
             case FileManipulation.SelectWithSelectionRememberingForm:

@@ -28,6 +28,13 @@ This is a fork of UFO's plugin package updated for VS2015, 2017, 2019, and 2022 
       * Select the new files, Right-click and choose "include in project"
 
 
+## Keeping PluginInfrastructure up to date with Notepad++
+
+Many of the files in the [PluginInfrastructure folder](/NppCSharpPluginPack/PluginInfrastructure/) were partially auto-generated from the Notepad++ source code, because it would be too much work to port all the code from C++ into C# by hand.
+
+The way to regenerate the auto-generated portions of these code is to download the Notepad++ source code from master and run the Python scripts in [ToolsForMaintainersOfTheProjectTemplate](/ToolsForMaintainersOfTheProjectTemplate/) folder. Read the documentation of those scripts if you're still unsure how to proceed.
+
+
 ## Plugins using this pluginpack (or the original)
 
   * https://github.com/kbilsted/NppPluginGuidHelper

@@ -1,4 +1,4 @@
-Test results for CSharpPluginPack v0.0.1.2 on Notepad++ 8.5.8 64bit
+Test results for CSharpPluginPack v0.0.1.3 on Notepad++ 8.5.8 64bit
 NOTE: Ctrl-F (regular expressions *on*) for "Failed [1-9]\d*" to find all failed tests
 No tests failed
 =========================
@@ -21,8 +21,8 @@ Testing Performance of something
 Performance tests for My benchmarks (test1)
 =========================
 
-To run query "foo" on file of size 7913 into took 0 +/- 0.001 ms over 32 trials
-Query times (ms): 0.007, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+To run query "foo" on file of size 7913 into took 0 +/- 0 ms over 32 trials
+Query times (ms): 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 Preview of result: Previow of result
 =========================
 Performance tests for My benchmarks (test2)
