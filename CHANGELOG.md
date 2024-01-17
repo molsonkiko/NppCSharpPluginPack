@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 1. toggle highlighting of `close HTML/XML tag` toolbar icon based on whether the setting is true.
 2. add more UI tests for [ScintillaGateway.cs](/NppCSharpPluginPack/PluginInfrastructure/ScintillaGateway.cs) and [NotepadPPGateway.cs](/NppCSharpPluginPack/PluginInfrastructure/NotepadPPGateway.cs) methods to make sure they work.
+3. In [ToolsForMaintainersOfTheProjectTemplate](/ToolsForMaintainersOfTheProjectTemplate/), I need to add auto-generation of calls to `GetNullStrippedStringFromMessageThatReturnsLength(SciMsg msg, IntPtr wParam=default)` instead of the old fixed-size 10000-byte buffers
 
 ### To Be Changed
 

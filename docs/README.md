@@ -86,7 +86,7 @@ One thing to note is that this form responds to keys in intuitive and useful way
 
 This is all because I registered the controls in the form with the `KeyUp`, `KeyDown`, and `KeyPress` handlers in [NppCSharpPlugin/Forms/NppFormHelper.cs](/NppCSharpPluginPack/Forms/NppFormHelper.cs).
 
-You will notice that the DarkModeTestForm discussed below does not have these nice responses to keys, because I did not register those handlers for its controls.
+You will notice that the DarkModeTestForm discussed below *does not have these nice responses to keys*, because I did not register those handlers for its controls.
 
 ## Dark mode test form ##
 

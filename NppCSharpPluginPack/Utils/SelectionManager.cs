@@ -100,8 +100,8 @@ namespace NppDemo.Utils
         /// Given selections (selstart1,selend1), (selstart2,selend2), ..., (selstartN,selendN)<br></br>
         /// returns a sep-separated list of "start,end" pairs.<br></br>
         /// EXAMPLE:<br></br>
-        /// * StartEndListToJsonString([(1, 2), (5, 7)], "], [") returns "1,2], [5,7"<br></br> 
-        /// * StartEndListToJsonString([(1, 2), (9, 20), (30,45)], " ") returns "1,2 9,20 30,45" 
+        /// * StartEndListToString([(1, 2), (5, 7)], "], [") returns "1,2], [5,7"<br></br> 
+        /// * StartEndListToString([(1, 2), (9, 20), (30,45)], " ") returns "1,2 9,20 30,45" 
         /// </summary>
         public static string StartEndListToString(IEnumerable<(int start, int end)> selections, string sep=" ")
         {

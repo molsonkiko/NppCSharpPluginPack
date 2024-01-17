@@ -223,10 +223,8 @@ namespace NppDemo.Utils
 
         /// <summary>
         /// the string representation of a JSON string
-        /// with or without the enclosing quotes a JSON string normally has
+        /// if not quoted, this will not have the enclosing quotes a JSON string normally has
         /// </summary>
-        /// <param name="s"></param>
-        /// <returns></returns>
         public static string StrToString(string s, bool quoted)
         {
             int slen = s.Length;

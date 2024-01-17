@@ -1,6 +1,4 @@
-﻿using System;
-using System.Drawing;
-using System.Reflection;
+﻿using System.Drawing;
 using System.Windows.Forms;
 
 namespace NppDemo.Utils

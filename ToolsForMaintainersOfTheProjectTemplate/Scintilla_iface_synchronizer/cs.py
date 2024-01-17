@@ -170,12 +170,16 @@ def printLexGatewayFile(f):
                 iindent = iindent + "    "
                 
             if param2Type == "stringresult":
-                bufferVariableName = param2Name + "Buffer"
-                bufferSize = "length" if (param1Type == "int" and param1Name == "length") else "10000"
-                out.append(iindent + "byte[] " + bufferVariableName +" = new byte["+bufferSize+"];")
-                out.append(iindent + "fixed (byte* "+param2Name+"Ptr = " +bufferVariableName + ")" )
-                out.append(iindent + "{")
-                iindent = iindent + "    "
+                # TODO: this is where I need to auto-generate calls to
+                #    GetNullStrippedStringFromMessageThatReturnsLength(SciMsg msg, IntPtr wParam=default)
+                # THIS IS STILL NOT FINISHED
+                returnvalue = 'return GetNullStrippedStringFromMessageThatReturnsLength(' + featureConstant
+                # if param 1 is unused, don't pass a second arg
+                if param1Type != 'Unused':
+                    returnvalue += ', (IntPtr)' + param1Name
+                returnvalue += ')'
+                out.append(returnvalue)
+
                 
             firstArg = translateVariableAccess(param1Name, param1Type)
             seconArg = translateVariableAccess(param2Name, param2Type)
@@ -196,14 +200,14 @@ def printLexGatewayFile(f):
             # 	out.append(iindent + "return new Position((int) " +res+ ");")
             elif returnType == "string":
                 out.append(iindent + res + ";")
-                out.append(iindent + "return Encoding.UTF8.GetString("+bufferVariableName+").TrimEnd('\\0');")
+                out.append(iindent + "return Utf8BytesToNullStrippedString("+bufferVariableName+");")
             else:
                 out.append(iindent + "return (" +returnType+ ")" +res+ ";")
 
             if param1Type in ["string", "Cells", "stringresult"]:
                 iindent = iindent[4:]
                 out.append(iindent + "}")
-            if param2Type in ["string", "Cells", "stringresult"]:
+            if param2Type in ["string", "Cells"]:
                 iindent = iindent[4:]
                 out.append(iindent + "}")
 

@@ -6,7 +6,7 @@ using NppDemo.Utils;
 namespace NppDemo.Tests
 {
     /// <summary>
-    /// contains benchmarking tests for RemesPath, JsonParser, and JsonSchemaValidator
+    /// put performance benchmarks for your code in this file (assuming you want to run them with TestRunner.cs)
     /// </summary>
     public class Benchmarker
     {
@@ -64,7 +64,7 @@ Performance tests for {benchmarkDescription} ({description})
                     queryTimesStr[ii] = Math.Round(queryTimes[ii] / 1e4, 3).ToString();
                 }
                 Npp.AddLine($"Query times (ms): {String.Join(", ", queryTimesStr)}");
-                string resultPreview = "Previow of result";
+                string resultPreview = "Preview of result";
                 Npp.AddLine($"Preview of result: {resultPreview}");
             }
             return false;

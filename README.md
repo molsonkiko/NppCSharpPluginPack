@@ -4,12 +4,12 @@
 
 [![License](http://img.shields.io/badge/License-Apache_2-red.svg?style=flat)](http://www.apache.org/licenses/LICENSE-2.0)
 
-This is a template for Notepad++ plugins written. The vast majority of the code (certainly all the parts that were really hard to implment) come from [kbilsted's now-archived `NotepadPlusPlusPluginPack.Net`](https://github.com/kbilsted/NotepadPlusPlusPluginPack.Net), with some significant changes, including:
+This is a template for Notepad++ plugins written in C#. The vast majority of the code (certainly all the parts that were really hard to implement) come from [kbilsted's now-archived `NotepadPlusPlusPluginPack.Net`](https://github.com/kbilsted/NotepadPlusPlusPluginPack.Net), with some significant changes, including:
 
-1. `NotepadPlusPlusPluginPack.Net` has an architecture that is (in my opinion) needlessly complicated, because it separates the `PluginInfrastructure` folder containing all the necessary code for connecting with Notepad++ in a completely different directory tree from the rest of the code.
-2. This plugin template includes an example of a [non-docking (pop-up) dialog](/docs/README.md#about-form) opened from the plugin menu, a [docking form](/docs/README.md#selections-remembering-form), and a [non-docking non-pop-up form](/docs/README.md#dark-mode-test-form).
-3. This plugin template includes a [settings form](/docs/README.md#settings-form) that makes it easy for the maintainer to add, remove or edit settings.
-4. This template has a template for [automated tests](/docs/README.md#running-tests) that can be run inside Notepad++, including a template for user interface tests that automatically test forms.
+1. A simpler architecture in which the [PluginInfrastructure folder](/NppCSharpPluginPack/PluginInfrastructure/) is side-by-side with the rest of the plugin's code, rather than in a separate directory tree.
+2. An example of a [non-docking (pop-up) dialog](/docs/README.md#about-form) opened from the plugin menu, a [docking form](/docs/README.md#selections-remembering-form), and a [non-docking non-pop-up form](/docs/README.md#dark-mode-test-form).
+3. A [settings form](/docs/README.md#settings-form) that makes it easy for the maintainer to add, remove or edit settings.
+4. A template for [automated tests](/docs/README.md#running-tests) that can be run inside Notepad++, including a template for user interface tests that automatically test forms.
 
 If you have any issues, see if [updating to the latest release](https://github.com/molsonkiko/NppCSharpPluginPack/releases) helps, and then feel free to raise an [issue](https://github.com/molsonkiko/NppCSharpPluginPack/issues) on GitHub. Please be sure to include diagnostic information about your system, Notepad++ version, and plugin version (go to `?->Debug Info...` from the Notepad++ main menu).
 
