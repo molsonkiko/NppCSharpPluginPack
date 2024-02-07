@@ -89,7 +89,7 @@ You will notice that the DarkModeTestForm discussed below *does not have these n
 
 ## Registering and unregistering forms with [`NPPM_MODELESSDIALOG`](https://npp-user-manual.org/docs/plugin-communication/#2036-nppm-modelessdialog) ##
 
-Beginning in [v0.0.2](/CHANGELOG.md#002---2024-02-06), all modeless (that is, *not* pop-up) forms are registered in their initialization method with `NppFormHelper.RegisterFormIfModeless` and *unregistered* in their `Dispose` method (in `Designer.cs`) with `NppFormHelper.UnregisterFormIfModeless`.
+Beginning in [v0.0.2](/CHANGELOG.md#002---2024-02-06), all modeless (that is, *not* pop-up) forms are registered in their initialization method with [NppFormHelper.RegisterFormIfModeless](https://github.com/molsonkiko/NppCSharpPluginPack/blob/d3d5aa9e2992d424e07ebdf31fa8b0d53cf26429/NppCSharpPluginPack/Forms/NppFormHelper.cs#L114) and *unregistered* in their [`Dispose` method (in `Designer.cs`)](https://github.com/molsonkiko/NppCSharpPluginPack/blob/d3d5aa9e2992d424e07ebdf31fa8b0d53cf26429/NppCSharpPluginPack/Forms/DarkModeTestForm.Designer.cs#L18) with [NppFormHelper.UnregisterFormIfModeless](https://github.com/molsonkiko/NppCSharpPluginPack/blob/d3d5aa9e2992d424e07ebdf31fa8b0d53cf26429/NppCSharpPluginPack/Forms/NppFormHelper.cs#L128).
 
 This is not strictly necessary, but for versions of Notepad++ 8.6.1 and later, the `Ctrl+C` and `Ctrl+X` keyboard shortcuts could be broken for all modeless forms that are not registered.
 
@@ -100,12 +100,12 @@ For example, consider a file with the following three controls, with (`TabIndex`
 - `BarComboBox` (`TabIndex`=1, `this.Controls.Add` place = 0)
 - `BazButton` (`TabIndex`=2, `this.Controls.Add` place = 1)
 
-If the form __*has not* been registered__ with `NppFormHelper.RegisterFormIfModeless`, the tab order follows `TabIndex` values, that is:
+If the form __*has not* been registered__ with `NppFormHelper.RegisterFormIfModeless` ([see `PopupDialog.Designer.cs` for example](https://github.com/molsonkiko/NppCSharpPluginPack/blob/d3d5aa9e2992d424e07ebdf31fa8b0d53cf26429/NppCSharpPluginPack/Forms/PopupDialog.Designer.cs#L46)), the tab order follows `TabIndex` values, that is:
 1. `FooTextBox`
 2. `BarComboBox`
 3. `BazButton`
 
-If the form __*has* been registered__ with `NppFormHelper.RegisterFormIfModeless`, the tab order follows `this.Controls.Add` order, that is:
+If the form __*has* been registered__ with `NppFormHelper.RegisterFormIfModeless` ([see `DarkModeTestForm.Designer.cs` for example](https://github.com/molsonkiko/NppCSharpPluginPack/blob/d3d5aa9e2992d424e07ebdf31fa8b0d53cf26429/NppCSharpPluginPack/Forms/DarkModeTestForm.Designer.cs#L246)), the tab order follows `this.Controls.Add` order, that is:
 1. `BarComboBox`
 2. `BazButton`
 3. `FooTextBox`
