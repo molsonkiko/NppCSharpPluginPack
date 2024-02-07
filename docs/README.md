@@ -100,7 +100,7 @@ For example, consider a file with the following three controls, with (`TabIndex`
 - `BarComboBox` (`TabIndex`=1, `this.Controls.Add` place = 0)
 - `BazButton` (`TabIndex`=2, `this.Controls.Add` place = 1)
 
-If the form __*has not* been registered__ with `NppFormHelper.RegisterFormIfModeless` ([see `PopupDialog.Designer.cs` for example](https://github.com/molsonkiko/NppCSharpPluginPack/blob/d3d5aa9e2992d424e07ebdf31fa8b0d53cf26429/NppCSharpPluginPack/Forms/PopupDialog.Designer.cs#L46)), the tab order follows `TabIndex` values, that is:
+If the form __*has not* been registered__ with `NppFormHelper.RegisterFormIfModeless` ([see `PopupDialog.Designer.cs` for example](https://github.com/molsonkiko/NppCSharpPluginPack/blob/d3d5aa9e2992d424e07ebdf31fa8b0d53cf26429/NppCSharpPluginPack/Forms/PopupDialog.Designer.cs#L46)), the tab order follows `TabIndex` values (but *only after adding a KeyUp listener that calls [NppFormHelper.GenericKeyUpHandler](https://github.com/molsonkiko/NppCSharpPluginPack/blob/7e8ae6c5a0c31b3266938e1a61c5c8e505a77ce6/NppCSharpPluginPack/Forms/NppFormHelper.cs#L46)*), that is:
 1. `FooTextBox`
 2. `BarComboBox`
 3. `BazButton`
