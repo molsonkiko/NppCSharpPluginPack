@@ -87,7 +87,7 @@ This is all because I registered the controls in the form with the `KeyUp`, `Key
 
 You will notice that the DarkModeTestForm discussed below *does not have these nice responses to keys*, because I did not register those handlers for its controls.
 
-## Registering and unregistering forms with `NPPM_MODELESSDIALOG` ##
+## Registering and unregistering forms with [`NPPM_MODELESSDIALOG`](https://npp-user-manual.org/docs/plugin-communication/#2036-nppm-modelessdialog) ##
 
 Beginning in [v0.0.2](/CHANGELOG.md#002---2024-02-06), all modeless (that is, *not* pop-up) forms are registered in their initialization method with `NppFormHelper.RegisterFormIfModeless` and *unregistered* in their `Dispose` method (in `Designer.cs`) with `NppFormHelper.UnregisterFormIfModeless`.
 
