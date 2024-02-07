@@ -80,13 +80,35 @@ This remembers the user's selections, and looks like this:
 You can see the relevant code in [NppCSharpPluginPack/Forms/SelectionRememberingForm.cs](/NppCSharpPluginPack/Forms/SelectionRememberingForm.cs). Understanding this code will help you understand file IO in C#, the way the editor component remembers selections, and Windows Forms.
 
 One thing to note is that this form responds to keys in intuitive and useful ways:
-- `Tab` navigates forward through controls, `Shift-Tab` navigates backward
 - `Escape` moves focus from the form to the editor.
 - `Enter` or `Space` while a button is selected clicks that button.
 
 This is all because I registered the controls in the form with the `KeyUp`, `KeyDown`, and `KeyPress` handlers in [NppCSharpPlugin/Forms/NppFormHelper.cs](/NppCSharpPluginPack/Forms/NppFormHelper.cs).
 
 You will notice that the DarkModeTestForm discussed below *does not have these nice responses to keys*, because I did not register those handlers for its controls.
+
+## Registering and unregistering forms with `NPPM_MODELESSDIALOG` ##
+
+Beginning in [v0.0.2](/CHANGELOG.md#002---2024-02-06), all modeless (that is, *not* pop-up) forms are registered in their initialization method with `NppFormHelper.RegisterFormIfModeless` and *unregistered* in their `Dispose` method (in `Designer.cs`) with `NppFormHelper.UnregisterFormIfModeless`.
+
+This is not strictly necessary, but for versions of Notepad++ 8.6.1 and later, the `Ctrl+C` and `Ctrl+X` keyboard shortcuts could be broken for all modeless forms that are not registered.
+
+Unfortunately, registering forms in this way has an unusual effect on how the `Tab` key moves through controls. Normally the tab order of controls is set by their `TabIndex` attribute, but __if a form has been registered by `NppFormHelper.RegisterFormIfModeless`, its controls' tab order is the order in which they were added to their parent in the `Designer.cs` file.__
+
+For example, consider a file with the following three controls, with (`TabIndex` value, place in `this.Controls.Add` order) in parentheses:
+- `FooTextBox` (`TabIndex`=0, `this.Controls.Add` place = 2)
+- `BarComboBox` (`TabIndex`=1, `this.Controls.Add` place = 0)
+- `BazButton` (`TabIndex`=2, `this.Controls.Add` place = 1)
+
+If the form __*has not* been registered__ with `NppFormHelper.RegisterFormIfModeless`, the tab order follows `TabIndex` values, that is:
+1. `FooTextBox`
+2. `BarComboBox`
+3. `BazButton`
+
+If the form __*has* been registered__ with `NppFormHelper.RegisterFormIfModeless`, the tab order follows `this.Controls.Add` order, that is:
+1. `BarComboBox`
+2. `BazButton`
+3. `FooTextBox`
 
 ## Dark mode test form ##
 
@@ -103,6 +125,17 @@ In dark mode:
 In light mode, with the MossyLawn [theme](https://npp-user-manual.org/docs/themes/):
 
 ![All files in MossyLawn theme](/docs/all%20forms%20MossyLawn.PNG)
+
+## Popup dialog ##
+
+The popup dialog (*added in [v0.0.2](/CHANGELOG.md#002---2024-02-06)*) exists solely to illustrate how to properly configure pop-up dialogs (as opposed to modeless dialogs like the DarkModeTestForm and the SelectionRememberingForm).
+
+Here are some important ways that the popup dialog differs from other dialogs:
+- `true` should be passed as the `isModal` argument for every method that takes an `isModal` argument (`NppFormHelper.RegisterFormIfModeless`, `NppFormHelper.GenericKeyUpHelper`, and `NppFormHelper.UnregisterFormIfModeless`), because the pop-up dialog blocks Notepad++ until it is closed.
+- The `ProcessDialogKey` method must be overridden as shown in `PopupDialog.cs`.
+- Each control's place in the tab order is controlled by its `TabIndex` attribute. This is because this is a modal dialog.
+
+![Popup dialog](/docs/popup%20dialog.PNG)
 
 ## Running tests ##
 

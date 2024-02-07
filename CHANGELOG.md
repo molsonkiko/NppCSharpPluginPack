@@ -1,5 +1,5 @@
 # Change Log
-All [notable changes](#001---2024-01-13) to this project will be documented in this file.
+All [notable changes](#002---2024-02-06) to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
@@ -19,12 +19,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### To Be Fixed
 
 - Closing HTML/XML tags works inconsistently in Notepad++ v7.3.3.
+- Avoid plugin crash when too-large int values are entered in the selection-remembering form.
 
-## [0.0.2] - (UNRELEASED) YYYY-MM-DD
+## [0.0.2] - 2024-02-06
 
 ### Added
 
 1. Ported over (from kbilsted's old template) the [ToolsForMaintainersOfTheProjectTemplate](/ToolsForMaintainersOfTheProjectTemplate/) folder for updating some of the [PluginInfrastructure](/NppCSharpPluginPack/PluginInfrastructure/) files to stay up to date with Notepad++.
+2. Added new [PopupDialog form](/docs/README.md#popup-dialog), which demonstrates how to configure a pop-up dialog that has select-able fields like textboxes or buttons.
 
 ### Changed
 
@@ -34,7 +36,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 1. [TestRunner.cs](/NppCSharpPluginPack/Tests/TestRunner.cs) now restores clipboard text after tests.
 2. Link label text and background now correctly switches back to defaults when going from a dark theme to default styles.
-3. Fix bug where running tests multiple times in a single Notepad++ session causes the user interface tests to fail.
+3. Fix bug where running tests multiple times in a single Notepad++ session causes the [user interface tests](/docs/README.md#running-tests) to fail.
+4. [Fix bug introduced in Notepad++ 8.6.1 where `Ctrl+C` and `Ctrl+X` would not work in the text fields of forms.](/docs/README.md#registering-and-unregistering-forms-with-nppm_modelessdialog)
 
 ## [0.0.1] - 2024-01-13
 

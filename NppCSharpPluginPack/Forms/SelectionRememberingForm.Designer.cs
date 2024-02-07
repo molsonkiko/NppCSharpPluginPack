@@ -15,6 +15,7 @@
         {
             if (disposing && (components != null))
             {
+                NppFormHelper.UnregisterFormIfModeless(this, false);
                 components.Dispose();
             }
             base.Dispose(disposing);
@@ -134,14 +135,14 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(350, 541);
-            this.Controls.Add(this.OpenDarkModeTestFormButton);
-            this.Controls.Add(this.LoadSelectionsFromFileButton);
-            this.Controls.Add(this.SaveCurrentSelectionsToFileButton);
-            this.Controls.Add(this.SetSelectionsFromStartEndsButton);
+            this.Controls.Add(this.CopySelectionsToStartEndsButton);
             this.Controls.Add(this.SelectionStartEndsBoxLabel);
             this.Controls.Add(this.SelectionStartEndsBox);
+            this.Controls.Add(this.SetSelectionsFromStartEndsButton);
+            this.Controls.Add(this.SaveCurrentSelectionsToFileButton);
+            this.Controls.Add(this.LoadSelectionsFromFileButton);
+            this.Controls.Add(this.OpenDarkModeTestFormButton);
             this.Controls.Add(this.SelectionRememberingFormTitle);
-            this.Controls.Add(this.CopySelectionsToStartEndsButton);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "SelectionRememberingForm";
             this.Text = "Remember and set selections";

@@ -21,6 +21,7 @@ namespace NppDemo.Forms
         public SelectionRememberingForm()
         {
             InitializeComponent();
+            NppFormHelper.RegisterFormIfModeless(this, false);
             darkModeTestForm = null;
             FormStyle.ApplyStyle(this, Main.settings.use_npp_styling);
         }

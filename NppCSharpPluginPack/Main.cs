@@ -86,6 +86,7 @@ namespace Kbg.NppPluginNET
             PluginBase.SetCommand(17, "Show files opened and closed this session", ShowFilesOpenedAndClosedThisSession);
             PluginBase.SetCommand(18, "Save Current Session Demo", SaveCurrentSessionDemo);
             PluginBase.SetCommand(19, "Print Scroll and Row Information", PrintScrollInformation);
+            PluginBase.SetCommand(20, "Open a pop-up dialog", OpenPopupDialog);
 
         }
 
@@ -526,6 +527,12 @@ You will get a compiler error if you do.";
             AboutForm aboutForm = new AboutForm();
             aboutForm.ShowDialog();
             aboutForm.Focus();
+        }
+
+        static void OpenPopupDialog()
+        {
+            using (var popupForm = new PopupDialog())
+                popupForm.ShowDialog();
         }
         #endregion
     }

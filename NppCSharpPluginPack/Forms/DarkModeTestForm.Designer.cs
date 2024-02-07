@@ -15,6 +15,7 @@
         {
             if (disposing && (components != null))
             {
+                NppFormHelper.UnregisterFormIfModeless(this, false);
                 components.Dispose();
             }
             base.Dispose(disposing);
@@ -29,21 +30,21 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Node6");
-            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Node4", new System.Windows.Forms.TreeNode[] {
-            treeNode8});
-            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Node5", 2, 2);
-            System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("Node1", 1, 1, new System.Windows.Forms.TreeNode[] {
-            treeNode9,
-            treeNode10});
-            System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("Node3", 2, 2);
-            System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("Node2", 1, 1, new System.Windows.Forms.TreeNode[] {
-            treeNode12});
-            System.Windows.Forms.TreeNode treeNode14 = new System.Windows.Forms.TreeNode("TreeView example", new System.Windows.Forms.TreeNode[] {
-            treeNode11,
-            treeNode13});
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Node6");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Node4", new System.Windows.Forms.TreeNode[] {
+            treeNode1});
+            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Node5", 2, 2);
+            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Node1", 1, 1, new System.Windows.Forms.TreeNode[] {
+            treeNode2,
+            treeNode3});
+            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Node3", 2, 2);
+            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Node2", 1, 1, new System.Windows.Forms.TreeNode[] {
+            treeNode5});
+            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("TreeView example", new System.Windows.Forms.TreeNode[] {
+            treeNode4,
+            treeNode6});
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DarkModeTestForm));
-            this.button1 = new System.Windows.Forms.Button();
+            this.ShowPopupDialogButton = new System.Windows.Forms.Button();
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.listBox1 = new System.Windows.Forms.ListBox();
@@ -63,14 +64,15 @@
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // button1
+            // ShowPopupDialogButton
             // 
-            this.button1.Location = new System.Drawing.Point(217, 385);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
+            this.ShowPopupDialogButton.Location = new System.Drawing.Point(195, 379);
+            this.ShowPopupDialogButton.Name = "ShowPopupDialogButton";
+            this.ShowPopupDialogButton.Size = new System.Drawing.Size(138, 29);
+            this.ShowPopupDialogButton.TabIndex = 0;
+            this.ShowPopupDialogButton.Text = "Show Pop-up dialog";
+            this.ShowPopupDialogButton.UseVisualStyleBackColor = true;
+            this.ShowPopupDialogButton.Click += new System.EventHandler(this.ShowPopupDialogButton_Click);
             // 
             // treeView1
             // 
@@ -78,30 +80,30 @@
             this.treeView1.ImageList = this.imageList1;
             this.treeView1.Location = new System.Drawing.Point(12, 100);
             this.treeView1.Name = "treeView1";
-            treeNode8.Name = "Node6";
-            treeNode8.Text = "Node6";
-            treeNode9.Name = "Node4";
-            treeNode9.Text = "Node4";
-            treeNode10.ImageIndex = 2;
-            treeNode10.Name = "Node5";
-            treeNode10.SelectedImageIndex = 2;
-            treeNode10.Text = "Node5";
-            treeNode11.ImageIndex = 1;
-            treeNode11.Name = "Node1";
-            treeNode11.SelectedImageIndex = 1;
-            treeNode11.Text = "Node1";
-            treeNode12.ImageIndex = 2;
-            treeNode12.Name = "Node3";
-            treeNode12.SelectedImageIndex = 2;
-            treeNode12.Text = "Node3";
-            treeNode13.ImageIndex = 1;
-            treeNode13.Name = "Node2";
-            treeNode13.SelectedImageIndex = 1;
-            treeNode13.Text = "Node2";
-            treeNode14.Name = "TreeViewRoot";
-            treeNode14.Text = "TreeView example";
+            treeNode1.Name = "Node6";
+            treeNode1.Text = "Node6";
+            treeNode2.Name = "Node4";
+            treeNode2.Text = "Node4";
+            treeNode3.ImageIndex = 2;
+            treeNode3.Name = "Node5";
+            treeNode3.SelectedImageIndex = 2;
+            treeNode3.Text = "Node5";
+            treeNode4.ImageIndex = 1;
+            treeNode4.Name = "Node1";
+            treeNode4.SelectedImageIndex = 1;
+            treeNode4.Text = "Node1";
+            treeNode5.ImageIndex = 2;
+            treeNode5.Name = "Node3";
+            treeNode5.SelectedImageIndex = 2;
+            treeNode5.Text = "Node3";
+            treeNode6.ImageIndex = 1;
+            treeNode6.Name = "Node2";
+            treeNode6.SelectedImageIndex = 1;
+            treeNode6.Text = "Node2";
+            treeNode7.Name = "TreeViewRoot";
+            treeNode7.Text = "TreeView example";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode14});
+            treeNode7});
             this.treeView1.SelectedImageIndex = 0;
             this.treeView1.Size = new System.Drawing.Size(178, 135);
             this.treeView1.TabIndex = 1;
@@ -241,9 +243,9 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.comboBox1);
             this.groupBox1.Controls.Add(this.textBox2);
             this.groupBox1.Controls.Add(this.textBox1);
-            this.groupBox1.Controls.Add(this.comboBox1);
             this.groupBox1.Location = new System.Drawing.Point(208, 77);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(144, 158);
@@ -256,15 +258,15 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(577, 429);
+            this.Controls.Add(this.treeView1);
             this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.listBox1);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.checkBox1);
+            this.Controls.Add(this.ShowPopupDialogButton);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.Title);
-            this.Controls.Add(this.listBox1);
-            this.Controls.Add(this.treeView1);
-            this.Controls.Add(this.button1);
             this.Name = "DarkModeTestForm";
             this.Text = "DarkModeTestForm";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.DarkModeTestForm_FormClosing);
@@ -278,7 +280,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button ShowPopupDialogButton;
         private System.Windows.Forms.TreeView treeView1;
         private System.Windows.Forms.ListBox listBox1;
         private System.Windows.Forms.Label Title;

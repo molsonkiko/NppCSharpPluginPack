@@ -11,6 +11,7 @@ namespace NppDemo.Forms
         public DarkModeTestForm(SelectionRememberingForm selectionRememberingForm)
         {
             InitializeComponent();
+            NppFormHelper.RegisterFormIfModeless(this, false);
             this.selectionRememberingForm = selectionRememberingForm;
             selectionRememberingForm.AddOwnedForm(this);
             FormStyle.ApplyStyle(this, Main.settings.use_npp_styling);
@@ -38,6 +39,12 @@ namespace NppDemo.Forms
         {
             Show();
             textBox1.Focus();
+        }
+
+        private void ShowPopupDialogButton_Click(object sender, System.EventArgs e)
+        {
+            using (var popupDialog = new PopupDialog())
+                popupDialog.ShowDialog();
         }
     }
 }
