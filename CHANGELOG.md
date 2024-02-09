@@ -21,6 +21,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Closing HTML/XML tags works inconsistently in Notepad++ v7.3.3.
 - Avoid plugin crash when too-large int values are entered in the selection-remembering form.
 
+## [0.0.3] - (UNRELEASED) YYYY-MM-DD
+
+### Fixed
+
+1. Greatly reduced unnecessary calls to `NPPM_GETCURRENTLANGTYPE` in `DoInsertHtmlCloseTag` by caching the lexer language whenever the lexer language changes or a buffer is opened.
+
 ## [0.0.2] - 2024-02-06
 
 ### Added

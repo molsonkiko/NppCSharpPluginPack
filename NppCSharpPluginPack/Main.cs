@@ -34,6 +34,7 @@ namespace Kbg.NppPluginNET
         public static Settings settings = new Settings();
         public static bool bufferFinishedOpening;
         public static string activeFname = null;
+        public static bool isDocTypeHTML = false;
         // forms
         public static SelectionRememberingForm selectionRememberingForm = null;
         static internal int IdAboutForm = -1;
@@ -151,11 +152,16 @@ namespace Kbg.NppPluginNET
                 // This is usually unnecessary, but if there are multiple instances or multiple views,
                 // we need to track which of the currently visible buffers are actually being edited.
                 Npp.editor = new ScintillaGateway(PluginBase.GetCurrentScintilla());
+                DoesCurrentLexerSupportCloseHtmlTag();
                 // track when it was opened
                 IntPtr bufferOpenedId = notification.Header.IdFrom;
                 activeFname = Npp.notepad.GetFilePath(bufferOpenedId);
                 filesOpenedClosed.Add((activeFname, DateTime.Now, true));
                 return;
+            // when the lexer language changed, re-check whether this is a document where we close HTML tags.
+            case (uint)NppMsg.NPPN_LANGCHANGED:
+                DoesCurrentLexerSupportCloseHtmlTag();
+                break;
             // when closing a file
             case (uint)NppMsg.NPPN_FILEBEFORECLOSE:
                 IntPtr bufferClosedId = notification.Header.IdFrom;
@@ -320,18 +326,19 @@ The current scroll ratio is {Math.Round(scrollPercentage, 2)}%.
             settings.SaveToIniFile();
         }
 
-        static Regex regex = new Regex(@"[\._\-:\w]", RegexOptions.Compiled);
-
-        static internal void DoInsertHtmlCloseTag(char newChar)
+        static internal void DoesCurrentLexerSupportCloseHtmlTag()
         {
             LangType docType = LangType.L_TEXT;
             Win32.SendMessage(PluginBase.nppData._nppHandle, (uint)NppMsg.NPPM_GETCURRENTLANGTYPE, 0, ref docType);
-            bool isDocTypeHTML = (docType == LangType.L_HTML || docType == LangType.L_XML || docType == LangType.L_PHP);
+            isDocTypeHTML = (docType == LangType.L_HTML || docType == LangType.L_XML || docType == LangType.L_PHP);
+        }
 
-            if (!settings.close_html_tag || !isDocTypeHTML)
-                return;
+        static readonly Regex htmlTagNameRegex = new Regex(@"[\._\-:\w]", RegexOptions.Compiled);
 
-            if (newChar != '>')
+
+        static internal void DoInsertHtmlCloseTag(char newChar)
+        {
+            if (!(isDocTypeHTML && settings.close_html_tag && newChar == '>'))
                 return;
 
             int bufCapacity = 512;
@@ -362,7 +369,7 @@ The current scroll ratio is {Math.Round(scrollPercentage, 2)}%.
 
                     var insertString = new StringBuilder("</");
 
-                    while (regex.IsMatch(buf[pCur].ToString()))
+                    while (htmlTagNameRegex.IsMatch(buf[pCur].ToString()))
                     {
                         insertString.Append(buf[pCur]);
                         pCur++;
