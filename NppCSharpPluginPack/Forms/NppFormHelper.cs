@@ -54,6 +54,8 @@ namespace NppDemo.Forms
                     // Enter has the same effect as clicking a selected button
                     btn.PerformClick();
                 }
+                else
+                    PressEnterInTextBoxHandler(sender, isModal);
             }
             // Escape ->
             //     * if this.IsModal (meaning this is a pop-up dialog), close this.
@@ -90,6 +92,29 @@ namespace NppDemo.Forms
                 next = form.GetNextControl(next, !e.Shift);
             next.Focus();
             e.Handled = true;
+        }
+
+        /// <summary>
+        /// NPPM_MODELESSDIALOG consumes the KeyDown and KeyPress events for the Enter key,<br></br>
+        /// so our KeyUp handler needs to simulate pressing enter to add a new line in a multiline text box.<br></br>
+        /// Note that this does not fully repair the functionality of the Enter key in a multiline text box,
+        /// because only one newline can be created for a single keypress of Enter, no matter how long the key is held down.
+        /// </summary>
+        /// <param name="sender">the text box that sent the message</param>
+        /// <param name="isModal">if true, this blocks the parent application until closed. THIS IS ONLY TRUE OF POP-UP DIALOGS</param>
+        public static void PressEnterInTextBoxHandler(object sender, bool isModal)
+        {
+
+            if (!isModal && sender is TextBox tb && tb.Multiline)
+            {
+                int selstart = tb.SelectionStart;
+                tb.SelectedText = "";
+                string text = tb.Text;
+                tb.Text = text.Substring(0, selstart) + "\r\n" + text.Substring(selstart);
+                tb.SelectionStart = selstart + 2; // after the inserted newline
+                tb.SelectionLength = 0;
+                tb.ScrollToCaret();
+            }
         }
 
         /// <summary>
