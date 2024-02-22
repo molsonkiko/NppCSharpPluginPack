@@ -35,6 +35,9 @@ namespace Kbg.NppPluginNET
         public static bool bufferFinishedOpening;
         public static string activeFname = null;
         public static bool isDocTypeHTML = false;
+        // indicator things
+        private static int firstIndicator = -1;
+        private static int lastIndicator = -1;
         // forms
         public static SelectionRememberingForm selectionRememberingForm = null;
         static internal int IdAboutForm = -1;
@@ -88,6 +91,8 @@ namespace Kbg.NppPluginNET
             PluginBase.SetCommand(18, "Save Current Session Demo", SaveCurrentSessionDemo);
             PluginBase.SetCommand(19, "Print Scroll and Row Information", PrintScrollInformation);
             PluginBase.SetCommand(20, "Open a pop-up dialog", OpenPopupDialog);
+            PluginBase.SetCommand(21, "---", null);
+            PluginBase.SetCommand(22, "Allocate indicators demo", AllocateIndicatorsDemo);
 
         }
 
@@ -461,6 +466,119 @@ You will get a compiler error if you do.";
                 sb.Append($"{filename}\t{formattedTime}\t{openClose}\r\n");
             }
             Npp.editor.SetText(sb.ToString());
+        }
+
+        /// <summary>
+        /// this shows how to allocate indicators (note: this only works in Notepad++ 8.5.6 or newer)<br></br>
+        /// and also provides a very simple example of how to style a region of text with indicators.
+        /// </summary>
+        private static void AllocateIndicatorsDemo()
+        {
+            var dialog = new Form
+            {
+                Text = "Allocate indicators demo",
+                ClientSize = new Size(300, 220),
+                MinimumSize = new Size(300, 220),
+                ShowIcon = false,
+                AutoScaleMode = AutoScaleMode.Font,
+                AutoScaleDimensions = new SizeF(6F, 13F),
+                ShowInTaskbar = false,
+                StartPosition = FormStartPosition.CenterParent,
+                Controls =
+                {
+                    new Label
+                    {
+                        Name = "AllocateIndicatorsTextBoxLabel",
+                        Text = "Choose a positive integer",
+                        Anchor = AnchorStyles.Bottom | AnchorStyles.Right,
+                        AutoSize = true,
+                        Location = new Point(60, 50),
+                    },
+                    new TextBox
+                    {
+                        Name = "AllocateIndicatorsTextBox",
+                        Text = "1",
+                        Anchor = AnchorStyles.Bottom | AnchorStyles.Right,
+                        Size = new Size(75, 23),
+                        Location = new Point(100, 100)
+                    },
+                    new Button
+                    {
+                        Name = "Ok",
+                        Text = "&Ok",
+                        Anchor = AnchorStyles.Bottom | AnchorStyles.Right,
+                        Size = new Size(75, 23),
+                        Location = new Point(50, 160),
+                        UseVisualStyleBackColor = true
+                    },
+                    new Button
+                    {
+                        Name = "Show",
+                        Text = "&Show",
+                        Anchor = AnchorStyles.Bottom | AnchorStyles.Right,
+                        Size = new Size(75, 23),
+                        Location = new Point(175, 160),
+                        UseVisualStyleBackColor = true
+                    },
+                }
+            };
+
+            dialog.Controls["Show"].Click += (a, b) => dialog.Close();
+            dialog.Controls["Ok"].Click += (a, b) =>
+            {
+                string allocatorIndicatorsText = dialog.Controls["AllocateIndicatorsTextBox"].Text;
+                bool failure = false;
+                string errorMessage = "Number of indicators must be a positive integer, not " + allocatorIndicatorsText;
+                try
+                {
+                    int numberOfIndicators = int.Parse(allocatorIndicatorsText);
+                    if (numberOfIndicators < 1)
+                        failure = true;
+                    if (Npp.notepad.AllocateIndicators(numberOfIndicators, out int[] indicators))
+                    {
+                        string indicatorsStr = string.Join(", ", indicators.Select(x => x.ToString()).ToArray());
+                        if (indicators.Length > 0)
+                        {
+                            if (firstIndicator == -1)
+                                firstIndicator = indicators[0];
+                            lastIndicator = indicators[indicators.Length - 1];
+                        }
+                        MessageBox.Show($"Was able to allocate the following {numberOfIndicators} indicators: {indicatorsStr}",
+                            $"Successfully allocated {numberOfIndicators} indicators",
+                            MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        failure = true;
+                        errorMessage = $"Notepad++ failed to find {numberOfIndicators} consecutive unallocated indicators starting at {lastIndicator + 1}, but there was no error";
+                    }
+                }
+                catch
+                {
+                    failure = true;
+                }
+                if (failure)
+                    MessageBox.Show(errorMessage,
+                        "Could not allocate indicators",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+            };
+            dialog.ShowDialog();
+            if (firstIndicator != -1)
+            {
+                string text = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+                Npp.notepad.FileNew();
+                Npp.editor.SetText(text);
+                for (int ii = firstIndicator; ii <= lastIndicator; ii++)
+                {
+                    Npp.editor.SetIndicatorCurrent(ii);
+                    Npp.editor.IndicSetStyle(ii, IndicatorStyle.SQUIGGLE);
+                    Npp.editor.IndicSetFore(ii, new Colour(0xff, 0, 0));
+                    Npp.editor.IndicatorFillRange(ii, 1);
+                }
+                MessageBox.Show($"Characters {firstIndicator}-{lastIndicator} are styled by indicators {firstIndicator}-{lastIndicator}, which have been allocated by the preceding dialog this session.",
+                    "Showing which indicators are in use",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
 
         //form opening stuff
