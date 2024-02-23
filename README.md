@@ -36,8 +36,8 @@ If you have any issues, see if [updating to the latest release](https://github.c
     6. Select `Users` from the `Group or user names` menu, then click the checkbox in the `Full Control` row of the `Allow` column.
     7. Click the `Apply` button.
 4. Try building the project using Visual Studio using `x64` build target (this build for 64-bit Notepad++). You will know that the project is working correctly when Notepad++ starts up, and `CSharpPluginPack` appears on the list of plugins.
-5. Try changing the assembly version in [NppCSharpPluginPack/Properties/AssemblyInfo.cs](https://github.com/molsonkiko/NppCSharpPluginPack/blob/main/NppCSharpPluginPack/Properties/AssemblyInfo.cs) to `1.0.3`.
-6. Try building the project again, then select `Plugins->CSharpPluginPack->About` from the Notepaad++ dropdown menu. The title of the [about form](/docs/README.md#about-form) should read `NppCSharpPluginPack v1.0.3`. If it does not, your project is not building correctly.
+5. Try changing the assembly version in [NppCSharpPluginPack/Properties/AssemblyInfo.cs](https://github.com/molsonkiko/NppCSharpPluginPack/blob/main/NppCSharpPluginPack/Properties/AssemblyInfo.cs) to `1.0.3.0`.
+6. Try building the project again, then select `Plugins->CSharpPluginPack->About` from the Notepad++ dropdown menu. The title of the [about form](/docs/README.md#about-form) should read `NppCSharpPluginPack v1.0.3`. If it does not, your project is not building correctly.
 7. Copy the `testfiles` directory of the repo to the `%ProgramFiles%/Notepad++/plugins/CSharpPluginPack` directory.
 8. Run the tests. The third line of the test results file should read `No tests failed`. If you see `Tests failed: Performance of something` on the third line, that's because you forgot step 7.
 9. To test your project for 32-bit Notepad++, repeat steps 3-8 for `%ProgramFiles (x86)%/Notepad++/plugins` and change your build target to `x86`.

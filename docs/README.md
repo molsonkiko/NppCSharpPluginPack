@@ -148,3 +148,9 @@ My test framework works as follows:
     - Test files like this are a good place to test low-level code that does not depend on interactions with Notepad++
 3. You can also run [user interface tests](/NppCSharpPluginPack/Tests/UserInterfaceTests.cs) that tests the way the plugin actually interacts with Notepad++ (for instance, how plugin commands edit files)
 4. Once the tests are done running, you will see a report that looks like [most recent errors.txt](/most%20recent%20errors.txt)
+
+## Assembly info and the changelog ##
+
+I __strongly recommend__ updating the [NppCSharpPluginPack/Properties/AssemblyInfo.cs](https://github.com/molsonkiko/NppCSharpPluginPack/blob/main/NppCSharpPluginPack/Properties/AssemblyInfo.cs) file every time you make a commit to your plugin's repository. If you look at the [commit history of this repository](https://github.com/molsonkiko/NppCSharpPluginPack/commits/main/) you will see that every commit that changes a `.cs` file has a different assembly version. This makes life easier for you and your users.
+
+I also recommend that your changes to `AssemblyInfo.cs` comply with [the semantic versioning RFC](https://semver.org/), and that you update the [changelog](/CHANGELOG.md) to track your changes.
