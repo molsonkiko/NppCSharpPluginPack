@@ -19,19 +19,28 @@ If you have any issues, see if [updating to the latest release](https://github.c
 
 [View past changes.](/CHANGELOG.md)
 
-## Downloads and Installation ##
+## Using the template ##
 
-Go to the [Releases page](https://github.com/molsonkiko/NppCSharpPluginPack/releases) to see past releases.
-
-[Download latest 32-bit version](https://github.com/molsonkiko/NppCSharpPluginPack/raw/main/NppCSharpPluginPack/Release_x86.zip)
-
-You can unzip the 32-bit download to `.\Program Files (x86)\Notepad++\plugins\CSharpPluginPack\CSharpPluginPack.dll`.
-
-[Download latest 64-bit version](https://github.com/molsonkiko/NppCSharpPluginPack/raw/main/NppCSharpPluginPack/Release_x64.zip)
-
-You can unzip the 64-bit download to `C:\Program Files\Notepad++\plugins\CSharpPluginPack\CSharpPluginPack.dll`.
-
-Alternatively, you can follow these [installation instructions](https://npp-user-manual.org/docs/plugins/) to install the latest version of the plugin from Notepad++.
+1. Download the source code in one of the following ways:
+    - clone the repository
+    - download the source code for the repo, then create a git repo inside
+    - fork this repo
+    - download the source code for a release (see the [Releases page](https://github.com/molsonkiko/NppCSharpPluginPack/releases))
+2. Open [NppCSharpPluginPack/NppCSharpPluginPack.sln](https://github.com/molsonkiko/NppCSharpPluginPack/blob/main/NppCSharpPluginPack/NppCSharpPluginPack.sln) in Visual Studio 2022
+3. Configure the security settings of `%ProgramFiles%/Notepad++/plugins` so that Visual Studio can write to `%ProgramFiles%/Notepad++/plugins/CSharpPluginPack`. I do this in the following way:
+    1. Open `%ProgramFiles%/Notepad++` in the File Explorer.
+    2. Right-click on the `plugins` folder.
+    3. Choose `Properties` from the drop-down menu
+    4. Select the `Security` tab.
+    5. Click the `Edit...` checkbox
+    6. Select `Users` from the `Group or user names` menu, then click the checkbox in the `Full Control` row of the `Allow` column.
+    7. Click the `Apply` button.
+4. Try building the project using Visual Studio using `x64` build target (this build for 64-bit Notepad++). You will know that the project is working correctly when Notepad++ starts up, and `CSharpPluginPack` appears on the list of plugins.
+5. Try changing the assembly version in [NppCSharpPluginPack/Properties/AssemblyInfo.cs](https://github.com/molsonkiko/NppCSharpPluginPack/blob/main/NppCSharpPluginPack/Properties/AssemblyInfo.cs) to `1.0.3`.
+6. Try building the project again, then select `Plugins->CSharpPluginPack->About` from the Notepaad++ dropdown menu. The title of the [about form](/docs/README.md#about-form) should read `NppCSharpPluginPack v1.0.3`. If it does not, your project is not building correctly.
+7. Copy the `testfiles` directory of the repo to the `%ProgramFiles%/Notepad++/plugins/CSharpPluginPack` directory.
+8. Run the tests. The third line of the test results file should read `No tests failed`. If you see `Tests failed: Performance of something` on the third line, that's because you forgot step 7.
+9. To test your project for 32-bit Notepad++, repeat steps 3-8 for `%ProgramFiles (x86)%/Notepad++/plugins` and change your build target to `x86`.
 
 ## System Requirements ##
 
