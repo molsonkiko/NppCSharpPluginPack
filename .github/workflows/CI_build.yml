@@ -29,7 +29,7 @@ jobs:
 
     - name: MSBuild of solution
       run: >
-        msbuild /t:Restore NppCSharpPluginPack/NppCSharpPluginPack.sln
+        msbuild /t:Restore NppCSharpPluginPack/NppCSharpPluginPack.sln;
         msbuild NppCSharpPluginPack/NppCSharpPluginPack.sln /p:configuration="${{ matrix.build_configuration }}" /p:platform="${{ matrix.build_platform }}" /m /verbosity:minimal
 
     - name: Archive artifacts for x64
