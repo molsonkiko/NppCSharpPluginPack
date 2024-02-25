@@ -36,6 +36,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 1. Ported over (from kbilsted's old template) the [ToolsForMaintainersOfTheProjectTemplate](/ToolsForMaintainersOfTheProjectTemplate/) folder for updating some of the [PluginInfrastructure](/NppCSharpPluginPack/PluginInfrastructure/) files to stay up to date with Notepad++.
 2. Added new [PopupDialog form](/docs/README.md#popup-dialog), which demonstrates how to configure a pop-up dialog that has select-able fields like textboxes or buttons.
 3. Added new `Allocate indicators demo`, demonstrating how to allocate and use indicators to style text.
+4. Demo on the `SCN_MODIFIED` and `NPPN_GLOBALMODIFIED` notifications, which are used to track when a document is modified.
 
 ### Changed
 

@@ -30,9 +30,10 @@ namespace Kbg.NppPluginNET
         // general stuff things
         static Icon dockingFormIcon = null;
         private static readonly string sessionFilePath = Path.Combine(PluginConfigDirectory, "savedNppSession.xml");
-        private static List<(string filepath, DateTime time, bool opened)> filesOpenedClosed = new List<(string filepath, DateTime time, bool opened)>();
+        private static List<(string filepath, DateTime time, bool opened, int modsSinceOpen)> filesOpenedClosed = new List<(string filepath, DateTime time, bool opened, int modsSinceOpen)>();
         public static Settings settings = new Settings();
         public static bool bufferFinishedOpening;
+        public static int modsSinceBufferOpened = 0;
         public static string activeFname = null;
         public static bool isDocTypeHTML = false;
         // indicator things
@@ -161,7 +162,8 @@ namespace Kbg.NppPluginNET
                 // track when it was opened
                 IntPtr bufferOpenedId = notification.Header.IdFrom;
                 activeFname = Npp.notepad.GetFilePath(bufferOpenedId);
-                filesOpenedClosed.Add((activeFname, DateTime.Now, true));
+                filesOpenedClosed.Add((activeFname, DateTime.Now, true, 0));
+                modsSinceBufferOpened = 0;
                 return;
             // when the lexer language changed, re-check whether this is a document where we close HTML tags.
             case (uint)NppMsg.NPPN_LANGCHANGED:
@@ -171,7 +173,7 @@ namespace Kbg.NppPluginNET
             case (uint)NppMsg.NPPN_FILEBEFORECLOSE:
                 IntPtr bufferClosedId = notification.Header.IdFrom;
                 string bufferClosedPath = Npp.notepad.GetFilePath(bufferClosedId);
-                filesOpenedClosed.Add((bufferClosedPath, DateTime.Now, false));
+                filesOpenedClosed.Add((bufferClosedPath, DateTime.Now, false, modsSinceBufferOpened));
                 return;
             // the editor color scheme changed, so update form colors
             case (uint)NppMsg.NPPN_WORDSTYLESUPDATED:
@@ -179,6 +181,21 @@ namespace Kbg.NppPluginNET
                 return;
             case (uint)SciMsg.SCN_CHARADDED:
                 DoInsertHtmlCloseTag(notification.Character);
+                break;
+            case (uint)SciMsg.SCN_MODIFIED:
+                modsSinceBufferOpened++;
+                break;
+            // this fires when the "Replace all" and "Replace in all open documents" actions of the Notepad++ find/replace form are used
+            // You may want to use this because beginning in Notepad++ 8.6.3,
+            //     some kinds of SCN_MODIFIED messages are no longer sent during those actions
+            //     (because sending messages can have a significant performance cost)
+            case (uint)NppMsg.NPPN_GLOBALMODIFIED:
+                // only increment modsSinceBufferOpened if it was a find/replace for the active file
+                // (this message fires once for each buffer modified in a "Replace in all open documents" action)
+                IntPtr bufferModifiedId = notification.Header.hwndFrom;
+                string bufferModified = Npp.notepad.GetFilePath(bufferModifiedId);
+                if (bufferModified == activeFname)
+                    modsSinceBufferOpened++;
                 break;
                 //if (code > int.MaxValue) // windows messages
                 //{
@@ -458,12 +475,12 @@ You will get a compiler error if you do.";
         {
             Npp.notepad.FileNew();
             var sb = new StringBuilder();
-            sb.Append("Action\tFilename\tTime\r\n");
-            foreach ((string filename, DateTime time, bool wasOpened) in filesOpenedClosed)
+            sb.Append("Action\tFilename\tTime\tModifications since buffer opened\r\n");
+            foreach ((string filename, DateTime time, bool wasOpened, int modsSinceBufferOpened) in filesOpenedClosed)
             {
                 string formattedTime = time.ToString("yyyy-MM-dd HH:mm:ss");
                 string openClose = wasOpened ? "open" : "close";
-                sb.Append($"{filename}\t{formattedTime}\t{openClose}\r\n");
+                sb.Append($"{filename}\t{formattedTime}\t{openClose}\t{modsSinceBufferOpened}\r\n");
             }
             Npp.editor.SetText(sb.ToString());
         }
