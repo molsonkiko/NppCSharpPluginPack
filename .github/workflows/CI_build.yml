@@ -28,7 +28,9 @@ jobs:
       uses: microsoft/setup-msbuild@v2.0.0
 
     - name: MSBuild of solution
-      run: msbuild NppCSharpPluginPack/NppCSharpPluginPack.sln /p:configuration="${{ matrix.build_configuration }}" /p:platform="${{ matrix.build_platform }}" /m /verbosity:minimal
+      run: >
+        msbuild /t:Restore NppCSharpPluginPack/NppCSharpPluginPack.sln
+        msbuild NppCSharpPluginPack/NppCSharpPluginPack.sln /p:configuration="${{ matrix.build_configuration }}" /p:platform="${{ matrix.build_platform }}" /m /verbosity:minimal
 
     - name: Archive artifacts for x64
       if: matrix.build_platform == 'x64' && matrix.build_configuration == 'Release'
