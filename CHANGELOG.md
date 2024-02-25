@@ -24,6 +24,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [0.0.3] - (UNRELEASED) YYYY-MM-DD
 
+### Added
+
+1. Added new `Allocate indicators demo`, demonstrating how to allocate and use indicators to style text.
+2. Demo on the `SCN_MODIFIED` and `NPPN_GLOBALMODIFIED` notifications, which are used to track when a document is modified.
+
+### Changed
+
+1. Update method of building a DLL to [remove a dependency on .NET Framework 3.5](https://github.com/molsonkiko/NppCSharpPluginPack/pull/3).
+
 ### Fixed
 
 1. Greatly reduced unnecessary calls to `NPPM_GETCURRENTLANGTYPE` in `DoInsertHtmlCloseTag` by caching the lexer language whenever the lexer language changes or a buffer is opened.
@@ -35,8 +44,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 1. Ported over (from kbilsted's old template) the [ToolsForMaintainersOfTheProjectTemplate](/ToolsForMaintainersOfTheProjectTemplate/) folder for updating some of the [PluginInfrastructure](/NppCSharpPluginPack/PluginInfrastructure/) files to stay up to date with Notepad++.
 2. Added new [PopupDialog form](/docs/README.md#popup-dialog), which demonstrates how to configure a pop-up dialog that has select-able fields like textboxes or buttons.
-3. Added new `Allocate indicators demo`, demonstrating how to allocate and use indicators to style text.
-4. Demo on the `SCN_MODIFIED` and `NPPN_GLOBALMODIFIED` notifications, which are used to track when a document is modified.
 
 ### Changed
 

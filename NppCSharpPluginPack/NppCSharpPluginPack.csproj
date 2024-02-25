@@ -193,13 +193,33 @@
     Project="$(PkgUnmanagedExports_Repack_Upgrade)\build\UnmanagedExports.Repack.Upgrade.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  <Target Name="CopyTestFiles" BeforeTargets="Build">
-    <ItemGroup>
-        <TESTFILES Include="testfiles\**\*.*" />
-    </ItemGroup>
-    <Copy SourceFiles="@(TESTFILES)" DestinationFolder="$(ProgramW6432)\Notepad++\plugins\CSharpPluginPack\%(RecursiveDir)" SkipUnchangedFiles="true" />
-    <Copy SourceFiles="@(TESTFILES)" DestinationFolder="$(MSBuildProgramFiles32)\Notepad++\plugins\CSharpPluginPack\%(RecursiveDir)" SkipUnchangedFiles="true" />
-  </Target>
   -->
+  <Target Name="CopyBin" DependsOnTargets="Build" AfterTargets="Build" >
+    <!-- copy over the appropriate DLL and test files to the Notepad++ directory.
+    Otherwise Notepad++ will just load without the plugin. -->
+    <ItemGroup>
+      <NPP64BIT Include="$(ProgramW6432)\Notepad++\plugins\CSharpPluginPack" />
+      <NPP32BIT Include="$(MSBuildProgramFiles32)\Notepad++\plugins\CSharpPluginPack" />
+    </ItemGroup>
+    <MakeDir Directories="@(NPP64BIT)"
+      Condition=" '$(Platform)' == 'x64' " />
+    <MakeDir Directories="@(NPP32BIT)"
+      Condition=" '$(Platform)' == 'x86' " />
+    <Copy SourceFiles="bin\Release-x64\CSharpPluginPack.dll"
+      Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' "
+      DestinationFolder="@(NPP64BIT)"
+      SkipUnchangedFiles="true" />
+    <Copy SourceFiles="bin\Release\CSharpPluginPack.dll"
+      Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' "
+      DestinationFolder="@(NPP32BIT)"
+      SkipUnchangedFiles="true" />
+    <Copy SourceFiles="bin\Debug-x64\CSharpPluginPack.dll"
+      Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' "
+      DestinationFolder="@(NPP64BIT)"
+      SkipUnchangedFiles="true" />
+    <Copy SourceFiles="bin\Debug\CSharpPluginPack.dll"
+      Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' "
+      DestinationFolder="@(NPP32BIT)"
+      SkipUnchangedFiles="true" />
+  </Target>
 </Project>
