@@ -7,6 +7,7 @@
 
 *.dll binary
 *.png binary
+*.PNG binary
 *.jpg binary
 *.gif binary
 *.bmp binary
