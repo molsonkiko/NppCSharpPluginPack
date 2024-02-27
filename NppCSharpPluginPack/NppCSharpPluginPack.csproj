@@ -61,9 +61,11 @@
   <PropertyGroup>
     <!-- Default values for debugging so it start correct version of Notepad++
          $(ProgramW6432) and $(MSBuildProgramFiles32) points to the 64 and 32 bit "Program Files" directories -->
+    <NppPath64 Condition="'$(NppPath64)' == ''">$(ProgramW6432)\Notepad++</NppPath64>
+    <NppPath32 Condition="'$(NppPath32)' == ''">$(MSBuildProgramFiles32)\Notepad++</NppPath32>
     <StartAction>Program</StartAction>
-    <StartProgram Condition="'$(Platform)'=='x64'">$(ProgramW6432)\Notepad++\notepad++.exe</StartProgram>
-    <StartProgram Condition="'$(Platform)'=='x86'">$(MSBuildProgramFiles32)\Notepad++\notepad++.exe</StartProgram>
+    <StartProgram Condition="'$(Platform)'=='x64'">$(NppPath64)\notepad++.exe</StartProgram>
+    <StartProgram Condition="'$(Platform)'=='x86'">$(NppPath32)\notepad++.exe</StartProgram>
   </PropertyGroup>
   <PropertyGroup>
     <RestorePackagesPath>$(MSBuildProjectDirectory)\packages</RestorePackagesPath>
@@ -198,8 +200,8 @@
     <!-- copy over the appropriate DLL and test files to the Notepad++ directory.
     Otherwise Notepad++ will just load without the plugin. -->
     <ItemGroup>
-      <NPP64BIT Include="$(ProgramW6432)\Notepad++\plugins\CSharpPluginPack" />
-      <NPP32BIT Include="$(MSBuildProgramFiles32)\Notepad++\plugins\CSharpPluginPack" />
+      <NPP64BIT Include="$(NppPath64)\plugins\CSharpPluginPack" />
+      <NPP32BIT Include="$(NppPath32)\plugins\CSharpPluginPack" />
     </ItemGroup>
     <MakeDir Directories="@(NPP64BIT)"
       Condition=" '$(Platform)' == 'x64' " />

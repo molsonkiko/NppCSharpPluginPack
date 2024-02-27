@@ -1,5 +1,5 @@
 # Change Log
-All [notable changes](#002---2024-02-06) to this project will be documented in this file.
+All [notable changes](#003---2024-02-26) to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
@@ -22,7 +22,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Avoid plugin crash when too-large int values are entered in the selection-remembering form.
 - Holding down `Enter` in a multiline textbox does not add multiple new lines; it only adds one newline on keyup.
 
-## [0.0.3] - (UNRELEASED) YYYY-MM-DD
+## [0.0.3] - 2024-02-26
 
 ### Added
 
@@ -31,7 +31,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
-1. Update method of building a DLL to [remove a dependency on .NET Framework 3.5](https://github.com/molsonkiko/NppCSharpPluginPack/pull/3).
+1. Update method of building a DLL to [remove a dependency on .NET Framework 3.5](https://github.com/molsonkiko/NppCSharpPluginPack/pull/4).
+    - This also allows the user the specify whatever Notepad++ directory they wish, using the `NppPath32` (to specify 32-bit Notepad++ directory) and `NppPath64` (to specify 64-bit directory) variables from the command line like so: `msbuild /p:NppPath32="D:\portable\npp\x86";NppPath64="somewhere\else\x64" ...`
 
 ### Fixed
 
