@@ -61,10 +61,20 @@
   <PropertyGroup>
     <!-- Default values for debugging so it start correct version of Notepad++
          $(ProgramW6432) and $(MSBuildProgramFiles32) points to the 64 and 32 bit "Program Files" directories -->
+    <NppPath64 Condition="'$(NppPath64)' == ''">$(ProgramW6432)\Notepad++</NppPath64>
+    <NppPath32 Condition="'$(NppPath32)' == ''">$(MSBuildProgramFiles32)\Notepad++</NppPath32>
     <StartAction>Program</StartAction>
-    <StartProgram Condition="'$(Platform)'=='x64'">$(ProgramW6432)\Notepad++\notepad++.exe</StartProgram>
-    <StartProgram Condition="'$(Platform)'=='x86'">$(MSBuildProgramFiles32)\Notepad++\notepad++.exe</StartProgram>
+    <StartProgram Condition="'$(Platform)'=='x64'">$(NppPath64)\notepad++.exe</StartProgram>
+    <StartProgram Condition="'$(Platform)'=='x86'">$(NppPath32)\notepad++.exe</StartProgram>
   </PropertyGroup>
+  <PropertyGroup>
+    <RestorePackagesPath>$(MSBuildProjectDirectory)\packages</RestorePackagesPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="UnmanagedExports.Repack.Upgrade" Version="1.2.1" GeneratePathProperty="true">
+      <ExcludeAssets>all</ExcludeAssets>
+    </PackageReference>
+  </ItemGroup>
   <ItemGroup>
     <!-- forms -->
     <Compile Include="Forms\NppFormHelper.cs" />
@@ -181,16 +191,37 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <Import Project="$(MSBuildProjectDirectory)\PluginInfrastructure\DllExport\NppPlugin.DllExport.targets" />
+  <Import Condition="Exists($(PkgUnmanagedExports_Repack_Upgrade))"
+    Project="$(PkgUnmanagedExports_Repack_Upgrade)\build\UnmanagedExports.Repack.Upgrade.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  <Target Name="CopyTestFiles" BeforeTargets="Build">
-    <ItemGroup>
-        <TESTFILES Include="testfiles\**\*.*" />
-    </ItemGroup>
-    <Copy SourceFiles="@(TESTFILES)" DestinationFolder="$(ProgramW6432)\Notepad++\plugins\CSharpPluginPack\%(RecursiveDir)" SkipUnchangedFiles="true" />
-    <Copy SourceFiles="@(TESTFILES)" DestinationFolder="$(MSBuildProgramFiles32)\Notepad++\plugins\CSharpPluginPack\%(RecursiveDir)" SkipUnchangedFiles="true" />
-  </Target>
   -->
+  <Target Name="CopyBin" DependsOnTargets="Build" AfterTargets="Build" >
+    <!-- copy over the appropriate DLL and test files to the Notepad++ directory.
+    Otherwise Notepad++ will just load without the plugin. -->
+    <ItemGroup>
+      <NPP64BIT Include="$(NppPath64)\plugins\CSharpPluginPack" />
+      <NPP32BIT Include="$(NppPath32)\plugins\CSharpPluginPack" />
+    </ItemGroup>
+    <MakeDir Directories="@(NPP64BIT)"
+      Condition=" '$(Platform)' == 'x64' " />
+    <MakeDir Directories="@(NPP32BIT)"
+      Condition=" '$(Platform)' == 'x86' " />
+    <Copy SourceFiles="bin\Release-x64\CSharpPluginPack.dll"
+      Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' "
+      DestinationFolder="@(NPP64BIT)"
+      SkipUnchangedFiles="true" />
+    <Copy SourceFiles="bin\Release\CSharpPluginPack.dll"
+      Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' "
+      DestinationFolder="@(NPP32BIT)"
+      SkipUnchangedFiles="true" />
+    <Copy SourceFiles="bin\Debug-x64\CSharpPluginPack.dll"
+      Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' "
+      DestinationFolder="@(NPP64BIT)"
+      SkipUnchangedFiles="true" />
+    <Copy SourceFiles="bin\Debug\CSharpPluginPack.dll"
+      Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' "
+      DestinationFolder="@(NPP32BIT)"
+      SkipUnchangedFiles="true" />
+  </Target>
 </Project>

@@ -2,7 +2,7 @@
 using System;
 using System.Runtime.InteropServices;
 using Kbg.NppPluginNET.PluginInfrastructure;
-using NppPlugin.DllExport;
+using RGiesecke.DllExport;
 
 namespace Kbg.NppPluginNET
 {

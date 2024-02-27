@@ -15,7 +15,7 @@ If you have any issues, see if [updating to the latest release](https://github.c
 
 [Read the docs.](/docs/README.md)
 
-[Read information about the plugin architecture (some of this may be out of date)](/PluginPackArchitecture.md)
+[Read information about the plugin architecture (*some of this may be out of date*)](/PluginPackArchitecture.md)
 
 [View past changes.](/CHANGELOG.md)
 
