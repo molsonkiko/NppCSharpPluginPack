@@ -175,11 +175,14 @@ namespace Kbg.NppPluginNET.PluginInfrastructure
             //nmhdr.hwndFrom = hwndNpp;
             //nmhdr.IdFrom = ctrlIdNpp;
 
-            DMN_DOCK                    = (DMN_FIRST + 2),
-            DMN_FLOAT                    = (DMN_FIRST + 3)
-            //nmhdr.Code = DWORD(DMN_XXX, int newContainer);
-            //nmhdr.hwndFrom = hwndNpp;
-            //nmhdr.IdFrom = ctrlIdNpp;
+            DMN_DOCK                     = (DMN_FIRST + 2),
+            DMN_FLOAT                    = (DMN_FIRST + 3),
+            DMN_SWITCHIN                 = (DMN_FIRST + 4),
+            DMN_SWITCHOFF                = (DMN_FIRST + 5),
+            DMN_FLOATDROPPED             = (DMN_FIRST + 6),
+        //nmhdr.Code = DWORD(DMN_XXX, int newContainer);
+        //nmhdr.hwndFrom = hwndNpp;
+        //nmhdr.IdFrom = ctrlIdNpp;
     }
 
     [StructLayout(LayoutKind.Sequential)]

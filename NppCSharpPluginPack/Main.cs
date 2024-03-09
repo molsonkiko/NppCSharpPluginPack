@@ -17,6 +17,7 @@ using System.Threading;
 using System.Text.RegularExpressions;
 using System.Text;
 using System.IO;
+using System.Reflection;
 
 namespace Kbg.NppPluginNET
 {
@@ -50,6 +51,9 @@ namespace Kbg.NppPluginNET
 
         static internal void CommandMenuInit()
         {
+            // first make it so that all references to any third-party dependencies point to the correct location
+            // see https://github.com/oleg-shilo/cs-script.npp/issues/66#issuecomment-1086657272 for more info
+            AppDomain.CurrentDomain.AssemblyResolve += LoadDependency;
             // Initialization of your plugin commands
 
             // with function :
@@ -97,7 +101,19 @@ namespace Kbg.NppPluginNET
 
         }
 
-        static internal void SetToolBarIcons()
+        private static Assembly LoadDependency(object sender, ResolveEventArgs args)
+        {
+            // Path.GetFullPath(".") will return the path to the Notepad++ executable
+            // I have *very rarely* seen it instead return another path, but in general this should work properly.
+            // Unfortunately Npp.notepad.GetNppPath() cannot be used here for reasons discussed in this comment by rdipardo:
+            //     https://github.com/molsonkiko/NppCSharpPluginPack/issues/5#issuecomment-1982167513
+            string assemblyFile = Path.Combine(Path.GetFullPath("."), "plugins", PluginName, new AssemblyName(args.Name).Name) + ".dll";
+            if (File.Exists(assemblyFile))
+                return Assembly.LoadFrom(assemblyFile);
+            return null;
+        }
+
+    static internal void SetToolBarIcons()
         {
             string iconsToUseChars = settings.toolbar_icons.ToLower();
             var iconInfo = new (Bitmap bmp, Icon icon, Icon iconDarkMode, int id, char representingChar)[]

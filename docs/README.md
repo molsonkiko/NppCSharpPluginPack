@@ -137,6 +137,29 @@ Here are some important ways that the popup dialog differs from other dialogs:
 
 ![Popup dialog](/docs/popup%20dialog.PNG)
 
+## Loading third-party dependencies ##
+
+There are two ways that I (Mark J. Olson) know of to incorporate third-party dependencies into the project, using [NuGet](https://www.nuget.org/) and loading locally installed DLL's. Each will be covered below.
+
+Regardless of which type of dependency you use, __make sure that the depenendencies work for both 32-bit and 64-bit Notepad++.__
+
+Note that the first version of this project to directly support 3rd-party DLL's in this way is `0.0.3.1`.
+
+### Including NuGet packages in your project ###
+
+I have tested this (as of version `0.0.3.1`) by installing [ExcelDataReader 3.6.0](https://www.nuget.org/packages/ExcelDataReader/3.6.0), adding some ExcelDataReader method calls to the [PopupDialog](#popup-dialog), and verifying that the method calls run successfully.
+
+1. Install the NuGet package. In Visual Studio, this entails going to `Project->Manage NuGet packages...` from the main menu, then installing a package.
+2. Build the project as normal. The NuGet package should be usable as expected.
+
+### Including locally installed DLL's in your project ###
+
+This is demonstrated with the [ExampleDependency](/ExampleDependency) example dependency, which is referenced in the [Popup Dialog](/NppCSharpPluginPack/Forms/PopupDialog.cs).
+
+1. Add a *64-bit* build of the DLL to the [NppCSharpPluginPack\Dependencies\x64](/NppCSharpPluginPack/Dependencies/x64) directory.
+2. Add a *32-bit* build of the DLL to the [NppCSharpPluginPackDependencies\x86](/NppCSharpPluginPack/Dependencies/x86) directory.
+3. Build the project for 64-bit and 32-bit Notepad++. Verify that any 3rd-party DLL's are usable as normal.
+
 ## Running tests ##
 
 I (Mark J. Olson) believe that without a robust automated test suite, it is hard to make major changes to any large project without breaking things unexpectedly. Over the course of developing my JsonTools plugin, I developed a strategy for running automated tests and performance benchmarks inside of Notepad++.

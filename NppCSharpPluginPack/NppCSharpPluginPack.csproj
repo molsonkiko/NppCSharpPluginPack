@@ -145,6 +145,21 @@
     <Compile Include="Utils\SelectionManager.cs" />
     <Compile Include="Utils\Settings.cs" />
   </ItemGroup>
+  <Choose>
+    <!-- where should we look for dependency assemblies? -->
+    <When Condition=" '$(Platform)' == ''">
+      <ItemGroup>
+        <DEPENDENCY_DIR Include="Dependencies\x64" />
+        <DEPENDENCY_DLLS Include="Dependencies\x64\*.dll" />
+      </ItemGroup>
+    </When>
+    <Otherwise>
+      <ItemGroup>
+        <DEPENDENCY_DIR Include="Dependencies\$(Platform)" />
+        <DEPENDENCY_DLLS Include="Dependencies\$(Platform)\*.dll" />
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
   <ItemGroup>
     <!-- references -->
     <Reference Include="System" />
@@ -153,6 +168,10 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Net.Http" />
+    <!-- third-party dependencies -->
+    <Reference Include="ExampleDependency">
+      <HintPath>@(DEPENDENCY_DIR)\ExampleDependency.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <!-- resx files -->
@@ -191,37 +210,32 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <Import Condition="Exists($(PkgUnmanagedExports_Repack_Upgrade))"
-    Project="$(PkgUnmanagedExports_Repack_Upgrade)\build\UnmanagedExports.Repack.Upgrade.targets" />
+  <Import Condition="Exists($(PkgUnmanagedExports_Repack_Upgrade))" Project="$(PkgUnmanagedExports_Repack_Upgrade)\build\UnmanagedExports.Repack.Upgrade.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   -->
-  <Target Name="CopyBin" DependsOnTargets="Build" AfterTargets="Build" >
+  <Target Name="CopyBin" DependsOnTargets="Build" AfterTargets="Build">
     <!-- copy over the appropriate DLL and test files to the Notepad++ directory.
     Otherwise Notepad++ will just load without the plugin. -->
     <ItemGroup>
+      <RELEASE64 Include="bin\Release-x64\*.*" />
+      <DEBUG64 Include="bin\Debug-x64\*.*" />
+      <RELEASE32 Include="bin\Release\*.*" />
+      <DEBUG32 Include="bin\Debug\*.*" />
       <NPP64BIT Include="$(NppPath64)\plugins\CSharpPluginPack" />
       <NPP32BIT Include="$(NppPath32)\plugins\CSharpPluginPack" />
     </ItemGroup>
-    <MakeDir Directories="@(NPP64BIT)"
-      Condition=" '$(Platform)' == 'x64' " />
-    <MakeDir Directories="@(NPP32BIT)"
-      Condition=" '$(Platform)' == 'x86' " />
-    <Copy SourceFiles="bin\Release-x64\CSharpPluginPack.dll"
-      Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' "
-      DestinationFolder="@(NPP64BIT)"
-      SkipUnchangedFiles="true" />
-    <Copy SourceFiles="bin\Release\CSharpPluginPack.dll"
-      Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' "
-      DestinationFolder="@(NPP32BIT)"
-      SkipUnchangedFiles="true" />
-    <Copy SourceFiles="bin\Debug-x64\CSharpPluginPack.dll"
-      Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' "
-      DestinationFolder="@(NPP64BIT)"
-      SkipUnchangedFiles="true" />
-    <Copy SourceFiles="bin\Debug\CSharpPluginPack.dll"
-      Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' "
-      DestinationFolder="@(NPP32BIT)"
-      SkipUnchangedFiles="true" />
+    <MakeDir Directories="@(NPP64BIT)" Condition=" '$(Platform)' == 'x64' " />
+    <MakeDir Directories="@(NPP32BIT)" Condition=" '$(Platform)' == 'x86' " />
+    <!-- copy all dependency DLL's to current bin directory -->
+    <Copy Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' " SourceFiles="@(DEPENDENCY_DLLS)" DestinationFolder="bin\Release-x64" SkipUnchangedFiles="true" />
+    <Copy Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' " SourceFiles="@(DEPENDENCY_DLLS)" DestinationFolder="bin\Release" SkipUnchangedFiles="true" />
+    <Copy Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' " SourceFiles="@(DEPENDENCY_DLLS)" DestinationFolder="bin\Debug-x64" SkipUnchangedFiles="true" />
+    <Copy Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' " SourceFiles="@(DEPENDENCY_DLLS)" DestinationFolder="bin\Debug" SkipUnchangedFiles="true" />
+    <!-- copy all files in current bin directory to NPP plugin dir -->
+    <Copy SourceFiles="@(RELEASE64)" Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' " DestinationFolder="@(NPP64BIT)" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="@(RELEASE32)" Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' " DestinationFolder="@(NPP32BIT)" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="@(DEBUG64)" Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' " DestinationFolder="@(NPP64BIT)" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="@(DEBUG32)" Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' " DestinationFolder="@(NPP32BIT)" SkipUnchangedFiles="true" />
   </Target>
 </Project>

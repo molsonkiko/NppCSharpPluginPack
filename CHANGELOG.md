@@ -22,6 +22,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Avoid plugin crash when too-large int values are entered in the selection-remembering form.
 - Holding down `Enter` in a multiline textbox does not add multiple new lines; it only adds one newline on keyup.
 
+## [0.0.4] - (UNRELEASED) YYYY-MM-DD
+
+### Added
+
+1. Make it much easier to [include third-party dependencies](/docs/README.md#loading-third-party-dependencies) in your plugin.
+
 ## [0.0.3] - 2024-02-26
 
 ### Added

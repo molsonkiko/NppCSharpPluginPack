@@ -1,6 +1,7 @@
 ﻿using NppDemo.Utils;
 using Kbg.NppPluginNET;
 using System.Windows.Forms;
+using ExampleDependency;
 
 namespace NppDemo.Forms
 {
@@ -21,10 +22,12 @@ namespace NppDemo.Forms
 
         private void button1_Click(object sender, System.EventArgs e)
         {
+
             string msg = ComboBox1.Enabled
                 ? $"ComboBox1 selected value = {ComboBox1.Text}"
                 : "ComboBox1 is disabled";
-            MessageBox.Show(msg);
+            var exampleClassMember = new ExampleClass(msg);
+            MessageBox.Show(exampleClassMember.ToString());
         }
 
         /// <summary>

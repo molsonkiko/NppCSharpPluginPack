@@ -35,7 +35,7 @@ Many of the files in the [PluginInfrastructure folder](/NppCSharpPluginPack/Plug
 The way to regenerate the auto-generated portions of these code is to download the Notepad++ source code from master and run the Python scripts in [ToolsForMaintainersOfTheProjectTemplate](/ToolsForMaintainersOfTheProjectTemplate/) folder. Read the documentation of those scripts if you're still unsure how to proceed.
 
 
-## Plugins using this pluginpack (or the original)
+## Plugins using this pluginpack (or kbilsted's original)
 
   * https://github.com/kbilsted/NppPluginGuidHelper
   * https://github.com/zkirkland/FirstUpper
