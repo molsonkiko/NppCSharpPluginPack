@@ -27,6 +27,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 1. Make it much easier to [include third-party dependencies](/docs/README.md#loading-third-party-dependencies) in your plugin.
+2. Made it so all forms subclass a base class, making it easier to implement recommended methods.
+
+### Fixed
+
+1. Fixed issue where clicking buttons on floating docking dialogs could sometimes cause Notepad++ to hang forever (see [CsvLint issue 83](https://github.com/BdR76/CSVLint/issues/83) for a detailed explanation).
 
 ## [0.0.3] - 2024-02-26
 

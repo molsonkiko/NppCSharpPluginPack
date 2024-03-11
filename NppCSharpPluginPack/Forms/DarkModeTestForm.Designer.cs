@@ -15,7 +15,6 @@
         {
             if (disposing && (components != null))
             {
-                NppFormHelper.UnregisterFormIfModeless(this, false);
                 components.Dispose();
             }
             base.Dispose(disposing);

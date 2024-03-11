@@ -5,10 +5,7 @@ namespace NppDemo.Forms
 {
     /// <summary>
     /// various methods that every new form in this app should call.<br></br>
-    /// You may ask, "Wait, why do we have a static class with a bunch of methods everyone needs to call?"<br></br>
-    ///     "Shouldn't this be a subclass of Form, and have all the forms just subclass this?"<br></br>
-    /// To which I answer, NO!<br></br>
-    /// *I TRIED* having a superclass that all my forms inherited from, and the result was a total mess.
+    /// You can inherit FormBase to simplify this by automatically using all these methods in the recommended default way.
     /// </summary>
     public static class NppFormHelper
     {
@@ -23,7 +20,7 @@ namespace NppDemo.Forms
         }
 
         /// <summary>
-        /// CALL THIS IN YOUR KeyDown HANDLER FOR ALL TextBoxes and ComboBoxes<br></br>
+        /// CALL THIS IN YOUR KeyPress HANDLER FOR ALL TextBoxes and ComboBoxes<br></br>
         /// suppress annoying ding when user hits tab
         /// </summary>
         public static void TextBoxKeyPressHandler(object sender, KeyPressEventArgs e)

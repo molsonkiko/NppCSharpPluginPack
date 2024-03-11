@@ -44,10 +44,11 @@ namespace NppDemo.Utils
                 ctrl.ForeColor = SystemColors.ControlText;
                 foreach (Control child in ctrl.Controls)
                 {
-                    if (child is GroupBox)
+                    if (child.HasChildren && !(child is Form))
+                        // recursively apply style to children of container controls (GroupBoxes, SplitContainers, etc.)
                         ApplyStyle(child, useNppStyle, darkMode);
                     // controls containing text
-                    else if (child is TextBox || child is ListBox || child is ComboBox || child is TreeView)
+                    if (child is TextBox || child is ListBox || child is ComboBox || child is TreeView)
                     {
                         child.BackColor = SystemColors.Window; // white background
                         child.ForeColor = SystemColors.WindowText;
@@ -87,7 +88,8 @@ namespace NppDemo.Utils
             {
                 child.BackColor = backColor;
                 child.ForeColor = foreColor;
-                if (child is GroupBox)
+                if (child.HasChildren && !(child is Form))
+                    // recursively apply style to children of container controls (GroupBoxes, SplitContainers, etc.)
                     ApplyStyle(child, useNppStyle, darkMode);
                 if (child is LinkLabel llbl)
                 {

@@ -53,7 +53,7 @@ public AskUserWhetherToDoThing ask_before_testing { get; set; }
 When you change the settings, they will be written to `CSharpPluginPack.ini` (tied to`Main.PluginName`).
 
 The `CSharpPluginPack.ini` file looks something like this:
-```cs
+```ini
 [Styling]
 ; Use the same colors as the editor window for this plugin's forms?
 use_npp_styling=True
@@ -85,7 +85,11 @@ One thing to note is that this form responds to keys in intuitive and useful way
 
 This is all because I registered the controls in the form with the `KeyUp`, `KeyDown`, and `KeyPress` handlers in [NppCSharpPlugin/Forms/NppFormHelper.cs](/NppCSharpPluginPack/Forms/NppFormHelper.cs).
 
-You will notice that the DarkModeTestForm discussed below *does not have these nice responses to keys*, because I did not register those handlers for its controls.
+You will notice that, prior to [v0.0.4](/CHANGELOG.md#004---unreleased-yyyy-mm-dd), the DarkModeTestForm discussed below *does not have these nice responses to keys*, because I did not register those handlers for its controls.
+
+## Subclass [FormBase](/NppCSharpPluginPack/Forms/FormBase.cs) (added in [v0.0.3.2](/CHANGELOG.md#004---unreleased-yyyy-mm-dd)) for better forms ##
+
+Beginning with [v0.0.3.2](/CHANGELOG.md#004---unreleased-yyyy-mm-dd), all the forms (except the About form) subclass [FormBase](/NppCSharpPluginPack/Forms/FormBase.cs), which fixes a number of bugs and implements a number of desirable behaviors.
 
 ## Registering and unregistering forms with [`NPPM_MODELESSDIALOG`](https://npp-user-manual.org/docs/plugin-communication/#2036-nppm-modelessdialog) ##
 
@@ -109,6 +113,10 @@ If the form __*has* been registered__ with `NppFormHelper.RegisterFormIfModeless
 1. `BarComboBox`
 2. `BazButton`
 3. `FooTextBox`
+
+In addition, registering forms in this way causes `Enter` to no longer add newlines in textboxes. This behavior is compensated for by the [`PressEnterInTextBoxHandler`](https://github.com/molsonkiko/NppCSharpPluginPack/blob/574e1964e1e3fd68c0a7a499504e89cf7d64e493/NppCSharpPluginPack/Forms/NppFormHelper.cs#L105).
+
+Finally, some keypresses no longer trigger `KeyDown` and `KeyPress` events if a form is registered in this way.
 
 ## Dark mode test form ##
 

@@ -15,7 +15,6 @@
         {
             if (disposing && (components != null))
             {
-                NppFormHelper.UnregisterFormIfModeless(this, false);
                 components.Dispose();
             }
             base.Dispose(disposing);
@@ -38,6 +37,8 @@
             this.SaveCurrentSelectionsToFileButton = new System.Windows.Forms.Button();
             this.LoadSelectionsFromFileButton = new System.Windows.Forms.Button();
             this.OpenDarkModeTestFormButton = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // CopySelectionsToStartEndsButton
@@ -49,8 +50,6 @@
             this.CopySelectionsToStartEndsButton.Text = "Copy current selections to clipboard as list of comma-separated numbers";
             this.CopySelectionsToStartEndsButton.UseVisualStyleBackColor = true;
             this.CopySelectionsToStartEndsButton.Click += new System.EventHandler(this.CopySelectionsToStartEndsButton_Click);
-            this.CopySelectionsToStartEndsButton.KeyDown += new System.Windows.Forms.KeyEventHandler(this.SelectionRememberingForm_KeyDown);
-            this.CopySelectionsToStartEndsButton.KeyUp += new System.Windows.Forms.KeyEventHandler(this.SelectionRememberingForm_KeyUp);
             // 
             // SelectionRememberingFormTitle
             // 
@@ -69,8 +68,6 @@
             this.SelectionStartEndsBox.Name = "SelectionStartEndsBox";
             this.SelectionStartEndsBox.Size = new System.Drawing.Size(118, 94);
             this.SelectionStartEndsBox.TabIndex = 2;
-            this.SelectionStartEndsBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBox_KeyPress);
-            this.SelectionStartEndsBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.SelectionRememberingForm_KeyUp);
             // 
             // SelectionStartEndsBoxLabel
             // 
@@ -91,8 +88,6 @@
             this.SetSelectionsFromStartEndsButton.Text = "Select all regions in the text box above";
             this.SetSelectionsFromStartEndsButton.UseVisualStyleBackColor = true;
             this.SetSelectionsFromStartEndsButton.Click += new System.EventHandler(this.SetSelectionsFromStartEndsButton_Click);
-            this.SetSelectionsFromStartEndsButton.KeyDown += new System.Windows.Forms.KeyEventHandler(this.SelectionRememberingForm_KeyDown);
-            this.SetSelectionsFromStartEndsButton.KeyUp += new System.Windows.Forms.KeyEventHandler(this.SelectionRememberingForm_KeyUp);
             // 
             // SaveCurrentSelectionsToFileButton
             // 
@@ -103,8 +98,6 @@
             this.SaveCurrentSelectionsToFileButton.Text = "Save current selections to file";
             this.SaveCurrentSelectionsToFileButton.UseVisualStyleBackColor = true;
             this.SaveCurrentSelectionsToFileButton.Click += new System.EventHandler(this.SaveCurrentSelectionsToFileButton_Click);
-            this.SaveCurrentSelectionsToFileButton.KeyDown += new System.Windows.Forms.KeyEventHandler(this.SelectionRememberingForm_KeyDown);
-            this.SaveCurrentSelectionsToFileButton.KeyUp += new System.Windows.Forms.KeyEventHandler(this.SelectionRememberingForm_KeyUp);
             // 
             // LoadSelectionsFromFileButton
             // 
@@ -115,40 +108,44 @@
             this.LoadSelectionsFromFileButton.Text = "Load selections from config file";
             this.LoadSelectionsFromFileButton.UseVisualStyleBackColor = true;
             this.LoadSelectionsFromFileButton.Click += new System.EventHandler(this.LoadSelectionsFromFileButton_Click);
-            this.LoadSelectionsFromFileButton.KeyDown += new System.Windows.Forms.KeyEventHandler(this.SelectionRememberingForm_KeyDown);
-            this.LoadSelectionsFromFileButton.KeyUp += new System.Windows.Forms.KeyEventHandler(this.SelectionRememberingForm_KeyUp);
             // 
             // OpenDarkModeTestFormButton
             // 
-            this.OpenDarkModeTestFormButton.Location = new System.Drawing.Point(50, 476);
+            this.OpenDarkModeTestFormButton.Location = new System.Drawing.Point(38, 21);
             this.OpenDarkModeTestFormButton.Name = "OpenDarkModeTestFormButton";
             this.OpenDarkModeTestFormButton.Size = new System.Drawing.Size(236, 23);
             this.OpenDarkModeTestFormButton.TabIndex = 7;
             this.OpenDarkModeTestFormButton.Text = "Open dark mode test form";
             this.OpenDarkModeTestFormButton.UseVisualStyleBackColor = true;
             this.OpenDarkModeTestFormButton.Click += new System.EventHandler(this.OpenDarkModeTestFormButton_Click);
-            this.OpenDarkModeTestFormButton.KeyDown += new System.Windows.Forms.KeyEventHandler(this.SelectionRememberingForm_KeyDown);
-            this.OpenDarkModeTestFormButton.KeyUp += new System.Windows.Forms.KeyEventHandler(this.SelectionRememberingForm_KeyUp);
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.OpenDarkModeTestFormButton);
+            this.groupBox1.Location = new System.Drawing.Point(13, 454);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(306, 59);
+            this.groupBox1.TabIndex = 8;
+            this.groupBox1.TabStop = false;
             // 
             // SelectionRememberingForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(350, 541);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.CopySelectionsToStartEndsButton);
             this.Controls.Add(this.SelectionStartEndsBoxLabel);
             this.Controls.Add(this.SelectionStartEndsBox);
             this.Controls.Add(this.SetSelectionsFromStartEndsButton);
             this.Controls.Add(this.SaveCurrentSelectionsToFileButton);
             this.Controls.Add(this.LoadSelectionsFromFileButton);
-            this.Controls.Add(this.OpenDarkModeTestFormButton);
             this.Controls.Add(this.SelectionRememberingFormTitle);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "SelectionRememberingForm";
             this.Text = "Remember and set selections";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SelectionRememberingForm_FormClosing);
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.SelectionRememberingForm_KeyDown);
-            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.SelectionRememberingForm_KeyUp);
+            this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -163,5 +160,6 @@
         public System.Windows.Forms.Button SaveCurrentSelectionsToFileButton;
         public System.Windows.Forms.Button LoadSelectionsFromFileButton;
         private System.Windows.Forms.Button OpenDarkModeTestFormButton;
+        private System.Windows.Forms.GroupBox groupBox1;
     }
 }
