@@ -60,7 +60,7 @@ namespace Kbg.NppPluginNET.PluginInfrastructure
         public int X;                    /* SCN_DWELLSTART, SCN_DWELLEND */
         public int Y;                    /* SCN_DWELLSTART, SCN_DWELLEND */
         public int Token;                /* SCN_MODIFIED with SC_MOD_CONTAINER */
-        public int AnnotationLinesAdded; /* SC_MOD_CHANGEANNOTATION */
+        public IntPtr AnnotationLinesAdded; /* SC_MOD_CHANGEANNOTATION */
         public int Updated;              /* SCN_UPDATEUI */
         public int ListCompletionMethod; /* SCN_AUTOCSELECTION, SCN_AUTOCCOMPLETED, SCN_USERLISTSELECTION */
         public int CharacterSource;      /* SCN_CHARADDED */
