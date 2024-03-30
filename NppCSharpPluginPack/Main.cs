@@ -103,11 +103,7 @@ namespace Kbg.NppPluginNET
 
         private static Assembly LoadDependency(object sender, ResolveEventArgs args)
         {
-            // Path.GetFullPath(".") will return the path to the Notepad++ executable
-            // I have *very rarely* seen it instead return another path, but in general this should work properly.
-            // Unfortunately Npp.notepad.GetNppPath() cannot be used here for reasons discussed in this comment by rdipardo:
-            //     https://github.com/molsonkiko/NppCSharpPluginPack/issues/5#issuecomment-1982167513
-            string assemblyFile = Path.Combine(Path.GetFullPath("."), "plugins", PluginName, new AssemblyName(args.Name).Name) + ".dll";
+            string assemblyFile = Path.Combine(Npp.pluginDllDirectory, new AssemblyName(args.Name).Name) + ".dll";
             if (File.Exists(assemblyFile))
                 return Assembly.LoadFrom(assemblyFile);
             return null;

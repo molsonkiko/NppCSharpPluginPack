@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using NppDemo.Utils;
 using Kbg.NppPluginNET;
+using System.IO;
 
 namespace NppDemo.Tests
 {
@@ -21,7 +22,7 @@ namespace NppDemo.Tests
             string header = $"Test results for {Main.PluginName} v{Npp.AssemblyVersionString()} on Notepad++ {Npp.nppVersionStr}\r\nNOTE: Ctrl-F (regular expressions *on*) for \"Failed [1-9]\\d*\" to find all failed tests";
             Npp.AddLine(header);
 
-            string big_random_fname = $"plugins\\{Main.PluginName}\\testfiles\\big_silly_example.tsv";
+            string big_random_fname = Path.Combine(Npp.pluginDllDirectory, "testfiles", "big_silly_example.tsv");
             var tests = new (Func<bool> tester, string name, bool onlyIfNpp8Plus)[]
             {
                 (SliceTester.Test, "slice extension", false),
