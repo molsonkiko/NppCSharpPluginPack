@@ -34,6 +34,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 1. Fixed issue where clicking buttons on floating docking dialogs could sometimes cause Notepad++ to hang forever (see [CsvLint issue 83](https://github.com/BdR76/CSVLint/issues/83) for a detailed explanation).
 2. Fix `SCNotification` byte alignment issue in 64-bit Notepad++ by making `annotationLinesAdded` field an `IntPtr`, which has been the correct type for that field since [between Notepad++ 7.6.6 and 7.7](https://github.com/notepad-plus-plus/notepad-plus-plus/blob/37c4b894cc247d1ee6976bc1a1b66cfed4b7774e/scintilla/include/Scintilla.h#L1227). Note that *this is a potentially breaking change for 64-bit Notepad++ 7.6.6 or older*, but there's a ton of other bit rot for such old Notepad++ anyway.
 3. Fix error due to assuming that "." (the current directory according to the filesystem) will always point to the path to the Notepad++ executable; this is *almost always true*, but can be broken due to at least one known weird interaction (the one molsonkiko is familiar with concerns the `New script` functionality of the PythonScript plugin).
+4. Fix bug where, if a setting in the config file had an invalid value (for example, a numeric setting having a value of `blah`), there might be an uncaught exception that would cause Notepad++ to crash. This bug appears to be most likely to occur when the localization is *not* set to `en-us`.
 
 ## [0.0.3] - 2024-02-26
 

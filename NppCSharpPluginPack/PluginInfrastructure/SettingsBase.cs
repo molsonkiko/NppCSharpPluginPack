@@ -14,6 +14,7 @@ using System.Windows.Forms;
 using NppDemo.Utils;
 using Kbg.NppPluginNET;
 using Kbg.NppPluginNET.PluginInfrastructure;
+using System.Reflection;
 
 namespace CsvQuery.PluginInfrastructure
 {
@@ -76,18 +77,21 @@ namespace CsvQuery.PluginInfrastructure
                     propertyInfo.SetValue(this, def.Value, null);
                 }
             }
-            if (loadFromFile)
-                ReadFromIniFile();
+            if (loadFromFile && !ReadFromIniFile())
+                SaveToIniFile();
         }
 
         /// <summary>
         /// Reads all (existing) settings from an ini-file
         /// </summary>
         /// <param name="filename">File to write to (default is N++ plugin config)</param>
-        public void ReadFromIniFile(string filename = null)
+        /// <returns>False if the file did not exist, or if not all values in the file were valid.<br></br>
+        /// True otherwise.</returns>
+        public bool ReadFromIniFile(string filename = null)
         {
             filename = filename ?? IniFilePath;
-            if (!File.Exists(filename)) return;
+            if (!File.Exists(filename))
+                return false;
 
             // Load all sections from file
             var loaded = GetType().GetProperties()
@@ -96,6 +100,7 @@ namespace CsvQuery.PluginInfrastructure
                 .ToDictionary(section => section, section => GetKeys(filename, section));
 
             //var loaded = GetKeys(filename, "General");
+            bool allConvertedCorrectly = true;
             foreach (var propertyInfo in GetType().GetProperties())
             {
                 var category = ((CategoryAttribute)propertyInfo.GetCustomAttributes(typeof(CategoryAttribute), false).FirstOrDefault())?.Category ?? "General";
@@ -104,12 +109,54 @@ namespace CsvQuery.PluginInfrastructure
                 {
                     var rawString = loaded[category][name];
                     var converter = TypeDescriptor.GetConverter(propertyInfo.PropertyType);
+                    bool convertedCorrectly = false;
+                    Exception ex = null;
                     if (converter.IsValid(rawString))
                     {
-                        propertyInfo.SetValue(this, converter.ConvertFromString(rawString), null);
+                        try
+                        {
+                            propertyInfo.SetValue(this, converter.ConvertFromString(rawString), null);
+                            convertedCorrectly = true;
+                        }
+                        catch (Exception ex_)
+                        {
+                            ex = ex_;
+                        }
+                    }
+                    if (!convertedCorrectly)
+                    {
+                        allConvertedCorrectly = false;
+                        // use the default value for the property, since the config file couldn't be read in this case.
+                        SetPropertyInfoToDefault(propertyInfo);
+                        string errorDescription = ex is null ? "could not be converted for an unknown reason." : $"raised the following error:\r\n{ex}";
+                        MessageBox.Show(
+                            $"While parsing {Main.PluginName} config file, expected setting \"{name}\" to be type {propertyInfo.PropertyType.Name}, but got an error.\r\n" +
+                            $"That setting was set to its default value of {propertyInfo.GetValue(this, null)}.\r\n" +
+                            $"The given value {rawString} {errorDescription}",
+                            $"Error while parsing {Main.PluginName} config file",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error
+                        );
                     }
                 }
             }
+            return allConvertedCorrectly;
+        }
+
+        /// <summary>
+        /// if the PropertyInfo does not have a default value, return false.<br></br>
+        /// Otherwise, set the PropertyInfo's value for this object to the default value, and return true.
+        /// </summary>
+        /// <param name="propertyInfo"></param>
+        /// <returns></returns>
+        private bool SetPropertyInfoToDefault(PropertyInfo propertyInfo)
+        {
+            if (propertyInfo.GetCustomAttributes(typeof(DefaultValueAttribute), false).FirstOrDefault() is DefaultValueAttribute def)
+            {
+                propertyInfo.SetValue(this, def.Value, null);
+                return true;
+            }
+            return false;
         }
 
         /// <summary>
@@ -254,10 +301,7 @@ namespace CsvQuery.PluginInfrastructure
                 // reset the settings to defaults
                 foreach (var propertyInfo in GetType().GetProperties())
                 {
-                    if (propertyInfo.GetCustomAttributes(typeof(DefaultValueAttribute), false).FirstOrDefault() is DefaultValueAttribute def)
-                    {
-                        propertyInfo.SetValue(this, def.Value, null);
-                    }
+                    SetPropertyInfoToDefault(propertyInfo);
                 }
                 OnSettingsChanged();
                 dialog.Close();
