@@ -115,7 +115,7 @@ namespace CsvQuery.PluginInfrastructure
                     {
                         try
                         {
-                            propertyInfo.SetValue(this, converter.ConvertFromString(rawString), null);
+                            propertyInfo.SetValue(this, converter.ConvertFromInvariantString(rawString), null);
                             convertedCorrectly = true;
                         }
                         catch (Exception ex_)
