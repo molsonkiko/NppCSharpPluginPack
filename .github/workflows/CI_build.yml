@@ -10,6 +10,7 @@ on:
       - '*.PNG'
       - 'makerelease.bat'
       - 'testfiles/**'
+      - 'translation/**'
 
 jobs:
   build:

@@ -54,6 +54,9 @@ namespace Kbg.NppPluginNET
             // first make it so that all references to any third-party dependencies point to the correct location
             // see https://github.com/oleg-shilo/cs-script.npp/issues/66#issuecomment-1086657272 for more info
             AppDomain.CurrentDomain.AssemblyResolve += LoadDependency;
+
+            // next load the translations file so we can translate the menu items
+            Translator.LoadTranslations();
             // Initialization of your plugin commands
 
             // with function :
@@ -65,39 +68,39 @@ namespace Kbg.NppPluginNET
             //            );
             
             // the "&" before the "D" means that D is an accelerator key for selecting this option 
-            PluginBase.SetCommand(0, "&Documentation", Docs);
+            PluginBase.SetCommand(0, Translator.GetTranslatedMenuItem("&Documentation"), Docs);
             // the "&" before the "b" means that B is an accelerator key for selecting this option 
-            PluginBase.SetCommand(1, "A&bout", ShowAboutForm); IdAboutForm = 1;
-            PluginBase.SetCommand(2, "&Settings", OpenSettings);
-            PluginBase.SetCommand(3, "Selection &Remembering Form", OpenSelectionRememberingForm); IdSelectionRememberingForm = 3;
-            PluginBase.SetCommand(4, "Run &tests", TestRunner.RunAll);
+            PluginBase.SetCommand(1, Translator.GetTranslatedMenuItem("A&bout"), ShowAboutForm); IdAboutForm = 1;
+            PluginBase.SetCommand(2, Translator.GetTranslatedMenuItem("&Settings"), OpenSettings);
+            PluginBase.SetCommand(3, Translator.GetTranslatedMenuItem("Selection &Remembering Form"), OpenSelectionRememberingForm); IdSelectionRememberingForm = 3;
+            PluginBase.SetCommand(4, Translator.GetTranslatedMenuItem("Run &tests"), TestRunner.RunAll);
             
             // this inserts a separator
             PluginBase.SetCommand(5, "---", null);
-            PluginBase.SetCommand(6, "Use NanInf class for -inf, inf, nan!!", PrintNanInf);
-            PluginBase.SetCommand(7, "Hello Notepad++", HelloFX);
-            PluginBase.SetCommand(8, "What is Notepad++?", WhatIsNpp);
+            PluginBase.SetCommand(6, Translator.GetTranslatedMenuItem("Use NanInf class for -inf, inf, nan!!"), PrintNanInf);
+            PluginBase.SetCommand(7, Translator.GetTranslatedMenuItem("Hello Notepad++"), HelloFX);
+            PluginBase.SetCommand(8, Translator.GetTranslatedMenuItem("What is Notepad++?"), WhatIsNpp);
 
             PluginBase.SetCommand(9, "---", null);
-            PluginBase.SetCommand(10, "Current &Full Path", InsertCurrentFullFilePath);
-            PluginBase.SetCommand(11, "Current Directory", InsertCurrentDirectory);
+            PluginBase.SetCommand(10, Translator.GetTranslatedMenuItem("Current &Full Path"), InsertCurrentFullFilePath);
+            PluginBase.SetCommand(11, Translator.GetTranslatedMenuItem("Current Directory"), InsertCurrentDirectory);
 
             PluginBase.SetCommand(12, "---", null);
             
-            PluginBase.SetCommand(13, "Close HTML/&XML tag automatically", CheckInsertHtmlCloseTag,
+            PluginBase.SetCommand(13, Translator.GetTranslatedMenuItem("Close HTML/&XML tag automatically"), CheckInsertHtmlCloseTag,
                 new ShortcutKey(true, true, true, Keys.X), // this adds a keyboard shortcut for Ctrl+Alt+Shift+X
                 settings.close_html_tag // this may check the plugin menu item on startup depending on settings
                 ); IdCloseHtmlTag = 13;
 
             PluginBase.SetCommand(14, "---", null);
-            PluginBase.SetCommand(15, "Get File Names Demo", GetFileNamesDemo);
-            PluginBase.SetCommand(16, "Get Session File Names Demo", GetSessionFileNamesDemo);
-            PluginBase.SetCommand(17, "Show files opened and closed this session", ShowFilesOpenedAndClosedThisSession);
-            PluginBase.SetCommand(18, "Save Current Session Demo", SaveCurrentSessionDemo);
-            PluginBase.SetCommand(19, "Print Scroll and Row Information", PrintScrollInformation);
-            PluginBase.SetCommand(20, "Open a pop-up dialog", OpenPopupDialog);
+            PluginBase.SetCommand(15, Translator.GetTranslatedMenuItem("Get File Names Demo"), GetFileNamesDemo);
+            PluginBase.SetCommand(16, Translator.GetTranslatedMenuItem("Get Session File Names Demo"), GetSessionFileNamesDemo);
+            PluginBase.SetCommand(17, Translator.GetTranslatedMenuItem("Show files opened and closed this session"), ShowFilesOpenedAndClosedThisSession);
+            PluginBase.SetCommand(18, Translator.GetTranslatedMenuItem("Save Current Session Demo"), SaveCurrentSessionDemo);
+            PluginBase.SetCommand(19, Translator.GetTranslatedMenuItem("Print Scroll and Row Information"), PrintScrollInformation);
+            PluginBase.SetCommand(20, Translator.GetTranslatedMenuItem("Open a pop-up dialog"), OpenPopupDialog);
             PluginBase.SetCommand(21, "---", null);
-            PluginBase.SetCommand(22, "Allocate indicators demo", AllocateIndicatorsDemo);
+            PluginBase.SetCommand(22, Translator.GetTranslatedMenuItem("Allocate indicators demo"), AllocateIndicatorsDemo);
 
         }
 
@@ -109,7 +112,7 @@ namespace Kbg.NppPluginNET
             return null;
         }
 
-    static internal void SetToolBarIcons()
+        static internal void SetToolBarIcons()
         {
             string iconsToUseChars = settings.toolbar_icons.ToLower();
             var iconInfo = new (Bitmap bmp, Icon icon, Icon iconDarkMode, int id, char representingChar)[]

@@ -181,8 +181,8 @@ namespace CsvQuery.PluginInfrastructure
                     fp.WriteLine(Environment.NewLine + "[{0}]", section.Key);
                     foreach (var propertyInfo in section.OrderBy(x => x.Name))
                     {
-                        if (propertyInfo.GetCustomAttributes(typeof(DescriptionAttribute), false).FirstOrDefault() is DescriptionAttribute description)
-                            fp.WriteLine("; " + description.Description.Replace(Environment.NewLine, Environment.NewLine + "; "));
+                        string description = Translator.TranslateSettingsDescription(propertyInfo);
+                        fp.WriteLine("; " + description.Replace(Environment.NewLine, Environment.NewLine + "; "));
                         var converter = TypeDescriptor.GetConverter(propertyInfo.PropertyType);
                         fp.WriteLine("{0}={1}", propertyInfo.Name, converter.ConvertToInvariantString(propertyInfo.GetValue(this, null)));
                     }
@@ -306,6 +306,30 @@ namespace CsvQuery.PluginInfrastructure
                 OnSettingsChanged();
                 dialog.Close();
             };
+            var grid = dialog.Controls["Grid"];
+            if (Translator.HasTranslations
+                && grid.Controls.Count >= 1 && grid.Controls[0] is Control commentPane
+                && commentPane.Controls.Count >= 2 && commentPane.Controls[1] is Label descriptionLabel)
+            {
+                string translatedDescription = "";
+                var propGrid = (PropertyGrid)grid;
+                propGrid.SelectedGridItemChanged += (object _, SelectedGridItemChangedEventArgs e) =>
+                {
+                    GridItem selectedItem = e.NewSelection;
+                    PropertyDescriptor selectedPropertyDesc = selectedItem?.PropertyDescriptor;
+                    if (selectedPropertyDesc is null)
+                        return;
+                    PropertyInfo selectedProp = GetType().GetProperty(selectedPropertyDesc.Name);
+                    translatedDescription = Translator.TranslateSettingsDescription(selectedProp);
+                    if (translatedDescription.Length > 0)
+                        descriptionLabel.Text = translatedDescription;
+                };
+                commentPane.SizeChanged += (object _, EventArgs e) =>
+                {
+                    if (translatedDescription.Length > 0)
+                        descriptionLabel.Text = translatedDescription;
+                };
+            }
             dialog.ShowDialog();
         }
 

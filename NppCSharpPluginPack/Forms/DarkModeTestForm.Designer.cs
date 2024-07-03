@@ -109,6 +109,7 @@
             // 
             // imageList1
             // 
+            this.imageList1.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
             this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
             this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
             this.imageList1.Images.SetKeyName(0, "star.png");
@@ -173,7 +174,7 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(36, 392);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(105, 16);
+            this.label1.Size = new System.Drawing.Size(111, 17);
             this.label1.TabIndex = 6;
             this.label1.Text = "A non-bold label";
             // 
@@ -182,10 +183,11 @@
             this.checkBox1.AutoSize = true;
             this.checkBox1.Location = new System.Drawing.Point(179, 349);
             this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(173, 20);
+            this.checkBox1.Size = new System.Drawing.Size(185, 21);
             this.checkBox1.TabIndex = 7;
-            this.checkBox1.Text = "checkBox1 looks good?";
+            this.checkBox1.Text = "checkBox1 is unchecked";
             this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
             // textBox1
             // 

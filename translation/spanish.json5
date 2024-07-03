@@ -1,0 +1,116 @@
+// If you want to translate CSharpPluginPack into another language, follow these steps (in the example below, we are translating into the "fooish" language):
+// 1. Create a copy of this file at the path "translation/fooish.json5" relative to the CSharpPluginPack plugin directory (the directory where the CSharpPluginPack.dll binary is installed, *not* the plugin config directory).
+// 2. Edit the values associated with the various keys in this document.
+//     DO NOT CHANGE THE KEYS OF ANY OBJECT, OR ADD OR REMOVE KEYS! ONLY CHANGE THE VALUES.
+// 3. Close Notepad++ and reopen it, then look at the various CSharpPluginPack forms and menu items to see if the translation is satisfactory.
+{
+    "forms": {
+        "AboutForm": {
+            // this is the name that appears in the title bar for this form
+            "title": "Sobre NppCSharpPluginPack",
+            // Each key in this object is the name of the control in the NppCSharpPluginPack codebase.
+            //     If a control name is missing, that control is not translated.
+            "controls": {
+                // If the value associated with a control name is a string,
+                //     that controls the text of the control.
+                "Description": "Una demo sobre cómo crear un Notepad++ plugin en C#.",
+                "GitHubLink": {
+                    // This is a LinkLabel, meaning it has a clickable link (your repo URL).
+                    "text": "Añade un enlace a tu plugin repo aquí:\r\nhttps://github.com/yourName/yourRepo",
+                    // If you change the text of this LinkLabel,
+                    //      make sure that you change the linkStart property
+                    //      so that only the URL is in the highlighted region.
+                    "linkStart": 40,
+                    "linkLength": 36
+                },
+                "DebugInfoLabel": "Notepad++ versión: X.Y.Z. Para obtener más información sobre su\r\ninstalación, vaya a ? -> Debug Info en la barra de estado principal.",
+                "ThanksWowLinkLabel": {
+                    "text": "Un agradecimiento especial a:\r\n* Don Ho por crear Notepad++\r\n* kbilsted por crear el paquete de plugin en el que se basa\r\n* ¡Y por supuesto a todos aquellos que han ayudado a mejorar este plugin!\r\n* La increíble comunidad hace que este trabajo valga la pena.\r\n  ¡Guau!",
+                    // set linkStart so that only the "¡Guau!" at the end is highlighted
+                    "linkStart": 262,
+                    "linkLength": 6
+                }
+            }
+        },
+        "DarkModeTestForm": {
+            // the title for this form is not listed, so it will not be translated
+            "controls": {
+                "checkBox1": {
+                    // Change this value to set the text when the box is *checked*
+                    "checked": "checkBox1 está marcada",
+                    // Change this value to set the text when the box is *unchecked*
+                    "unchecked": "checkBox1 no está marcada"
+                },
+                // This is a ComboBox, where the text can be selected from a drop-down list.
+                // DO NOT CHANGE THE NUMBER OF ELEMENTS IN THIS ARRAY!
+                "comboBox1": [
+                    "comboBox1",
+                    "esta",
+                    "es",
+                    "una",
+                    "comboBox"
+                ],
+                "ShowPopupDialogButton": "Muestra ventana emergente"
+            }
+        },
+        "PopupDialog": {
+            "title": "Ventana emergente",
+            "controls": {
+                "ComboBox1EnabledCheckBox": "¿Activar ComboBox1?"
+            }
+        },
+        "SelectionRememberingForm": {
+            "title": "Recordar y establecer selecciones",
+            "controls": {
+                "SelectionRememberingFormTitle": "Recordar y establecer selecciones",
+                "CopySelectionsToStartEndsButton": "Copie las selecciones actuales al portapapeles como una lista de números separados por comas",
+                "SelectionStartEndsBoxLabel": "Ingrese inicios y finales\r\n(0 es el inicio del documento)\r\nde regiones para seleccionar\r\nuna lista separada por espacios\r\nde números separados por comas",
+                "SetSelectionsFromStartEndsButton": "Seleccione todas las regiones en el cuadro de texto de arriba",
+                "SaveCurrentSelectionsToFileButton": "Guardar selecciones actuales en un archivo",
+                "LoadSelectionsFromFileButton": "Cargar selecciones desde un archivo de configuración",
+                "OpenDarkModeTestFormButton": "Abrir DarkModeTestForm"
+            }
+        }
+    },
+    // this controls the text of the main menu items
+    //      associated with the CSharpPluginPack item on the Notepad++ plugin menu.
+    "menuItems": {
+        // The "&D" in this text means that this menu item can be accessed by the "D"
+        //    accelerator key, meaning that the Alt-P-C-D key sequence can access this menu item.
+        // When translating menu items, it is good practice to include an accelerator key,
+        //     and it is *even better* if the accelerator key is the same as in the English translation.
+        // Thus, the Italian translation might be "&Documentazione".
+        //
+        // *VERY VERY IMPORTANT*: Every menu item name MUST have 63 characters or fewer when encoded in UTF-16.
+        //     The easiest way to check if a JSON string is too long is probably to check its length in Python (with len()), because Python encodes its strings in UTF-16.
+        //
+        //     You *cannot* check the length by selecting it with Notepad++, because Notepad++ shows UTF-8 byte counts in the status bar.
+        "&Documentation": "&Documentación",
+        "A&bout": "So&bre",
+        "&Settings": "&Configuración",
+        "Selection &Remembering Form": "Formulario para &recordar las selecciónes",
+        "Run &tests": "Ejecutar &pruebas",
+        "Use NanInf class for -inf, inf, nan!!": "Utilice NanInf clase para -inf, inf, nan!!",
+        "Hello Notepad++": "Hola Notepad++",
+        "What is Notepad++?": "¿&Qué es Notepad++?",
+        "Current &Full Path": "Ruta completa actual del archivo",
+        "Current Directory": "Directorio actual",
+        "Close HTML/&XML tag automatically": "Cerrar etiqueta de HTML/&XML automáticamente",
+        "Get File Names Demo": "Demo de Obtener Nombres de Archivos",
+        "Get Session File Names Demo": "Demo de Obtener Nombres de Archivos de Sesión",
+        "Show files opened and closed this session": "Muestra archivos abiertos y cerrados en esta sesión",
+        "Save Current Session Demo": "Demo de guardar la sesión actual",
+        "Print Scroll and Row Information": "Imprima la información de desplazamiento y fila",
+        "Open a pop-up dialog": "Muestra una ventana emergente",
+        "Allocate indicators demo": "Demo de asignar indicadores"
+    },
+    // The CSharpPluginPack.ini config file (in your plugin config folder)
+    //     will have these translated descriptions as comments above each setting.
+    //     The settings form will also show these translated descriptions when the named setting is selected.
+    "settingsDescriptions": {
+        "toolbar_icons": "Especifique uno de estos caracteres para cada icono de la barra de herramientas que desee mostrar, en el orden que desee:\r\n('a' = formulario Sobre, 's' = formulario para recordar las selecciónes, 'h' = Cerrar etiqueta de HTML/XML automáticamente)\r\nEsta configuración entrará en vigor la próxima vez que inicie Notepad++.\r\nSi desea que NO haya íconos en la barra de herramientas, ingrese un carácter que no represente un ícono; NO deje este campo vacío.",
+        "close_html_tag": "¿Cerrar automáticamente las etiquetas de HTML/XML cuando la extensión del archivo actual es \"html\" o \"xml\"?",
+        "use_npp_styling": "¿Usar los mismos colores que la ventana del editor para los formularios del plugin?",
+        "ask_before_testing": "Pregunte antes de ejecutar pruebas, porque la prueba puede secuestrar el portapapeles del usuario"
+    }
+}

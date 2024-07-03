@@ -10,6 +10,7 @@ namespace NppDemo.Forms
         {
             InitializeComponent();
             NppFormHelper.RegisterFormIfModeless(this, true);
+            Translator.TranslateForm(this);
             FormStyle.ApplyStyle(this, Main.settings.use_npp_styling);
             ThanksWowLinkLabel.LinkColor = ThanksWowLinkLabel.ForeColor; // hidden!
             Title.Text = Title.Text.Replace("X.Y.Z.A", Npp.AssemblyVersionString());

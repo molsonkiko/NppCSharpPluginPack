@@ -27,7 +27,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 1. Make it much easier to [include third-party dependencies](/docs/README.md#loading-third-party-dependencies) in your plugin.
-2. Made it so all forms subclass a base class, making it easier to implement recommended methods.
+2. Added the ability to [translate the plugin into other languages](/README.md#translating-your-plugin-to-another-language).
+3. Made it so all forms subclass a base class, making it easier to implement recommended methods.
 
 ### Fixed
 
@@ -36,6 +37,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 3. Fix error due to assuming that "." (the current directory according to the filesystem) will always point to the path to the Notepad++ executable; this is *almost always true*, but can be broken due to at least one known weird interaction (the one molsonkiko is familiar with concerns the `New script` functionality of the PythonScript plugin).
 4. Fix bug where, if a setting in the config file had an invalid value (for example, a numeric setting having a value of `blah`), there might be an uncaught exception that would cause Notepad++ to crash. This bug appears to be most likely to occur when the localization is *not* set to `en-us`.
 5. Fix bug (related to fixed bug 4 above) where *all settings with non-integer floating-point values* would cause Notepad++ to crash on start-up if the localization used `,` as the decimal separator. 
+6. Fix bug with [makerelease.bat](/makerelease.bat) where it did not properly copy the dependency DLLs into the zip files.
 
 ## [0.0.3] - 2024-02-26
 

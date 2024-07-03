@@ -1,0 +1,119 @@
+// If you want to translate CSharpPluginPack into another language, follow these steps (in the example below, we are translating into the "fooish" language):
+// 1. Create a copy of this file at the path "translation/fooish.json5" relative to the CSharpPluginPack plugin directory (the directory where the CSharpPluginPack.dll binary is installed, *not* the plugin config directory).
+// 2. Edit the values associated with the various keys in this document.
+//     DO NOT CHANGE THE KEYS OF ANY OBJECT, OR ADD OR REMOVE KEYS! ONLY CHANGE THE VALUES.
+// 3. Close Notepad++ and reopen it, then look at the various CSharpPluginPack forms and menu items to see if the translation is satisfactory.
+{
+    "forms": {
+        "AboutForm": {
+            // this is the name that appears in the title bar for this form
+            "title": "About NppCSharpPluginPack",
+            // Each key in this object is the name of the control in the NppCSharpPluginPack codebase.
+            //     If a control name is missing, that control is not translated.
+            "controls": {
+                // If the value associated with a control name is a string,
+                //     that controls the text of the control.
+                "Description": "A demo for how to make a Notepad++ plugin in C#.",
+                "GitHubLink": {
+                    // This is a LinkLabel, meaning it has a clickable link (your repo URL).
+                    "text": "Add a link to your plugin repo here:\r\nhttps://github.com/yourName/yourRepo",
+                    // If you change the text of this LinkLabel,
+                    //      make sure that you change the linkStart property
+                    //      so that only the URL is in the highlighted region.
+                    "linkStart": 38,
+                    "linkLength": 36
+                },
+                "DebugInfoLabel": "Notepad++ version: X.Y.Z. For more info about your\r\ninstallation, go to ? -> Debug Info on the main status bar.",
+                "ThanksWowLinkLabel": {
+                    "text": "Special thanks to:\r\n* Don Ho for making Notepad++\r\n* kbilsted for making the plugin pack this is based on\r\n* And of course everyone who helped make this plugin\r\n   better!\r\n* The amazing community makes this work worthwhile.\r\n  Wow!",
+                    // set linkStart so that only the "Wow!" at the end is highlighted
+                    "linkStart": 228,
+                    "linkLength": 4
+                }
+            }
+        },
+        "DarkModeTestForm": {
+            "title": "DarkModeTestForm",
+            "controls": {
+                "checkBox1": {
+                    // Change this value to set the text when the box is *checked*
+                    "checked": "checkBox1 is checked",
+                    // Change this value to set the text when the box is *unchecked*
+                    "unchecked": "checkBox1 is unchecked"
+                },
+                // This is a ComboBox, where the text can be selected from a drop-down list.
+                // DO NOT CHANGE THE NUMBER OF ELEMENTS IN THIS ARRAY!
+                "comboBox1": [
+                    "comboBox1",
+                    "this",
+                    "is",
+                    "a",
+                    "comboBox"
+                ],
+                "ShowPopupDialogButton": "Show Pop-up"
+            }
+        },
+        "PopupDialog": {
+            // the title for this form is not listed, so it will not be translated
+            "controls": {
+                "ComboBox1EnabledCheckBox": "Enable ComboBox1?"
+            }
+        },
+        "SelectionRememberingForm": {
+            "title": "Remember and set selections",
+            "controls": {
+                "SelectionRememberingFormTitle": "Remember and set selections",
+                "CopySelectionsToStartEndsButton": "Copy current selections to clipboard as list of comma-separated numbers",
+                "SelectionStartEndsBoxLabel": "Enter starts and ends\r\n(0 is start of document)\r\nof regions to select\r\nas space-separated list\r\nof comma-separated\r\nnumbers",
+                "SetSelectionsFromStartEndsButton": "Select all regions in the text box above",
+                "SaveCurrentSelectionsToFileButton": "Save current selections to file",
+                "LoadSelectionsFromFileButton": "Load selections from config file",
+                "OpenDarkModeTestFormButton": "Open dark mode test form"
+            }
+        }
+    },
+    // this controls the text of the main menu items
+    //      associated with the CSharpPluginPack item on the Notepad++ plugin menu.
+    "menuItems": {
+        // The "&D" in this text means that this menu item can be accessed by the "D"
+        //    accelerator key, meaning that the Alt-P-C-D key sequence can access this menu item.
+        // When translating menu items, it is good practice to include an accelerator key,
+        //     and it is *even better* if the accelerator key is the same as in the English translation.
+        // Thus, the Italian translation might be "&Documentazione".
+        //
+        // *VERY VERY IMPORTANT*: Every menu item name MUST have 63 characters or fewer when encoded in UTF-16.
+        //     The easiest way to check if any menu items are too long is to open the JsonTools (https://github.com/molsonkiko/JsonToolsNppPlugin) treeview for this file,
+        //     and submit the query on the next line in the text box in the top-left corner:
+        //     @.menuItems[s_len(@) >= 64]
+        //     The query on the line above will select all menu items with 64 or more UTF-16 characters.
+        //
+        //     You *cannot* check the length by selecting it with Notepad++, because Notepad++ shows UTF-8 byte counts in the status bar.
+        "&Documentation": "&Documentation",
+        "A&bout": "A&bout",
+        "&Settings": "&Settings",
+        "Selection &Remembering Form": "Selection &Remembering Form",
+        "Run &tests": "Run &tests",
+        "Use NanInf class for -inf, inf, nan!!": "Use NanInf class for -inf, inf, nan!!",
+        "Hello Notepad++": "Hello Notepad++",
+        "What is Notepad++?": "What is Notepad++?",
+        "Current &Full Path": "Current &Full Path",
+        "Current Directory": "Current Directory",
+        "Close HTML/&XML tag automatically": "Close HTML/&XML tag automatically",
+        "Get File Names Demo": "Get File Names Demo",
+        "Get Session File Names Demo": "Get Session File Names Demo",
+        "Show files opened and closed this session": "Show files opened and closed this session",
+        "Save Current Session Demo": "Save Current Session Demo",
+        "Print Scroll and Row Information": "Print Scroll and Row Information",
+        "Open a pop-up dialog": "Open a pop-up dialog",
+        "Allocate indicators demo": "Allocate indicators demo"
+    },
+    // The CSharpPluginPack.ini config file (in your plugin config folder)
+    //     will have these translated descriptions as comments above each setting.
+    //     The settings form will also show these translated descriptions when the named setting is selected.
+    "settingsDescriptions": {
+        "toolbar_icons": "Specify one of these chars for each toolbar icon you want to show, in the order you want:\r\n('a' = about form, 's' = selection remembering form, 'h' = automatically close HTML tags)\r\nThis setting will take effect the next time you start Notepad++.\r\nIf you want there to be NO toolbar icons, enter a character that does not represent an icon; do NOT leave this field empty.",
+        "close_html_tag": "Automatically close HTML/XML tags when the current file extension is \"html\" or \"xml\"?",
+        "use_npp_styling": "Use the same colors as the editor window for this plugin's forms?",
+        "ask_before_testing": "Ask before running tests, because the test can hijack the user's clipboard"
+    }
+}
