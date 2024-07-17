@@ -78,10 +78,9 @@ Currently NppCSharpPluginPack has been translated into the following languages:
 The following aspects of NppCSharpPluginPack __can__ be translated:
 - Forms (including all controls and items in drop-down menus)
 - Items in the NppCSharpPluginPack sub-menu of the Notepad++ Plugins menu
-- The descriptions of settings in the [`CSharpPluginPack.ini` config file](/docs/README.md#settings-form)
-- The descriptions of settings in the [settings form](/docs/README.md#customizing-settings)
+- The descriptions of settings in the [`CSharpPluginPack.ini` config file and settings form](/docs/README.md#settings-form)
 
-The following aspects of NppCSharpPluginPack __will not__ be translated:
+The following aspects of NppCSharpPluginPack __may eventually__ be translated:
 - This documentation
 - Message boxes (includes warnings, errors, requests for confirmation)
 - Generic modal dialogs (for example, file-opening dialogs, directory selection dialogs)

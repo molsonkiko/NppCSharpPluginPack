@@ -9,17 +9,19 @@ using Kbg.NppPluginNET.PluginInfrastructure;
 using System.Reflection;
 using System.ComponentModel;
 using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace NppDemo.Utils
 {
     public static class Translator
     {
+        public static string languageName { get; private set; } = "english";
+
         private static JObject translations = null;
         public static bool HasTranslations => !(translations is null);
 
         public static void LoadTranslations()
         {
-            string languageName = "english";
             // TODO: maybe use Notepad++ nativeLang preference to guide translation?
             // Possible references include:
             // * https://github.com/daddel80/notepadpp-multireplace/blob/65411ac5754878bbf8af7a35dba7b35d7d919ff4/src/MultiReplacePanel.cpp#L6347
@@ -76,11 +78,65 @@ namespace NppDemo.Utils
                     translationFileText = fp.ReadToEnd();
                 }
                 translations = (JObject)parser.Parse(translationFileText);
+                PropagateGlobalConstants();
                 //MessageBox.Show($"Found and successfully parsed translation file at path {translationFilename}");
             }
             catch/* (exception ex)*/
             {
                 //MessageBox.Show($"While attempting to parse translation file {translationFilename}, got an exception:\r\n{RemesParser.PrettifyException(ex)}");
+            }
+        }
+
+        private static readonly Regex constantNameRegex = new Regex(@"\A\$[a-zA-Z_]+\$\z", RegexOptions.Compiled);
+
+        private static void PropagateGlobalConstants()
+        {
+            if (translations is JObject jobj
+                && translations.children.TryGetValue("$constants$", out JNode constsNode) && constsNode is JObject consts)
+            {
+                var constants = new Dictionary<string, string>();
+                var invalidConstantNames = new JArray();
+                foreach (string key in consts.children.Keys)
+                {
+                    if (constantNameRegex.IsMatch(key))
+                        constants[key] = consts[key].ValueOrToString();
+                    else
+                        invalidConstantNames.children.Add(new JNode(key));
+                }
+                if (invalidConstantNames.Length > 0)
+                {
+                    MessageBox.Show($"The \"$constants$\" field for the {languageName}.json5 file contains constants where the key does not match the regular expression {JNode.StrToString(constantNameRegex.ToString(), true)}:\r\n{invalidConstantNames.ToString()}",
+                        "Invalid \"$constants$\" field", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                if (constants.Count > 0)
+                {
+                    foreach (KeyValuePair<string, JNode> kv in jobj.children)
+                    {
+                        if (kv.Key != "$constants$")
+                            PropagateGlobalConstantsHelper(kv.Value, constants);
+                    }
+                }
+            }
+        }
+
+        private static void PropagateGlobalConstantsHelper(JNode node, Dictionary<string, string> constants)
+        {
+            if (node.value is string s && s.IndexOf('$') >= 0)
+            {
+                string newValue = s;
+                foreach (KeyValuePair<string, string> kv in constants)
+                    newValue = newValue.Replace(kv.Key, kv.Value);
+                node.value = newValue;
+            }
+            else if (node is JArray jarr)
+            {
+                foreach (JNode child in jarr.children)
+                    PropagateGlobalConstantsHelper(child, constants);
+            }
+            else if (node is JObject jobj)
+            {
+                foreach (JNode child in jobj.children.Values)
+                    PropagateGlobalConstantsHelper(child, constants);
             }
         }
 
@@ -130,6 +186,8 @@ namespace NppDemo.Utils
                 return description.Description;
             return "";
         }
+
+        #region Form translation
 
         /// <summary>
         /// This assumes that each character in Size 7.8 font is 7 pixels across.<br></br>
@@ -259,21 +317,18 @@ namespace NppDemo.Utils
                 }
                 int maxRight = 0;
                 foreach (Control child in ctrl.Controls)
-                {
                     maxRight = child.Right > maxRight ? child.Right : maxRight;
-                    // unanchor everything from the right, so resizing the form doesn't move those controls
-                    child.Anchor &= (AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left);
-                }
+                // Temporarily turn off the normal layout logic,
+                //     because this would cause controls to move right when the form is resized
+                //     (yes, even if they're not anchored right. No, that doesn't make sense)
+                ctrl.SuspendLayout();
                 if (maxRight > ctrl.Width)
                 {
                     int padding = ctrl is Form ? 25 : 5;
                     ctrl.Width = maxRight + padding;
                 }
-                foreach ((Control child, _, bool wasAnchoredRight) in childrenByLeft)
-                {
-                    if (wasAnchoredRight)
-                        child.Anchor |= AnchorStyles.Right;
-                }
+                // Resume layout logic, ignoring the pending requests to move controls right due to resizing of form
+                ctrl.ResumeLayout(false);
             }
         }
 
@@ -291,5 +346,6 @@ namespace NppDemo.Utils
         {
             return HorizontalOverlap(ctrl1, ctrl2) && VerticalOverlap(ctrl1, ctrl2);
         }
+        #endregion
     }
 }

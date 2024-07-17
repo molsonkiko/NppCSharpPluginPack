@@ -4,6 +4,13 @@
 //     DO NOT CHANGE THE KEYS OF ANY OBJECT, OR ADD OR REMOVE KEYS! ONLY CHANGE THE VALUES.
 // 3. Close Notepad++ and reopen it, then look at the various CSharpPluginPack forms and menu items to see if the translation is satisfactory.
 {
+    // This lists a set of global constants that can appear in other values throughout this config file.
+    // For example, if the "$PluginName$" constant is "FooBar", and another value in this config file is "$PluginName$ settings",
+    //     that value would be changed to "FooBar settings" at the time the settings are loaded from file.
+    // Constant names must match the regular expression "\A\$[a-zA-Z_]+\$\z", as shown below.
+    "$constants$": {
+        "$PluginName$": "CSharpPluginPack"
+    },
     "forms": {
         "AboutForm": {
             // this is the name that appears in the title bar for this form
@@ -69,6 +76,14 @@
                 "SaveCurrentSelectionsToFileButton": "Save current selections to file",
                 "LoadSelectionsFromFileButton": "Load selections from config file",
                 "OpenDarkModeTestFormButton": "Open dark mode test form"
+            }
+        },
+        "SettingsForm": {
+            "title": "Settings - $PluginName$ plug-in",
+            "controls": {
+                "Cancel": "&Cancel",
+                "Reset": "&Reset",
+                "Ok": "&Ok"
             }
         }
     },

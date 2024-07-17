@@ -215,17 +215,18 @@ namespace CsvQuery.PluginInfrastructure
             var copy = (Settings)MemberwiseClone();
 
             //// check the current settings
-            //var settings_sb = new StringBuilder();
+            //var settingsSb = new StringBuilder();
             //foreach (System.Reflection.PropertyInfo p in GetType().GetProperties())
             //{
-            //    settings_sb.Append(p.ToString());
-            //    settings_sb.Append($": {p.GetValue(this)}");
-            //    settings_sb.Append(", ");
+            //    settingsSb.Append(p.ToString());
+            //    settingsSb.Append($": {p.GetValue(this)}");
+            //    settingsSb.Append(", ");
             //}
-            //MessageBox.Show(settings_sb.ToString());
+            //MessageBox.Show(settingsSb.ToString());
 
             var dialog = new Form
             {
+                Name = "SettingsForm",
                 Text = $"Settings - {Main.PluginName} plug-in",
                 ClientSize = new Size(DEFAULT_WIDTH, DEFAULT_HEIGHT),
                 MinimumSize = new Size(250, 250),
@@ -275,6 +276,7 @@ namespace CsvQuery.PluginInfrastructure
                     },
                 }
             };
+            Translator.TranslateForm(dialog);
 
             dialog.Controls["Cancel"].Click += (a, b) => dialog.Close();
             dialog.Controls["Ok"].Click += (a, b) =>
@@ -291,7 +293,19 @@ namespace CsvQuery.PluginInfrastructure
                     var oldValue = propertyInfo.GetValue(this, null);
                     var newValue = propertyInfo.GetValue(copy, null);
                     if (!oldValue.Equals(newValue))
-                        propertyInfo.SetValue(this, newValue, null);
+                    {
+                        try
+                        {
+                            propertyInfo.SetValue(this, newValue, null);
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show($"Could not change setting {propertyInfo.Name} to value {newValue}, so it will remain set as {oldValue}.\r\n" +
+                                $"Got the following exception:\r\n{ex}",
+                                $"Invalid value for setting {propertyInfo.Name}",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
                 }
                 OnSettingsChanged();
                 dialog.Close();
@@ -306,6 +320,16 @@ namespace CsvQuery.PluginInfrastructure
                 OnSettingsChanged();
                 dialog.Close();
             };
+            // close dialog on pressing Escape (this doesn't work if a grid cell is selected, but it does work if a button is selected)
+            KeyEventHandler keyDownHandler = (a, b) =>
+            {
+                if (b.KeyCode == Keys.Escape)
+                    dialog.Close();
+            };
+            dialog.KeyDown += keyDownHandler;
+            foreach (Control ctrl in dialog.Controls)
+                ctrl.KeyDown += keyDownHandler;
+            // translate the descriptions of the settings
             var grid = dialog.Controls["Grid"];
             if (Translator.HasTranslations
                 && grid.Controls.Count >= 1 && grid.Controls[0] is Control commentPane
