@@ -72,8 +72,10 @@ To be clear, *the plugin may not be in the same language of the Notepad++ UI,* a
 To translate your plugin to another language, just look at [`english.json5` in the translations directory of this repo](https://github.com/molsonkiko/NppCSharpPluginPack/blob/main/translation/english.json5) and follow the instructions in that file.
 
 Currently NppCSharpPluginPack has been translated into the following languages:
-- English (obviously)
-- [Spanish](https://github.com/molsonkiko/NppCSharpPluginPack/blob/main/translation/spanish.json5) (done with Google Translate, so probably low-quality)
+| Language | First version with translation | Translator | Translator is native speaker?  |
+|----------|--------------------------------|------------|--------------------------------|
+| [Spanish](https://github.com/molsonkiko/NppCSharpPluginPack/blob/main/translation/spanish.json5)  |   [v3.7](https://github.com/molsonkiko/NppCSharpPluginPack/commit/cc93a081e1fc1de3c10a953bb0d1ac035326b19e) |  [molsonkiko](https://github.com/molsonkiko)  |  __NO__ |
+
 
 The following aspects of NppCSharpPluginPack __can__ be translated:
 - Forms (including all controls and items in drop-down menus)
