@@ -15,57 +15,71 @@ namespace NppDemo.Utils
 {
     public static class Translator
     {
-        public static string languageName { get; private set; } = "english";
-
         private static JObject translations = null;
         public static bool HasTranslations => !(translations is null);
 
-        public static void LoadTranslations()
-        {
-            // TODO: maybe use Notepad++ nativeLang preference to guide translation?
-            // Possible references include:
-            // * https://github.com/daddel80/notepadpp-multireplace/blob/65411ac5754878bbf8af7a35dba7b35d7d919ff4/src/MultiReplacePanel.cpp#L6347
-            // * https://npp-user-manual.org/docs/binary-translation/
+        public static bool HasLoadedAtStartup { get; private set; } = false;
 
-            //// first try to use the Notepad++ nativeLang.xml config file to determine the user's language preference
-            //string nativeLangXmlFname = Path.Combine(Npp.notepad.GetConfigDirectory(), "..", "nativeLang.xml");
-            //if (File.Exists(nativeLangXmlFname))
-            //{
-            //    try
-            //    {
-            //        string nativeLangXml;
-            //        using (var reader = new StreamReader(File.OpenRead(nativeLangXmlFname), Encoding.UTF8, true))
-            //        {
-            //            nativeLangXml = reader.ReadToEnd();
-            //        }
-            //        Match match = Regex.Match(nativeLangXml, "<Native-Langue .*? filename=\"(.*?)\\.xml\"");
-            //        if (match.Success)
-            //            languageName = match.Groups[1].Value.Trim().ToLower();
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        MessageBox.Show($"While attempting to determine native language preference from Notepad++ config XML, got an error:\r\n{ex}");
-            //    }
-            //}
-            if (languageName == "english")
+        public static string languageName { get; private set; } = DEFAULT_LANG;
+
+        public const string DEFAULT_LANG = "english";
+        public static readonly string translationDir = Path.Combine(Npp.pluginDllDirectory, "translation");
+
+        /// <summary>
+        /// Attempts to load translations from a config file.
+        /// </summary>
+        /// <param name="atStartup">Is this method being called as the plugin is starting up?</param>
+        /// <param name="preferredLang">If null, use the logic described in README.md to determine which language to load. Otherwise, do not attempt to load any language other than preferredLang.</param>
+        public static void LoadTranslations(bool atStartup = true, string preferredLang = null)
+        {
+            if (atStartup && HasLoadedAtStartup)
+                return;
+            HasLoadedAtStartup = true;
+            if (preferredLang == null)
             {
+                // first try to use the Notepad++ nativeLang.xml config file to determine the user's language preference
+                string nativeLangXmlFname = Path.Combine(Npp.notepad.GetConfigDirectory(), "..", "..", "nativeLang.xml");
+                if (File.Exists(nativeLangXmlFname))
+                {
+                    try
+                    {
+                        string nativeLangXml;
+                        using (var reader = new StreamReader(File.OpenRead(nativeLangXmlFname), Encoding.UTF8, true))
+                        {
+                            nativeLangXml = reader.ReadToEnd();
+                        }
+                        Match match = Regex.Match(nativeLangXml, "<Native-Langue .*? filename=\"(.*?)\\.xml\"");
+                        if (match.Success)
+                            languageName = match.Groups[1].Value.Trim().ToLower();
+                    }
+                    catch //(Exception ex)
+                    {
+                        //MessageBox.Show($"While attempting to determine native language preference from Notepad++ config XML, got an error:\r\n{ex}");
+                    }
+                }
                 // as a fallback, try to determine the user's language by asking Windows for their current culture
-                CultureInfo currentCulture = CultureInfo.CurrentCulture;
-                string languageFullname = currentCulture.EnglishName;
-                languageName = languageFullname.Split(' ')[0].ToLower();
-                if (languageName == "Unknown")
-                    languageName = currentCulture.Parent.EnglishName.Split(' ')[0].ToLower();
+                if (languageName == DEFAULT_LANG || !TryGetTranslationFileName(languageName, out _))
+                {
+                    CultureInfo currentCulture = CultureInfo.CurrentCulture;
+                    string languageFullname = currentCulture.EnglishName;
+                    languageName = languageFullname.Split(' ')[0].ToLower();
+                    if (languageName == "Unknown")
+                        languageName = currentCulture.Parent.EnglishName.Split(' ')[0].ToLower();
+                }
             }
-            if (languageName == "english")
+            else
+            {
+                languageName = preferredLang;
+            }
+            if (languageName == DEFAULT_LANG)
             {
                 //MessageBox.Show("Not loading translations, because english is the current culture language");
                 return;
             }
-            string translationDir = Path.Combine(Npp.pluginDllDirectory, "translation");
-            string translationFilename = Path.Combine(translationDir, languageName + ".json5");
-            if (!File.Exists(translationFilename))
+            if (!TryGetTranslationFileName(languageName, out string translationFilename))
             {
                 //MessageBox.Show($"Could not find a translation file for language {languageFirstname} in directory {translationDir}");
+                languageName = DEFAULT_LANG;
                 return;
             }
             FileInfo translationFile = new FileInfo(translationFilename);
@@ -81,14 +95,71 @@ namespace NppDemo.Utils
                 PropagateGlobalConstants();
                 //MessageBox.Show($"Found and successfully parsed translation file at path {translationFilename}");
             }
-            catch/* (exception ex)*/
+            catch (Exception ex)
             {
-                //MessageBox.Show($"While attempting to parse translation file {translationFilename}, got an exception:\r\n{RemesParser.PrettifyException(ex)}");
+                languageName = DEFAULT_LANG;
+                MessageBox.Show($"While attempting to parse translation file {translationFilename}, got an exception:\r\n{ex}");
             }
+        }
+
+        private static bool TryGetTranslationFileName(string langName, out string translationFilename)
+        {
+            translationFilename = Path.Combine(translationDir, langName + ".json5");
+            if (!File.Exists(translationFilename))
+            {
+                translationFilename = null;
+                return false;
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Find the string at the end of a sequence of keys in translations, returning false if no such string was found.<br></br>
+        /// For example:<br></br>
+        /// <example>
+        /// Suppose translations is
+        /// <code>{"foo": {"bar": "1", "rnq": "2"}, "quz": "3"}</code>
+        /// - <c>TryGetTranslationAtPath(["foo", "bar"], out JNode result)</c> would set result to <c>"1"</c> and return <c>true</c><br></br>
+        /// - <c>TryGetTranslationAtPath(["foo", "rnq"], out JNode result)</c> would set result to <c>"2"</c> and return <c>true</c><br></br>
+        /// - <c>TryGetTranslationAtPath(["blah", "rnq"], out JNode result)</c> would set result to <c>null</c> and return <c>false</c><br></br>
+        /// - <c>TryGetTranslationAtPath(["foo", "rnq", "b"], out JNode result)</c> would set result to <c>null</c> and return <c>false</c><br></br>
+        /// - <c>TryGetTranslationAtPath(["foo", "b"], out JNode result)</c> would set result to <c>null</c> and return <c>false</c><br></br>
+        /// - <c>TryGetTranslationAtPath(["quz"], out JNode result)</c> would set result to <c>"3"</c> and return <c>true</c><br></br>
+        /// - <c>TryGetTranslationAtPath(["foo"], out JNode result)</c> would set result to <c>{"bar": "1", "rnq": "2"}</c> and return <c>true</c><br></br>
+        /// </example>
+        /// </summary>
+        /// <param name="pathToTrans"></param>
+        /// <param name="result"></param>
+        /// <returns></returns>
+        public static bool TryGetTranslationAtPath(string[] pathToTrans, out JNode result)
+        {
+            result = null;
+            if (!(translations is JObject trans) || pathToTrans.Length == 0)
+                return false;
+            int pathLen = pathToTrans.Length;
+            JNode child = new JNode();
+            for (int ii = 0; ii < pathLen; ii++)
+            {
+                string key = pathToTrans[ii];
+                if (!trans.TryGetValue(key, out child))
+                    return false;
+                if (ii < pathLen - 1)
+                {
+                    if (child is JObject childObj)
+                        trans = childObj;
+                    else
+                        return false;
+                }
+            }
+            result = child;
+            return true;
         }
 
         private static readonly Regex constantNameRegex = new Regex(@"\A\$[a-zA-Z_]+\$\z", RegexOptions.Compiled);
 
+        /// <summary>
+        /// Replaces all instances of constant names (see the "$constants$" field of the translation files) with their value in the translation file
+        /// </summary>
         private static void PropagateGlobalConstants()
         {
             if (translations is JObject jobj
@@ -140,12 +211,17 @@ namespace NppDemo.Utils
             }
         }
 
+        /// <summary>
+        /// Translates menu item values (using <paramref name="menuItem"/> as the key in the <c>"menuItems"</c> field)
+        /// </summary>
+        /// <param name="menuItem"></param>
+        /// <returns></returns>
         public static string GetTranslatedMenuItem(string menuItem)
         {
-            if (translations is JObject jobj && jobj.children is Dictionary<string, JNode> dict
-                && dict.TryGetValue("menuItems", out JNode menuItemsObjNode)
-                && menuItemsObjNode is JObject menuItemsObj && menuItemsObj.children is Dictionary<string, JNode> menuItemsDict
-                && menuItemsDict.TryGetValue(menuItem, out JNode menuItemNode)
+            if (translations is JObject jobj
+                && jobj.TryGetValue("menuItems", out JNode menuItemsObjNode)
+                && menuItemsObjNode is JObject menuItemsObj
+                && menuItemsObj.TryGetValue(menuItem, out JNode menuItemNode)
                 && menuItemNode.value is string s)
             {
                 if (s.Length > FuncItem.MAX_FUNC_ITEM_NAME_LENGTH)
@@ -164,20 +240,86 @@ namespace NppDemo.Utils
         }
 
         /// <summary>
+        /// Finds the appropriate translation for a <see cref="MessageBox"/> (using <paramref name="caption"/> as key in the <c>"messageBoxes"</c> field), then displays it and returns the result of <see cref="MessageBox.Show(string, string, MessageBoxButtons, MessageBoxIcon)"/><br></br>
+        /// <b>EXAMPLE 1:</b><br></br>
+        /// Suppose the <c>"messageBoxes"</c> field of your active translation file looks like this:
+        /// <code>
+        /// {
+        ///     "Foo is not compatible with {0}": {
+        ///         "caption": "Foo no es compatible con {0}",
+        ///         "text": "Cuando foo era {0}, esperaba que {1} estará {2}, pero {1} era {3}"
+        ///     }
+        /// }
+        /// </code>
+        /// - <c>Translator.ShowTranslatedMessageBox("When foo was {0}, expected that {1} would be {2}, but {1} was {3}", "Foo is not compatible with {0}", MessageBoxButtons.OK, MessageBoxIcon.Warning, 4, "fooValue", "bar", "barExpectedValue", "barActualValue", "bar");</c> would show a MessageBox with caption <c>"Foo no es compatible con bar"</c> and text <c>"Cuando foo era fooValue, esperaba que bar estará barExpectedValue, pero bar era barActualValue"</c> (and the <c>OK</c> button), and would return <see cref="DialogResult.OK"/>.<br></br>
+        /// <b>EXAMPLE 2:</b><br></br>
+        /// Suppose that there is <b>no active translation file</b> (so everything is in the original English)<br></br>
+        /// - <c>Translator.ShowTranslatedMessageBox("When foo was {0}, expected that {1} would be {2}, but {1} was {3}", "Foo is not compatible with {0}", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, 4, "fooValue", "quz", "quzExpectedValue", "quzActualValue", "QUZQUZ");</c> would show a MessageBox with caption <c>"Foo is not compatible with QUZQUZ"</c> and text <c>"When foo was fooValue, expected that quz would be quzExpectedValue, but quz was quzActualValue"</c> (and <c>Yes</c> and <c>No</c> buttons), and would return <see cref="DialogResult.Yes"/> if the user clicked <c>Yes</c>
+        /// </summary>
+        /// <param name="text">the text of the MessageBox, which may be a format string of the form <c>"expected {0}, got {1}"</c></param>
+        /// <param name="caption">the text of the MessageBox, which may be a format string of the form <c>"expected {0}, got {1}"</c></param>
+        /// <param name="buttons">which buttons to show in the MB</param>
+        /// <param name="icon">the icon to use</param>
+        /// <param name="nTextParams">the first nTextParams values in the <paramref name="formattingParams"/> are used to format the <paramref name="text"/> argument</param>
+        /// <param name="nCaptionParams">the first nTextParams values in the <paramref name="formattingParams"/> are used to format the <paramref name="text"/> argument</param>
+        /// <param name="formattingParams">all values in this array after the first <paramref name="nTextParams"/> are used to format the caption</param>
+        /// <returns>the result of MessageBox.Show with the translated box</returns>
+        public static DialogResult ShowTranslatedMessageBox(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, int nTextParams = 0, params object[] formattingParams)
+        {
+            string translatedText = text, translatedCaption = caption;
+            if (translations is JObject jobj
+                && jobj.TryGetValue("messageBoxes", out JNode messagesNode) && messagesNode is JObject messages
+                && messages.TryGetValue(caption, out JNode mbTransNode) && mbTransNode is JObject mbTrans
+                && mbTrans.children is Dictionary<string, JNode> mbDict)
+            {
+                if (mbDict.TryGetValue("caption", out JNode captionTrans) && captionTrans.value is string captionTransStr)
+                    translatedCaption = captionTransStr;
+                if (mbDict.TryGetValue("text", out JNode textTrans) && textTrans.value is string textTransStr)
+                    translatedText = textTransStr;
+            }
+            if (formattingParams.Length < nTextParams)
+            {
+                MessageBox.Show($"While attempting to call ShowTranslatedMessageBox({JNode.StrToString(text, true)}, {JNode.StrToString(caption, true)}, {buttons}, {icon}, {nTextParams}, ...)\r\ngot {formattingParams.Length} formatting params, but expected {nTextParams}", "error in formatting for ShowTranslatedMessageBox", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return MessageBox.Show(translatedText, translatedCaption, buttons, icon);
+            }
+            int nCaptionParams = formattingParams.Length - nTextParams;
+            object[] textParams = formattingParams.Take(nTextParams).ToArray(), captionParams = formattingParams.LazySlice(nTextParams).ToArray();
+            string formattedText = nTextParams == 0 ? translatedText : TryTranslateWithFormatting(text, translatedText, textParams);
+            string formattedCaption = nCaptionParams == 0 ? translatedCaption : TryTranslateWithFormatting(caption, translatedCaption, captionParams);
+            return MessageBox.Show(formattedText, formattedCaption, buttons, icon);
+        }
+
+        public static string TryTranslateWithFormatting(string untranslated, string translated, params object[] formatParams)
+        {
+            try
+            {
+                return string.Format(translated, formatParams);
+            }
+            catch { }
+            try
+            {
+                return string.Format(untranslated, formatParams);
+            }
+            catch
+            {
+                return untranslated;
+            }
+        }
+
+        /// <summary>
         /// Used to translate the settings in <see cref="Settings"/>.<br></br>
         /// If there is no active translation file, return the propertyInfo's <see cref="DescriptionAttribute.Description"/>
         /// (which can be seen in the source code in the Description decorator of each setting).<br></br>
-        /// If the propertyInfo's name is in @.settingsDescriptions of the active translation file,
-        /// return @.settingsDescriptions[propertyInfo.Name] of the active translation file.
+        /// If <paramref name="propertyInfo"/>.Name is a field in the <c>"settingsDescriptions"</c> field of the active translation file, return that value.
         /// </summary>
         public static string TranslateSettingsDescription(PropertyInfo propertyInfo)
         {
             if (propertyInfo is null)
                 return "";
-            if (translations is JObject jobj && jobj.children is Dictionary<string, JNode> dict
-                && dict.TryGetValue("settingsDescriptions", out JNode settingsDescNode)
+            if (translations is JObject jobj
+                && jobj.TryGetValue("settingsDescriptions", out JNode settingsDescNode)
                 && settingsDescNode is JObject settingsDescObj
-                && settingsDescObj.children.TryGetValue(propertyInfo.Name, out JNode descNode)
+                && settingsDescObj.TryGetValue(propertyInfo.Name, out JNode descNode)
                 && descNode.value is string s)
             {
                 return s;
@@ -200,14 +342,14 @@ namespace NppDemo.Utils
 
         /// <summary>
         /// translate a form and its controls 
-        /// according to the entry corresponding to the form's name in the "forms" field of the translations object.
+        /// according to the entry corresponding to the form's name in the <c>"forms"</c> field of the translations object.
         /// </summary>
         public static void TranslateForm(Form form)
         {
-            if (translations is JObject jobj && jobj.children is Dictionary<string, JNode> dict
-                && dict.TryGetValue("forms", out JNode formsNode)
-                && formsNode is JObject allFormsObj && allFormsObj.children is Dictionary<string, JNode> allFormsDict
-                && allFormsDict.TryGetValue(form.Name, out JNode formNode)
+            if (translations is JObject jobj
+                && jobj.TryGetValue("forms", out JNode formsNode)
+                && formsNode is JObject allFormsObj
+                && allFormsObj.TryGetValue(form.Name, out JNode formNode)
                 && formNode is JObject formObj && formObj.children is Dictionary<string, JNode> formDict)
             {
                 if (formDict.TryGetValue("title", out JNode transTitle) && transTitle.value is string transStr)

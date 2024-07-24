@@ -118,7 +118,7 @@ namespace NppDemo.Utils
         {
             if (text == null || text.Length == 0)
             {
-                MessageBox.Show("Couldn't find anything to copy to the clipboard",
+                Translator.ShowTranslatedMessageBox("Couldn't find anything to copy to the clipboard",
                     "Nothing to copy to clipboard",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning
@@ -279,7 +279,7 @@ namespace NppDemo.Utils
             case AskUserWhetherToDoThing.DONT_DO_DONT_ASK:
                 return false;
             case AskUserWhetherToDoThing.ASK_BEFORE_DOING:
-                return MessageBox.Show(messageBoxText,
+                return Translator.ShowTranslatedMessageBox(messageBoxText,
                     messageBoxCaption,
                     MessageBoxButtons.YesNo, MessageBoxIcon.Question
                     ) != DialogResult.No;

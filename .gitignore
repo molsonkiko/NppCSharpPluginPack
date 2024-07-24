@@ -119,3 +119,4 @@ Visual Studio Project Template C#/$projectname$.sln
 !NppCSharpPluginPack/Dependencies/x64
 NppCSharpPluginPack/UpgradeLog.htm
 !testfiles/**/*example*.log
+translation/*.xml

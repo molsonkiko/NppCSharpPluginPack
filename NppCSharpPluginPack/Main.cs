@@ -18,6 +18,7 @@ using System.Text.RegularExpressions;
 using System.Text;
 using System.IO;
 using System.Reflection;
+using NppDemo.JSON_Tools;
 
 namespace Kbg.NppPluginNET
 {
@@ -236,11 +237,16 @@ namespace Kbg.NppPluginNET
         /// <summary>
         /// open GitHub repo with the web browser
         /// </summary>
-        public static void Docs()
+        private static void Docs()
+        {
+            OpenUrlInWebBrowser(PluginRepository);
+        }
+
+        public static void OpenUrlInWebBrowser(string url)
         {
             try
             {
-                var ps = new ProcessStartInfo(PluginRepository)
+                var ps = new ProcessStartInfo(url)
                 {
                     UseShellExecute = true,
                     Verb = "open"
@@ -249,10 +255,11 @@ namespace Kbg.NppPluginNET
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(),
-                    "Could not open documentation",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
+                Translator.ShowTranslatedMessageBox(
+                    "While attempting to open URL {0} in web browser, got exception\r\n{1}",
+                    "Could not open url in web browser",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error,
+                    2, url, ex);
             }
         }
 
@@ -664,7 +671,9 @@ You will get a compiler error if you do.";
 
             NppTbData _nppTbData = new NppTbData();
             _nppTbData.hClient = form.Handle;
-            _nppTbData.pszName = form.Text;
+            string defaultTitle = "Remember and set selections";
+            string formTitle = (Translator.TryGetTranslationAtPath(new string[] { "forms", "SelectionRememberingForm", "title" }, out JNode node) && node.value is string s) ? s : defaultTitle;
+            _nppTbData.pszName = formTitle;
             // the dlgDlg should be the index of funcItem where the current function pointer is in
             // this case is 15.. so the initial value of funcItem[15]._cmdID - not the updated internal one !
             _nppTbData.dlgID = IdSelectionRememberingForm;

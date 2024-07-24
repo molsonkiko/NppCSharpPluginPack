@@ -54,37 +54,39 @@ Every version of the template works on [Windows 10 May 2019 update](https://blog
 
 If you are interested in helping users of your plugin who don't speak English, this plugin pack makes it easy to translate your plugin to other languages beginning in [v0.0.3.7](/CHANGELOG.md#004---unreleased-yyyy-mm-dd).
 
-[Translator.cs](https://github.com/molsonkiko/NppCSharpPluginPack/blob/main/NppCSharpPluginPack/Utils/Translator.cs) infers your preferred language and attempts to translate in the following way:
-1. It looks up your [`current culture`](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/get-culture?view=powershell-7.4) (which can be checked using the `get-culture` command in Powershell).
-2. Next, we find the `EnglishName` property of the `current culture` (which can be found by the `$foo = get-culture; $foo.EnglishName` command in Powershell), take the first word, and convert it to lowercase. Call this `lowerEnglishCulture`.
-    - Example: the `EnglishName` of the `en-us` culture is `English (United States)`, so `lowerEnglishCulture` is `english`
-    - Example: the `EnglishName` of the `it-it` culture is `Italian (Italy)`, so `lowerEnglishCulture` is `italian`
-3. It then does one of the following:
+[`Translator.cs`](https://github.com/molsonkiko/NppCSharpPluginPack/blob/main/NppCSharpPluginPack/Utils/Translator.cs) infers your preferred language and attempts to translate in the following way:
+1. It checks your [Notepad++ `nativeLang.xml` config file](https://npp-user-manual.org/docs/binary-translation/#creating-or-editing-a-translation) (at [XPath path](https://www.w3schools.com/xml/xml_xpath.asp) `/NotepadPlus/Native-Langue/@name`) to determine what language you prefer to use, and sets `lowerEnglishName` to the appropriate value and __skips to step 3__. For example, if this file says `galician`, we will attempt to translate your plugin to `galician`. __If the Notepad++ native language is `english` *or* if your plugin does not have a translation file for the Notepad++ native language, `Translator.cs` then does the following:__
+    1. `Translator.cs` looks up your [`current culture`](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/get-culture?view=powershell-7.4) (which can be checked using the `get-culture` command in Powershell).
+    2. Next, we find the `EnglishName` property of the `current culture` (which can be found by the `$foo = get-culture; $foo.EnglishName` command in Powershell), take the first word, and convert it to lowercase. Call this `lowerEnglishName`.
+        - Example: the `EnglishName` of the `en-us` culture is `English (United States)`, so `lowerEnglishName` is `english`
+        - Example: the `EnglishName` of the `it-it` culture is `Italian (Italy)`, so `lowerEnglishName` is `italian`
+3. `Translator.cs` then does one of the following:
     - If `lowerEnglishName` is `english`, it does nothing (because the plugin is naturally in English)
     - Otherwise, it looks in the `translation` subdirectory of the `CSharpPluginPack` plugin folder (where `CSharpPluginPack.dll` lives) for a file named `{lowerEnglishName}.json5`
     - __NOTE:__ because the translation files are in a subdirectory of the plugin folder, *translation does not work for versions of Notepad++ older than [version 8](https://notepad-plus-plus.org/downloads/v8/),* since those older versions do not have separate folders for each plugin.
-4. If `Translator` found `translation\{lowerEnglishName}.json5`, it attempts to parse the file. If parsing fails, a message box will appear warning the user of this.
+4. If `Translator.cs` found `translation\{lowerEnglishName}.json5`, it attempts to parse the file. If parsing fails, a message box will appear warning the user of this.
     - If no translation file was found, or if parsing failed, the default English will be used.
-5. If parsing was successful, `Translator` will use the translation file as described below.
+5. If parsing was successful, `Translator.cs` will use the translation file as described below.
 
 To be clear, *the plugin may not be in the same language of the Notepad++ UI,* although I may change that in the future.
 
 To translate your plugin to another language, just look at [`english.json5` in the translations directory of this repo](https://github.com/molsonkiko/NppCSharpPluginPack/blob/main/translation/english.json5) and follow the instructions in that file.
 
 Currently NppCSharpPluginPack has been translated into the following languages:
-| Language | First version with translation | Translator | Translator is native speaker?  |
-|----------|--------------------------------|------------|--------------------------------|
+| Language | First version with translation | Translator(s) | Translator is native speaker?  |
+|----------|--------------------------------|---------------|--------------------------------|
 | [Spanish](https://github.com/molsonkiko/NppCSharpPluginPack/blob/main/translation/spanish.json5)  |   [v3.7](https://github.com/molsonkiko/NppCSharpPluginPack/commit/cc93a081e1fc1de3c10a953bb0d1ac035326b19e) |  [molsonkiko](https://github.com/molsonkiko)  |  __NO__ |
 
 
 The following aspects of NppCSharpPluginPack __can__ be translated:
-- Forms (including all controls and items in drop-down menus)
-- Items in the NppCSharpPluginPack sub-menu of the Notepad++ Plugins menu
-- The descriptions of settings in the [`CSharpPluginPack.ini` config file and settings form](/docs/README.md#settings-form)
+- Forms (including all controls and items in drop-down menus) (see the `TranslateForm` method in `Translator.cs`)
+- Items in the NppCSharpPluginPack sub-menu of the Notepad++ Plugins menu (see the `GetTranslatedMenuItem` method in `Translator.cs`)
+- The descriptions of settings in the [`CSharpPluginPack.ini` config file and settings form](/docs/README.md#settings-form) (see the `TranslateSettingsDescription` method in `Translator.cs`)
+- Message boxes (includes warnings, errors, requests for confirmation) (see the `ShowTranslatedMessageBox` method in `Translator.cs`)
 
 The following aspects of NppCSharpPluginPack __may eventually__ be translated:
 - This documentation
-- Message boxes (includes warnings, errors, requests for confirmation)
+- The messages of user-defined exceptions (for example, if your plugin `FooHasNoBarException`, there is currently no way to translate the message that the user sees when this error is thrown and caught)
 - Generic modal dialogs (for example, file-opening dialogs, directory selection dialogs)
 
 ## Acknowledgments ##

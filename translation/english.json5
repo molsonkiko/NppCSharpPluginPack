@@ -1,13 +1,25 @@
-// If you want to translate CSharpPluginPack into another language, follow these steps (in the example below, we are translating into the "fooish" language):
-// 1. Create a copy of this file at the path "translation/fooish.json5" relative to the CSharpPluginPack plugin directory (the directory where the CSharpPluginPack.dll binary is installed, *not* the plugin config directory).
-// 2. Edit the values associated with the various keys in this document.
-//     DO NOT CHANGE THE KEYS OF ANY OBJECT, OR ADD OR REMOVE KEYS! ONLY CHANGE THE VALUES.
-// 3. Close Notepad++ and reopen it, then look at the various CSharpPluginPack forms and menu items to see if the translation is satisfactory.
+// If you want to translate your plugin (let's call it $PluginName$) into another language, follow these steps (in the example below, we are translating into the "fooish" language):
+// 1. Create a copy of this file at the path "translation/fooish.json5" relative to the $PluginName$ plugin directory (the directory where $PluginName$.dll binary is installed, *not* the plugin config directory).
+// 2. If you are not 100% certain you understand all the rules of JSON syntax, read https://www.json.org/json-en.html
+// 3. Edit the values associated with the various keys in this document. Here are some rules that you must follow.
+//     i. DO NOT CHANGE THE KEYS OF ANY OBJECT, OR ADD OR REMOVE KEYS! ONLY CHANGE THE VALUES.
+//     ii. Some of these values will have "{integer}" in their text,
+//         like the "{0}" and "{1}" in "Found '{0}' after key {1} when colon expected".
+//         When you see "{1}" in a value, this means "insert the 2nd piece of extra information required to render this message".
+//         When translating these values, it is VERY IMPORTANT that your translation includes all the "{integer}" occurrences.
+//         EXAMPLES OF TRANSLATING "Found '{0}' after key {1} when colon expected" TO ITALIAN:
+//         GOOD: "Trovato '{0}' dopo la chiave {1} quando erano previsti i due punti"
+//         BAD (missing "{0}"): "Trovato '' dopo la chiave {1} quando erano previsti i due punti"
+//         BAD (missing "{1}"): "Trovato '{0}' dopo la chiave {} quando erano previsti i due punti"
+//         BAD (has "{0.}" instead of "{0}"): "Trovato '{0.}' dopo la chiave {1} quando erano previsti i due punti"
+// 4. Use the JsonTools plugin (https://github.com/molsonkiko/JsonToolsNppPlugin) or another tool to make sure that this is a valid JSON with comments file.
+// 5. Close Notepad++ and reopen it, then look at the various $PluginName$ forms and menu items to see if the translation is satisfactory.
 {
     // This lists a set of global constants that can appear in other values throughout this config file.
     // For example, if the "$PluginName$" constant is "FooBar", and another value in this config file is "$PluginName$ settings",
     //     that value would be changed to "FooBar settings" at the time the settings are loaded from file.
     // Constant names must match the regular expression "\A\$[a-zA-Z_]+\$\z", as shown below.
+    // Note to developers: Constant names are *not* replaced in keys of objects, only values.
     "$constants$": {
         "$PluginName$": "CSharpPluginPack"
     },
@@ -88,7 +100,7 @@
         }
     },
     // this controls the text of the main menu items
-    //      associated with the CSharpPluginPack item on the Notepad++ plugin menu.
+    //      associated with the $PluginName$ item on the Notepad++ plugin menu.
     "menuItems": {
         // The "&D" in this text means that this menu item can be accessed by the "D"
         //    accelerator key, meaning that the Alt-P-C-D key sequence can access this menu item.
@@ -122,7 +134,7 @@
         "Open a pop-up dialog": "Open a pop-up dialog",
         "Allocate indicators demo": "Allocate indicators demo"
     },
-    // The CSharpPluginPack.ini config file (in your plugin config folder)
+    // The $PluginName$.ini config file (in your plugin config folder)
     //     will have these translated descriptions as comments above each setting.
     //     The settings form will also show these translated descriptions when the named setting is selected.
     "settingsDescriptions": {
@@ -130,5 +142,23 @@
         "close_html_tag": "Automatically close HTML/XML tags when the current file extension is \"html\" or \"xml\"?",
         "use_npp_styling": "Use the same colors as the editor window for this plugin's forms?",
         "ask_before_testing": "Ask before running tests, because the test can hijack the user's clipboard"
+    },
+    "messageBoxes": {
+        // This object is used to translate message boxes (the little boxes with OK, Yes, No, Cancel buttons that pop up and tell you things or ask you for confirmation).
+        // Each key in this object is the caption of a message box.
+        // Each message box translation has the "text" and "caption" fields:
+        //      The "caption" field is the translation of the caption (the title line of the message box, to the left of the X to close the box).
+        //      The "text" field is the translation of the text inside the message box
+        // ===== MessageBoxes in Main.cs =====
+        "Could not open url in web browser": {"caption": "Could not open url in web browser", "text": "While attempting to open URL {0} in web browser, got exception\r\n{1}"},
+        // ===== MessageBoxes in SettingsBase.cs =====
+        // Note to developers: make sure to change these keys to match your plugin name!
+        "Unknown error while parsing CSharpPluginPack config file": {"caption": "Unknown error while parsing $PluginName$ config file", "text": "While parsing $PluginName$ config file, expected setting \"{0}\" to be type {1}, but got an error.\r\nThat setting was set to its default value of {2}.\r\nThe given value {3} could not be converted for an unknown reason."},
+        "Error while parsing CSharpPluginPack config file": {"caption": "Error while parsing $PluginName$ config file", "text": "While parsing $PluginName$ config file, expected setting \"{0}\" to be type {1}, but got an error.\r\nThat setting was set to its default value of {2}.\r\nThe given value {3} raised the following error:\r\n{4}"},
+        "Invalid value for setting {0}": {"caption": "Invalid value for setting {0}", "text": "Could not change setting {0} to value {1}, so it will remain set as {2}.\r\nGot the following exception:\r\n{3}"},
+        // ===== MessageBoxes in Npp.cs =====
+        "Nothing to copy to clipboard": {"caption": "Nothing to copy to clipboard", "text": "Couldn't find anything to copy to the clipboard"},
+        // ===== MessageBoxes in TestRunner.cs =====
+        "Do you want to run tests?": {"caption": "Do you want to run tests?", "text": "Running tests can potentially overwrite the contents of your clipboard. Do you still want to run tests?"}
     }
 }

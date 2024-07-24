@@ -19,7 +19,7 @@ namespace NppDemo.Forms
 
         private void GitHubLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Main.Docs();
+            Main.OpenUrlInWebBrowser(Main.PluginRepository);
         }
 
         /// <summary>

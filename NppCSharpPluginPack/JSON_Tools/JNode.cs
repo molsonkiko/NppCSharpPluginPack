@@ -1058,6 +1058,12 @@ namespace NppDemo.JSON_Tools
             set { children[key] = value; }
         }
 
+        public bool TryGetValue(string key, out JNode val)
+        {
+            val = null;
+            return !(children is null) && children.TryGetValue(key, out val);
+        }
+
         /// <inheritdoc/>
         public override string ToString(bool sortKeys = true, string keyValueSep = ": ", string itemSep = ", ", int maxLength = int.MaxValue)
         {
