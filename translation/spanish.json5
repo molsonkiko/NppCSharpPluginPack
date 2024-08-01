@@ -149,12 +149,12 @@
         // ===== MessageBoxes in Main.cs =====
         "Could not open url in web browser": {"caption": "No se pudo abrir la URL en el navegador web", "text": "Al intentar abrir la URL {0} en el navegador web, obtuve una excepción\r\n{1}"},
         // ===== MessageBoxes in SettingsBase.cs =====
-        // Note to developers: make sure to change these keys to match your plugin name!
-        "Unknown error while parsing CSharpPluginPack config file": {"caption": "Error desconocido al analizar el archivo de configuración $PluginName$", "text": "Al analizar el archivo de configuración de $PluginName$, se esperaba que la configuración \"{0}\" fuera del tipo {1}, pero obtuve un error.\r\nEsa configuración se estableció en su valor predeterminado de {2}.\r\nEl valor dado {3} no se pudo convertir por un motivo desconocido."},
-        "Error while parsing CSharpPluginPack config file": {"caption": "Error al analizar el archivo de configuración $PluginName$", "text": "Al analizar el archivo de configuración de $PluginName$, se esperaba que la configuración \"{0}\" fuera del tipo {1}, pero obtuve un error.\r\nEsa configuración se estableció en su valor predeterminado de {2}.\r\nEl valor dado {3} generó el siguiente error:\r\n{4}"},
+        "Unknown error while parsing $PluginName$ config file": {"caption": "Error desconocido al analizar el archivo de configuración $PluginName$", "text": "Al analizar el archivo de configuración de $PluginName$, se esperaba que la configuración \"{0}\" fuera del tipo {1}, pero obtuve un error.\r\nEsa configuración se estableció en su valor predeterminado de {2}.\r\nEl valor dado {3} no se pudo convertir por un motivo desconocido."},
+        "Error while parsing $PluginName$ config file": {"caption": "Error al analizar el archivo de configuración $PluginName$", "text": "Al analizar el archivo de configuración de $PluginName$, se esperaba que la configuración \"{0}\" fuera del tipo {1}, pero obtuve un error.\r\nEsa configuración se estableció en su valor predeterminado de {2}.\r\nEl valor dado {3} generó el siguiente error:\r\n{4}"},
         "Invalid value for setting {0}": {"caption": "Valor no válido para la configuración {0}", "text": "No se pudo cambiar la configuración {0} al valor {1}, por lo que permanecerá configurada como {2}.\r\nObtuve la siguiente excepción:\r\n{3}"},
         // ===== MessageBoxes in Npp.cs =====
         "Nothing to copy to clipboard": {"caption": "Nada que copiar al portapapeles", "text": "No se pudo encontrar nada para copiar al portapapeles"},
+        "File too long for $PluginName$": {"caption": "El archivo es demasiado largo para $PluginName$", "text": "$PluginName$ no puede ejecutar este comando de complemento en un archivo con más de 2147483647 bytes.\r\n¿Quieres dejar de mostrar notificaciones cuando un archivo es demasiado largo?"},
         // ===== MessageBoxes in TestRunner.cs =====
         "Do you want to run tests?": {"caption": "¿Quieres ejecutar pruebas?", "text": "La ejecución de pruebas puede potencialmente sobrescribir el contenido de su portapapeles. ¿Aún quieres ejecutar pruebas?"}
     }

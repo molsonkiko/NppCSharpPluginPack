@@ -15,11 +15,11 @@
 // 4. Use the JsonTools plugin (https://github.com/molsonkiko/JsonToolsNppPlugin) or another tool to make sure that this is a valid JSON with comments file.
 // 5. Close Notepad++ and reopen it, then look at the various $PluginName$ forms and menu items to see if the translation is satisfactory.
 {
-    // This lists a set of global constants that can appear in other values throughout this config file.
-    // For example, if the "$PluginName$" constant is "FooBar", and another value in this config file is "$PluginName$ settings",
-    //     that value would be changed to "FooBar settings" at the time the settings are loaded from file.
+    // This lists a set of global constants that can appear in other keys and values throughout this config file.
+    // For example, if the "$PluginName$" constant is "FooBar",
+    //     the object {"$PluginName$ settings": "About $PluginName$"}
+    //     would be translated to {"FooBar settings": "About FooBar"}
     // Constant names must match the regular expression "\A\$[a-zA-Z_]+\$\z", as shown below.
-    // Note to developers: Constant names are *not* replaced in keys of objects, only values.
     "$constants$": {
         "$PluginName$": "CSharpPluginPack"
     },
@@ -153,11 +153,12 @@
         "Could not open url in web browser": {"caption": "Could not open url in web browser", "text": "While attempting to open URL {0} in web browser, got exception\r\n{1}"},
         // ===== MessageBoxes in SettingsBase.cs =====
         // Note to developers: make sure to change these keys to match your plugin name!
-        "Unknown error while parsing CSharpPluginPack config file": {"caption": "Unknown error while parsing $PluginName$ config file", "text": "While parsing $PluginName$ config file, expected setting \"{0}\" to be type {1}, but got an error.\r\nThat setting was set to its default value of {2}.\r\nThe given value {3} could not be converted for an unknown reason."},
-        "Error while parsing CSharpPluginPack config file": {"caption": "Error while parsing $PluginName$ config file", "text": "While parsing $PluginName$ config file, expected setting \"{0}\" to be type {1}, but got an error.\r\nThat setting was set to its default value of {2}.\r\nThe given value {3} raised the following error:\r\n{4}"},
+        "Unknown error while parsing $PluginName$ config file": {"caption": "Unknown error while parsing $PluginName$ config file", "text": "While parsing $PluginName$ config file, expected setting \"{0}\" to be type {1}, but got an error.\r\nThat setting was set to its default value of {2}.\r\nThe given value {3} could not be converted for an unknown reason."},
+        "Error while parsing $PluginName$ config file": {"caption": "Error while parsing $PluginName$ config file", "text": "While parsing $PluginName$ config file, expected setting \"{0}\" to be type {1}, but got an error.\r\nThat setting was set to its default value of {2}.\r\nThe given value {3} raised the following error:\r\n{4}"},
         "Invalid value for setting {0}": {"caption": "Invalid value for setting {0}", "text": "Could not change setting {0} to value {1}, so it will remain set as {2}.\r\nGot the following exception:\r\n{3}"},
         // ===== MessageBoxes in Npp.cs =====
         "Nothing to copy to clipboard": {"caption": "Nothing to copy to clipboard", "text": "Couldn't find anything to copy to the clipboard"},
+        "File too long for $PluginName$": {"caption": "File too long for $PluginName$", "text": "$PluginName$ cannot perform this plugin command on a file with more than 2147483647 bytes.\r\nDo you want to stop showing notifications when a file is too long?"},
         // ===== MessageBoxes in TestRunner.cs =====
         "Do you want to run tests?": {"caption": "Do you want to run tests?", "text": "Running tests can potentially overwrite the contents of your clipboard. Do you still want to run tests?"}
     }

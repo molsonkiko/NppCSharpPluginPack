@@ -194,10 +194,7 @@ namespace NppDemo.Utils
         {
             if (node.value is string s && s.IndexOf('$') >= 0)
             {
-                string newValue = s;
-                foreach (KeyValuePair<string, string> kv in constants)
-                    newValue = newValue.Replace(kv.Key, kv.Value);
-                node.value = newValue;
+                node.value = PropagateConstantsToString(s, constants);
             }
             else if (node is JArray jarr)
             {
@@ -208,7 +205,28 @@ namespace NppDemo.Utils
             {
                 foreach (JNode child in jobj.children.Values)
                     PropagateGlobalConstantsHelper(child, constants);
+                var keys = jobj.children.Keys.ToArray();
+                foreach (string key in keys)
+                {
+                    if (key.IndexOf('$') >= 0)
+                    {
+                        string newKey = PropagateConstantsToString(key, constants);
+                        if (newKey != key)
+                        {
+                            jobj[newKey] = jobj[key];
+                            jobj.children.Remove(key);
+                        }
+                    }
+                }
             }
+        }
+
+        private static string PropagateConstantsToString(string s, Dictionary<string, string> constants)
+        {
+            string newValue = s;
+            foreach (KeyValuePair<string, string> kv in constants)
+                newValue = newValue.Replace(kv.Key, kv.Value);
+            return newValue;
         }
 
         /// <summary>

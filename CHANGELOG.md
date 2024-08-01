@@ -19,7 +19,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### To Be Fixed
 
 - Closing HTML/XML tags works inconsistently in Notepad++ v7.3.3.
-- Avoid plugin crash when too-large int values are entered in the selection-remembering form.
 - Holding down `Enter` in a multiline textbox does not add multiple new lines; it only adds one newline on keyup.
 
 ## [0.0.4] - (UNRELEASED) YYYY-MM-DD
@@ -29,6 +28,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 1. Make it much easier to [include third-party dependencies](/docs/README.md#loading-third-party-dependencies) in your plugin.
 2. Added the ability to [translate the plugin into other languages](/README.md#translating-your-plugin-to-another-language).
 3. Made it so all forms subclass a base class, making it easier to implement recommended methods.
+4. `Npp.TryGetLengthAsInt` and `Npp.TryGetText` methods, which gracefully handle files that are too large to put all their text in a string.
 
 ### Fixed
 
@@ -38,6 +38,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 4. Fix bug where, if a setting in the config file had an invalid value (for example, a numeric setting having a value of `blah`), there might be an uncaught exception that would cause Notepad++ to crash. This bug appears to be most likely to occur when the localization is *not* set to `en-us`.
 5. Fix bug (related to fixed bug 4 above) where *all settings with non-integer floating-point values* would cause Notepad++ to crash on start-up if the localization used `,` as the decimal separator. 
 6. Fix bug with [makerelease.bat](/makerelease.bat) where it did not properly copy the dependency DLLs into the zip files.
+7. Fix bug when too-large integers are entered in the selection-remembering form.
 
 ## [0.0.3] - 2024-02-26
 

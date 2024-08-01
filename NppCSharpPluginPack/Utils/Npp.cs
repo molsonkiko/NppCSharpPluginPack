@@ -128,6 +128,49 @@ namespace NppDemo.Utils
             Clipboard.SetText(text);
         }
 
+        private static bool stopShowingFileTooLongNotifications = false;
+
+        private static void WarnFileTooBig(bool showMessage)
+        {
+            if (showMessage && !stopShowingFileTooLongNotifications)
+                stopShowingFileTooLongNotifications = Translator.ShowTranslatedMessageBox(
+                    $"{Main.PluginName} cannot perform this plugin command on a file with more than 2147483647 bytes.\r\nDo you want to stop showing notifications when a file is too long?",
+                    $"File too long for {Main.PluginName}",
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes;
+        }
+
+        /// <summary>
+        /// if <see cref="IScintillaGateway.GetLength"/> returns a number greater than <see cref="int.MaxValue"/>, return false and set len to -1.<br></br>
+        /// Otherwise, return true and set len to the length of the document.<br></br>
+        /// If showMessageOnFail, show a message box warning the user that the command could not be executed.
+        /// </summary>
+        public static bool TryGetLengthAsInt(out int len, bool showMessageOnFail = true)
+        {
+            if (!editor.TryGetLengthAsInt(out len))
+            {
+                WarnFileTooBig(showMessageOnFail);
+                return false;
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// if <see cref="IScintillaGateway.GetLength"/> returns a number greater than <see cref="int.MaxValue"/>, return false and set text to an empty string.<br></br>
+        /// Otherwise, return true and set text with <see cref="IScintillaGateway.TryGetText(out string, int)"/>.<br></br>
+        /// If showMessageOnFail, show a message box warning the user that the command could not be executed.
+        /// </summary>
+        public static bool TryGetText(out string text, bool showMessageOnFail = true, int length = -1)
+        {
+            if (length < 0 && !editor.TryGetLengthAsInt(out length))
+            {
+                text = "";
+                WarnFileTooBig(showMessageOnFail);
+                return false;
+            }
+            text = editor.GetText(length);
+            return true;
+        }
+
         public static string AssemblyVersionString()
         {
             string version = Assembly.GetExecutingAssembly().GetName().Version.ToString();

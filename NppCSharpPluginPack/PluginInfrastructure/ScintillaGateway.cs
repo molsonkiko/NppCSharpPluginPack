@@ -175,9 +175,21 @@ namespace Kbg.NppPluginNET.PluginInfrastructure
         }
 
         /// <summary>Returns the number of bytes in the document. (Scintilla feature 2006)</summary>
-        public int GetLength()
+        public long GetLength()
         {
-            return (int)Win32.SendMessage(scintilla, SciMsg.SCI_GETLENGTH, (IntPtr) Unused, (IntPtr) Unused);
+            return (long)Win32.SendMessage(scintilla, SciMsg.SCI_GETLENGTH, (IntPtr) Unused, (IntPtr) Unused);
+        }
+
+        public bool TryGetLengthAsInt(out int result)
+        {
+            long longRes = GetLength();
+            if (longRes > int.MaxValue)
+            {
+                result = -1;
+                return false;
+            }
+            result = (int)longRes;
+            return true;
         }
 
         /// <summary>Returns the character byte at the position. (Scintilla feature 2007)</summary>
@@ -1769,16 +1781,10 @@ namespace Kbg.NppPluginNET.PluginInfrastructure
             }
         }
 
-        /// <summary>
-        /// Retrieve all the text in the document.
-        /// Returns number of characters retrieved.
-        /// Result is NUL-terminated.
-        /// (Scintilla feature 2182)
-        /// </summary>
-        public unsafe string GetText(int length=-1)
+        public unsafe string GetText(int length = -1)
         {
-            if (length < 1)
-                length = Win32.SendMessage(scintilla, SciMsg.SCI_GETTEXT, (IntPtr)length, (IntPtr)Unused).ToInt32();
+            if (length < 1 && !TryGetLengthAsInt(out length))
+                return "";
             byte[] textBuffer = new byte[length];
             fixed (byte* textPtr = textBuffer)
             {

@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
+using NppDemo.JSON_Tools;
 
 namespace NppDemo.Utils
 {
@@ -53,9 +55,19 @@ namespace NppDemo.Utils
             int ii = 0;
             Npp.editor.ClearSelections();
             var result = new List<(int start, int end)>();
+            var badPairs = new List<string>();
             foreach (string startEnd in startEnds)
             {
-                (int start, int end) = ParseStartEndAsTuple(startEnd);
+                int start, end;
+                try
+                {
+                    (start, end) = ParseStartEndAsTuple(startEnd);
+                }
+                catch
+                {
+                    badPairs.Add(startEnd);
+                    continue;
+                }
                 if (start > end)
                     (start, end) = (end, start);
                 result.Add((start, end));
@@ -69,6 +81,14 @@ namespace NppDemo.Utils
                 {
                     Npp.editor.AddSelection(start, end);
                 }
+            }
+            if (badPairs.Count > 0)
+            {
+                string badPairJsonStr = "[" + string.Join(", ", badPairs.Select(x => JNode.StrToString(x, true))) + "]";
+                MessageBox.Show(
+                    $"While setting selections from start,end integer pairs, the following integer pairs were found that had a bad format:\r\n{badPairJsonStr}",
+                    "Bad start,end integer pairs when setting selections",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             return result;
         }
