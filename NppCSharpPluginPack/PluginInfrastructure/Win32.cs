@@ -60,6 +60,62 @@ namespace Kbg.NppPluginNET.PluginInfrastructure
         }
 
         /// <summary>
+        /// see https://learn.microsoft.com/en-us/windows/win32/api/winuser/ns-winuser-menuiteminfow
+        /// </summary>
+        [StructLayout(LayoutKind.Sequential)]
+        public struct MenuItemInfo
+        {
+            /// <summary>
+            /// this is always equal to the size of this struct
+            /// </summary>
+            public uint cbSize { get; private set; }
+            public uint fMask;
+            public uint fType;
+            public uint fState;
+            public uint wID;
+            public IntPtr hSubMenu;
+            public IntPtr hbmpChecked;
+            public IntPtr hbmpUnchecked;
+            public UIntPtr dwItemData;
+            public IntPtr dwTypeData;
+            public uint cch;
+            public IntPtr hbmpItem;
+
+            public MenuItemInfo(MenuItemMask fMask)
+            {
+                cbSize = 0;
+                this.fMask = (uint)fMask;
+                fType = 0;
+                fState = 0;
+                wID = 0;
+                hSubMenu = IntPtr.Zero;
+                hbmpChecked = IntPtr.Zero;
+                hbmpUnchecked = IntPtr.Zero;
+                dwItemData = UIntPtr.Zero;
+                dwTypeData = IntPtr.Zero;
+                cch = 0;
+                hbmpItem = IntPtr.Zero;
+                cbSize = (uint)Marshal.SizeOf(this);
+            }
+        }
+
+        /// <summary>
+        /// See the description of the fMask MenuItemInfo attribute in https://learn.microsoft.com/en-us/windows/win32/api/winuser/ns-winuser-menuiteminfow
+        /// </summary>
+        public enum MenuItemMask : uint
+        {
+            MIIM_BITMAP = 0X80,
+            MIIM_CHECKMARKS = 8,
+            MIIM_DATA = 0X20,
+            MIIM_FTYPE = 0X100,
+            MIIM_ID = 2,
+            MIIM_STATE = 1,
+            MIIM_STRING = 0X40,
+            MIIM_SUBMENU = 4,
+            // MIIM_TYPE = 0X10, // deprecated
+        }
+
+        /// <summary>
         /// Used for the ScrollInfo fMask
         /// SIF_ALL             => Combination of SIF_PAGE, SIF_POS, SIF_RANGE, and SIF_TRACKPOS.
         /// SIF_DISABLENOSCROLL => This value is used only when setting a scroll bar's parameters. If the scroll bar's new parameters make the scroll bar unnecessary, disable the scroll bar instead of removing it.
@@ -308,6 +364,18 @@ namespace Kbg.NppPluginNET.PluginInfrastructure
 
         [DllImport("user32")]
         public static extern IntPtr GetMenu(IntPtr hWnd);
+
+        [DllImport("user32")]
+        public static extern IntPtr GetSubMenu(IntPtr hMenu, int index);
+
+        [DllImport("user32")]
+        public static extern bool SetMenuItemInfo(IntPtr hMenu, uint item, bool fByPosition, IntPtr ptrMenuItemInfo);
+
+        [DllImport("user32")]
+        public static extern bool GetMenuItemInfo(IntPtr hMenu, uint item, bool fByPosition, IntPtr ptrMenuItemInfo);
+
+        [DllImport("user32")]
+        public static extern int GetMenuItemCount(IntPtr hMenu);
 
         [DllImport("user32")]
         public static extern int CheckMenuItem(IntPtr hMenu, int uIDCheckItem, int uCheck);

@@ -38,6 +38,7 @@ namespace Kbg.NppPluginNET
         public static int modsSinceBufferOpened = 0;
         public static string activeFname = null;
         public static bool isDocTypeHTML = false;
+        public static bool isShuttingDown = false;
         // indicator things
         private static int firstIndicator = -1;
         private static int lastIndicator = -1;
@@ -46,6 +47,19 @@ namespace Kbg.NppPluginNET
         static internal int IdAboutForm = -1;
         static internal int IdSelectionRememberingForm = -1;
         static internal int IdCloseHtmlTag = -1;
+        // Allowing translation to other languages
+        /// <summary>
+        ///  This listens to the message that Notepad++ sends when its UI language is changed.
+        /// </summary>
+        private static NppListener nppListener = null;
+        /// <summary>
+        /// If this is true, <see cref="nppListener"/> will be initialized.<br></br>
+        /// <b>SETTING THIS TO <c>true</c> COMES AT A REAL PERFORMANCE COST <i>EVEN WHEN YOUR PLUGIN IS NOT IN USE</i></b> (possibly up to 10% of all CPU usage associated with Notepad++)<br></br>
+        /// <i>Do NOT</i> set this to true unless it is very important to you that your plugin's UI language can dynamically adjust to the Notepad++ UI language.<br></br>
+        /// Note that <b>translation will work even if this is <c>false</c></b>, so the only upside of this is that
+        /// the user doesn't need to close Notepad++ and restart it to see their new language preferences reflected in this plugin's UI.
+        /// </summary>
+        private const bool FOLLOW_NPP_UI_LANGUAGE = false;
         #endregion
 
         #region " Startup/CleanUp "
@@ -69,40 +83,45 @@ namespace Kbg.NppPluginNET
             //            );
             
             // the "&" before the "D" means that D is an accelerator key for selecting this option 
-            PluginBase.SetCommand(0, Translator.GetTranslatedMenuItem("&Documentation"), Docs);
+            PluginBase.SetCommand(0, "&Documentation", Docs);
             // the "&" before the "b" means that B is an accelerator key for selecting this option 
-            PluginBase.SetCommand(1, Translator.GetTranslatedMenuItem("A&bout"), ShowAboutForm); IdAboutForm = 1;
-            PluginBase.SetCommand(2, Translator.GetTranslatedMenuItem("&Settings"), OpenSettings);
-            PluginBase.SetCommand(3, Translator.GetTranslatedMenuItem("Selection &Remembering Form"), OpenSelectionRememberingForm); IdSelectionRememberingForm = 3;
-            PluginBase.SetCommand(4, Translator.GetTranslatedMenuItem("Run &tests"), TestRunner.RunAll);
+            PluginBase.SetCommand(1, "A&bout", ShowAboutForm); IdAboutForm = 1;
+            PluginBase.SetCommand(2, "&Settings", OpenSettings);
+            PluginBase.SetCommand(3, "Selection &Remembering Form", OpenSelectionRememberingForm); IdSelectionRememberingForm = 3;
+            PluginBase.SetCommand(4, "Run &tests", TestRunner.RunAll);
             
             // this inserts a separator
             PluginBase.SetCommand(5, "---", null);
-            PluginBase.SetCommand(6, Translator.GetTranslatedMenuItem("Use NanInf class for -inf, inf, nan!!"), PrintNanInf);
-            PluginBase.SetCommand(7, Translator.GetTranslatedMenuItem("Hello Notepad++"), HelloFX);
-            PluginBase.SetCommand(8, Translator.GetTranslatedMenuItem("What is Notepad++?"), WhatIsNpp);
+            PluginBase.SetCommand(6, "Use NanInf class for -inf, inf, nan!!", PrintNanInf);
+            PluginBase.SetCommand(7, "Hello Notepad++", HelloFX);
+            PluginBase.SetCommand(8, "What is Notepad++?", WhatIsNpp);
 
             PluginBase.SetCommand(9, "---", null);
-            PluginBase.SetCommand(10, Translator.GetTranslatedMenuItem("Current &Full Path"), InsertCurrentFullFilePath);
-            PluginBase.SetCommand(11, Translator.GetTranslatedMenuItem("Current Directory"), InsertCurrentDirectory);
+            PluginBase.SetCommand(10, "Current &Full Path", InsertCurrentFullFilePath);
+            PluginBase.SetCommand(11, "Current Directory", InsertCurrentDirectory);
 
             PluginBase.SetCommand(12, "---", null);
             
-            PluginBase.SetCommand(13, Translator.GetTranslatedMenuItem("Close HTML/&XML tag automatically"), CheckInsertHtmlCloseTag,
+            PluginBase.SetCommand(13, "Close HTML/&XML tag automatically", CheckInsertHtmlCloseTag,
                 new ShortcutKey(true, true, true, Keys.X), // this adds a keyboard shortcut for Ctrl+Alt+Shift+X
                 settings.close_html_tag // this may check the plugin menu item on startup depending on settings
                 ); IdCloseHtmlTag = 13;
 
             PluginBase.SetCommand(14, "---", null);
-            PluginBase.SetCommand(15, Translator.GetTranslatedMenuItem("Get File Names Demo"), GetFileNamesDemo);
-            PluginBase.SetCommand(16, Translator.GetTranslatedMenuItem("Get Session File Names Demo"), GetSessionFileNamesDemo);
-            PluginBase.SetCommand(17, Translator.GetTranslatedMenuItem("Show files opened and closed this session"), ShowFilesOpenedAndClosedThisSession);
-            PluginBase.SetCommand(18, Translator.GetTranslatedMenuItem("Save Current Session Demo"), SaveCurrentSessionDemo);
-            PluginBase.SetCommand(19, Translator.GetTranslatedMenuItem("Print Scroll and Row Information"), PrintScrollInformation);
-            PluginBase.SetCommand(20, Translator.GetTranslatedMenuItem("Open a pop-up dialog"), OpenPopupDialog);
+            PluginBase.SetCommand(15, "Get File Names Demo", GetFileNamesDemo);
+            PluginBase.SetCommand(16, "Get Session File Names Demo", GetSessionFileNamesDemo);
+            PluginBase.SetCommand(17, "Show files opened and closed this session", ShowFilesOpenedAndClosedThisSession);
+            PluginBase.SetCommand(18, "Save Current Session Demo", SaveCurrentSessionDemo);
+            PluginBase.SetCommand(19, "Print Scroll and Row Information", PrintScrollInformation);
+            PluginBase.SetCommand(20, "Open a pop-up dialog", OpenPopupDialog);
             PluginBase.SetCommand(21, "---", null);
-            PluginBase.SetCommand(22, Translator.GetTranslatedMenuItem("Allocate indicators demo"), AllocateIndicatorsDemo);
-
+            PluginBase.SetCommand(22, "Allocate indicators demo", AllocateIndicatorsDemo);
+            // start listening to messages that aren't broadcast by the plugin manager.
+            if (FOLLOW_NPP_UI_LANGUAGE)
+            {
+                nppListener = new NppListener();
+                nppListener.AssignHandle(PluginBase.nppData._nppHandle);
+            }
         }
 
         private static Assembly LoadDependency(object sender, ResolveEventArgs args)
@@ -229,6 +248,7 @@ namespace Kbg.NppPluginNET
                 selectionRememberingForm.Close();
                 selectionRememberingForm.Dispose();
             }
+            isShuttingDown = true;
         }
         #endregion
 

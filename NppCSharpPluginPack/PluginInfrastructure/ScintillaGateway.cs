@@ -21,10 +21,13 @@ namespace Kbg.NppPluginNET.PluginInfrastructure
         public static readonly int LengthZeroTerminator = "\0".Length;
 
         /// <summary>
-        /// returns bytes decoded from UTF-8 as a string, with all trailing NULL bytes stripped off.
+        /// if bytes is null, returns null.<br></br>
+        /// Else, returns bytes decoded from UTF-8 as a string, with all trailing NULL bytes stripped off.
         /// </summary>
         public static string Utf8BytesToNullStrippedString(byte[] bytes)
         {
+            if (bytes is null)
+                return null;
             int lastNullCharPos = bytes.Length - 1;
             // this only bypasses NULL chars because no char
             // other than NULL can have any 0-valued bytes in UTF-8.

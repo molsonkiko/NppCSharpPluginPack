@@ -152,6 +152,7 @@
     <Compile Include="Utils\ArrayExtensions.cs" />
     <Compile Include="Utils\Npp.cs" />
     <Compile Include="Utils\NanInf.cs" />
+    <Compile Include="Utils\NppListener.cs" />
     <Compile Include="Utils\SelectionManager.cs" />
     <Compile Include="Utils\Settings.cs" />
     <Compile Include="Utils\Translator.cs" />

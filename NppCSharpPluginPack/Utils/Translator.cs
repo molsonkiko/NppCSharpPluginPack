@@ -5,6 +5,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using NppDemo.JSON_Tools;
+using Kbg.NppPluginNET;
 using Kbg.NppPluginNET.PluginInfrastructure;
 using System.Reflection;
 using System.ComponentModel;
@@ -23,6 +24,7 @@ namespace NppDemo.Utils
         public static string languageName { get; private set; } = DEFAULT_LANG;
 
         public const string DEFAULT_LANG = "english";
+        public const string DEFAULT_PLUGINS_MENU_NAME = "&Plugins";
         public static readonly string translationDir = Path.Combine(Npp.pluginDllDirectory, "translation");
 
         /// <summary>
@@ -38,25 +40,11 @@ namespace NppDemo.Utils
             if (preferredLang == null)
             {
                 // first try to use the Notepad++ nativeLang.xml config file to determine the user's language preference
-                string nativeLangXmlFname = Path.Combine(Npp.notepad.GetConfigDirectory(), "..", "..", "nativeLang.xml");
-                if (File.Exists(nativeLangXmlFname))
-                {
-                    try
-                    {
-                        string nativeLangXml;
-                        using (var reader = new StreamReader(File.OpenRead(nativeLangXmlFname), Encoding.UTF8, true))
-                        {
-                            nativeLangXml = reader.ReadToEnd();
-                        }
-                        Match match = Regex.Match(nativeLangXml, "<Native-Langue .*? filename=\"(.*?)\\.xml\"");
-                        if (match.Success)
-                            languageName = match.Groups[1].Value.Trim().ToLower();
-                    }
-                    catch //(Exception ex)
-                    {
-                        //MessageBox.Show($"While attempting to determine native language preference from Notepad++ config XML, got an error:\r\n{ex}");
-                    }
-                }
+                if (!TryGetNppNativeLangXmlText(out string nativeLangXml))
+                    return;
+                Match match = Regex.Match(nativeLangXml, "<Native-Langue .*? filename=\"(.*?)\\.xml\"");
+                if (match.Success)
+                    languageName = match.Groups[1].Value.Trim().ToLower();
                 // as a fallback, try to determine the user's language by asking Windows for their current culture
                 if (languageName == DEFAULT_LANG || !TryGetTranslationFileName(languageName, out _))
                 {
@@ -71,7 +59,7 @@ namespace NppDemo.Utils
             {
                 languageName = preferredLang;
             }
-            if (languageName == DEFAULT_LANG)
+            if (atStartup && languageName == DEFAULT_LANG)
             {
                 //MessageBox.Show("Not loading translations, because english is the current culture language");
                 return;
@@ -100,6 +88,34 @@ namespace NppDemo.Utils
                 languageName = DEFAULT_LANG;
                 MessageBox.Show($"While attempting to parse translation file {translationFilename}, got an exception:\r\n{ex}");
             }
+        }
+
+        /// <summary>
+        /// Attempts to read the nativeLang.xml file that determines language of Notepad++ UI. If successful, returns true and sets nativeLangXml to text of that file.<br></br>
+        /// On failure, nativeLangXml = null and returns false
+        /// </summary>
+        /// <param name="nativeLangXml"></param>
+        /// <returns></returns>
+        private static bool TryGetNppNativeLangXmlText(out string nativeLangXml)
+        {
+            string nativeLangXmlFname = Path.Combine(Npp.notepad.GetConfigDirectory(), "..", "..", "nativeLang.xml");
+            if (File.Exists(nativeLangXmlFname))
+            {
+                try
+                {
+                    using (var reader = new StreamReader(File.OpenRead(nativeLangXmlFname), Encoding.UTF8, true))
+                    {
+                        nativeLangXml = reader.ReadToEnd();
+                    }
+                    return true;
+                }
+                catch //(Exception ex)
+                {
+                    //MessageBox.Show($"While attempting to determine native language preference from Notepad++ config XML, got an error:\r\n{ex}");
+                }
+            }
+            nativeLangXml = null;
+            return false;
         }
 
         private static bool TryGetTranslationFileName(string langName, out string translationFilename)
@@ -257,6 +273,57 @@ namespace NppDemo.Utils
             return menuItem;
         }
 
+        #region Reloading translations
+        /// <summary>
+        /// When the UI language of Notepad++ changes, attempt to translate JsonTools to the Notepad++ UI language automatically.<br></br>
+        /// If translation fails, or if the current UI language is english, restore the language of JsonTools to the default english.
+        /// </summary>
+        public static bool ResetTranslations()
+        {
+            languageName = DEFAULT_LANG;
+            if (!TryGetNppNativeLangXmlText(out string nativeLangXml))
+                return ResetTranslationsHelper(true);
+            Match langNameMtch = Regex.Match(nativeLangXml, "<Native-Langue .*? filename=\"(.*?)\\.xml\"");
+            if (langNameMtch.Success)
+                languageName = langNameMtch.Groups[1].Value.Trim().ToLower();
+            if (languageName == DEFAULT_LANG)
+                return ResetTranslationsHelper(true);
+            // find the name of the plugins menu, so that we can find the submenu for our plugin
+            Match pluginsItemNameMtch = Regex.Match(nativeLangXml, "<Item menuId=\"Plugins\" name=\"([^\"]+)\"");
+            if (!pluginsItemNameMtch.Success)
+                return ResetTranslationsHelper(true);
+            string pluginMenuName = pluginsItemNameMtch.Groups[1].Value.Replace("&amp;", "&");
+            return ResetTranslationsHelper(false, pluginMenuName);
+        }
+
+        private static bool ResetTranslationsHelper(bool restoreToEnglish, string pluginMenuName = DEFAULT_PLUGINS_MENU_NAME)
+        {
+            bool result = true;
+            List<string> newMenuItemNames = PluginBase.GetUntranslatedFuncItemNames();
+            if (restoreToEnglish)
+            {
+                languageName = DEFAULT_LANG;
+                // we need to temporarily load translations back to English, because the forms don't remember the untranslated text for their controls
+                LoadTranslations(false, DEFAULT_LANG);
+                result = false;
+            }
+            else
+            {
+                LoadTranslations(false, languageName);
+                newMenuItemNames = newMenuItemNames.Select(x => GetTranslatedMenuItem(x)).ToList();
+            }
+            PluginBase.ChangePluginMenuItemNames(pluginMenuName, newMenuItemNames);
+            if (Main.selectionRememberingForm != null && !Main.selectionRememberingForm.IsDisposed)
+            {
+                TranslateForm(Main.selectionRememberingForm);
+            }
+            if (restoreToEnglish) // now that we're done restoring forms to English, we can reset translations to null
+                translations = null;
+            return result;
+        }
+
+        #endregion // translating menu items
+
         /// <summary>
         /// Finds the appropriate translation for a <see cref="MessageBox"/> (using <paramref name="caption"/> as key in the <c>"messageBoxes"</c> field), then displays it and returns the result of <see cref="MessageBox.Show(string, string, MessageBoxButtons, MessageBoxIcon)"/><br></br>
         /// <b>EXAMPLE 1:</b><br></br>
@@ -377,6 +444,8 @@ namespace NppDemo.Utils
                     && controlTranslationsObj.children is Dictionary<string, JNode> controlTranslations)
                 {
                     TranslateControl(form, controlTranslations);
+                    foreach (Form childForm in form.OwnedForms)
+                        TranslateForm(childForm);
                 }
             }
         }

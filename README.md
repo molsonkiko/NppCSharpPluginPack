@@ -68,6 +68,8 @@ If you are interested in helping users of your plugin who don't speak English, t
     - If no translation file was found, or if parsing failed, the default English will be used.
 5. If parsing was successful, `Translator.cs` will use the translation file as described below.
 
+For versions of NppCSharpPluginPack *older than v0.0.3.11*, translation is only done once, when Notepad++ starts up. If the user changes their Notepad++ UI language, this change is only reflected in the plugin after the user closes and re-opens Notepad++. For versions of NppCSharpPluginPack *v0.0.3.11 or newer*, it is *possible* to also change the plugin's UI language whenever the user changes their language preference in the Notepad++ preferences form, although this capability is turned off by default to improve performance.
+
 To be clear, *the plugin may not be in the same language of the Notepad++ UI.* The steps described above represent my best effort to automatically translate the plugin into a language that the user will find useful, without requiring the user to select their language from a list of available languages in the settings form.
 
 To translate your plugin to another language, just look at [`english.json5` in the translations directory of this repo](https://github.com/molsonkiko/NppCSharpPluginPack/blob/main/translation/english.json5) and follow the instructions in that file.
