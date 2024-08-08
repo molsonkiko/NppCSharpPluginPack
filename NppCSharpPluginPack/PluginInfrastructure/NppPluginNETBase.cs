@@ -167,6 +167,26 @@ namespace Kbg.NppPluginNET.PluginInfrastructure
             return true;
         }
 
+        /// <summary>
+        /// If allPluginsMenuHandle is a valid menu handle, and this plugin's name is the name of one of the submenus of allPluginsMenuHandle,<br></br>
+        /// set _allPluginsMenuHandle to allPluginsMenuHandle, and set _thisPluginMenuHandle to the handle of the submenu with the same name as this plugin.
+        /// </summary>
+        /// <param name="allPluginsMenuHandle">the menu handle to the Plugins submenu of the Notepad++ main menu</param>
+        /// <returns></returns>
+        private static unsafe bool TrySetPluginsMenuHandle(IntPtr allPluginsMenuHandle)
+        {
+            if (_thisPluginMenuHandle != IntPtr.Zero && _allPluginsMenuHandle != IntPtr.Zero && _thisPluginIdxInAllPluginsMenu >= 0
+                && TryGetMenuItemText(_allPluginsMenuHandle, _thisPluginIdxInAllPluginsMenu, out string pluginName)
+                && pluginName == Main.PluginName)
+            {
+                return true;
+            }
+            if (!TryGetSubMenuWithName(allPluginsMenuHandle, Main.PluginName, out _thisPluginMenuHandle, out _thisPluginIdxInAllPluginsMenu))
+                return false;
+            _allPluginsMenuHandle = allPluginsMenuHandle;
+            return true;
+        }
+
         public static bool TryGetThisPluginMenuItemText(string pluginMenuName, int index, out string text)
         {
             if (!TryGetThisPluginMenu(pluginMenuName, out IntPtr hMenu))
@@ -191,6 +211,13 @@ namespace Kbg.NppPluginNET.PluginInfrastructure
             return SetMenuItemText(hMenu, index, newText);
         }
 
+        /// <summary>
+        /// attempt to change the names of this plugin's menu items to newNames, assuming that pluginMenuName is the name of the Plugins submenu of the Notepad++ main menu.<br></br>
+        /// Returns true if and only if all the menu items could be renamed.
+        /// </summary>
+        /// <param name="pluginMenuName"></param>
+        /// <param name="newNames"></param>
+        /// <returns></returns>
         public static bool ChangePluginMenuItemNames(string pluginMenuName, List<string> newNames)
         {
             if (newNames.Count != _funcItems.Items.Count || !TryGetThisPluginMenu(pluginMenuName, out IntPtr hMenu))
@@ -199,6 +226,26 @@ namespace Kbg.NppPluginNET.PluginInfrastructure
             {
                 string newName = newNames[ii];
                 if (newName != "---" && !SetMenuItemText(hMenu, ii, newName))
+                    return false;
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// attempt to change the names of this plugin's menu items to newNames, assuming that allPluginsMenuHandle is the handle of the Plugins submenu of the Notepad++ main menu.<br></br>
+        /// Returns true if and only if all the menu items could be renamed.
+        /// </summary>
+        /// <param name="allPluginsMenuHandle"></param>
+        /// <param name="newNames"></param>
+        /// <returns></returns>
+        public static bool ChangePluginMenuItemNames(IntPtr allPluginsMenuHandle, List<string> newNames)
+        {
+            if (newNames.Count != _funcItems.Items.Count || !TrySetPluginsMenuHandle(allPluginsMenuHandle))
+                return false;
+            for (int ii = 0; ii < newNames.Count; ii++)
+            {
+                string newName = newNames[ii];
+                if (newName != "---" && !SetMenuItemText(_thisPluginMenuHandle, ii, newName))
                     return false;
             }
             return true;

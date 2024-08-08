@@ -237,6 +237,12 @@ namespace Kbg.NppPluginNET
                 //    int wm = -(int)code;
                 //    }
                 //}
+            case (uint)NppMsg.NPPN_RELOADNATIVELANG:
+                // The first NPPN_RELOADNATIVELANG notification happens at Notepad++ startup, so we listen to that.
+                // Subsequent NPPN_RELOADNATIVELANG notifications come when the user reloads their native language using the Preferences dialog.
+                string newNativeLangName = Marshal.PtrToStringAnsi(notification.Header.IdFrom);
+                Translator.ResetTranslations(notification.Header.hwndFrom, newNativeLangName);
+                break;
             }
         }
 
