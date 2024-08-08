@@ -70,7 +70,7 @@ namespace CsvQuery.PluginInfrastructure
         public SettingsBase(bool loadFromFile = true)
         {
             // Set defaults
-            Translator.LoadTranslations();
+            //Translator.LoadTranslations();
             foreach (var propertyInfo in GetType().GetProperties())
             {
                 if (propertyInfo.GetCustomAttributes(typeof(DefaultValueAttribute), false).FirstOrDefault() is DefaultValueAttribute def)

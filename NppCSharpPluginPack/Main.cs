@@ -71,7 +71,7 @@ namespace Kbg.NppPluginNET
             AppDomain.CurrentDomain.AssemblyResolve += LoadDependency;
 
             // next load the translations file so we can translate the menu items
-            Translator.LoadTranslations();
+            //Translator.LoadTranslations();
             // Initialization of your plugin commands
 
             // with function :
