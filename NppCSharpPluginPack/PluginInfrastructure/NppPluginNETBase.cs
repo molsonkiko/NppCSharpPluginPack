@@ -143,31 +143,6 @@ namespace Kbg.NppPluginNET.PluginInfrastructure
         private static IntPtr _thisPluginMenuHandle = IntPtr.Zero;
 
         /// <summary>
-        /// if we can get a valid handle to this plugin's drop-down menu, set thisPluginMenuHandle to that handle and return true.<br></br>
-        /// Else return false and set thisPluginMenuHandle to IntPtr.Zero.
-        /// </summary>
-        /// <param name="pluginMenuName">the name of the plugins submenu of the Notepad++ main menu. Normally this is "&amp;Plugins;", but it will vary depending on the Notepad++ UI language</param>
-        /// <param name="thisPluginMenuHandle"></param>
-        /// <returns></returns>
-        private static unsafe bool TryGetThisPluginMenu(string pluginMenuName, out IntPtr thisPluginMenuHandle)
-        {
-            thisPluginMenuHandle = IntPtr.Zero;
-            if (_thisPluginMenuHandle != IntPtr.Zero && _allPluginsMenuHandle != IntPtr.Zero && _thisPluginIdxInAllPluginsMenu >= 0
-                && TryGetMenuItemText(_allPluginsMenuHandle, _thisPluginIdxInAllPluginsMenu, out string pluginName)
-                && pluginName == Main.PluginName)
-            {
-                thisPluginMenuHandle = _thisPluginMenuHandle;
-                return true;
-            }
-            if (!TryGetSubMenuWithName(Win32.GetMenu(nppData._nppHandle), pluginMenuName, out _allPluginsMenuHandle, out _))
-                return false;
-            if (!TryGetSubMenuWithName(_allPluginsMenuHandle, Main.PluginName, out _thisPluginMenuHandle, out _thisPluginIdxInAllPluginsMenu))
-                return false;
-            thisPluginMenuHandle = _thisPluginMenuHandle;
-            return true;
-        }
-
-        /// <summary>
         /// If allPluginsMenuHandle is a valid menu handle, and this plugin's name is the name of one of the submenus of allPluginsMenuHandle,<br></br>
         /// set _allPluginsMenuHandle to allPluginsMenuHandle, and set _thisPluginMenuHandle to the handle of the submenu with the same name as this plugin.
         /// </summary>
@@ -184,50 +159,6 @@ namespace Kbg.NppPluginNET.PluginInfrastructure
             if (!TryGetSubMenuWithName(allPluginsMenuHandle, Main.PluginName, out _thisPluginMenuHandle, out _thisPluginIdxInAllPluginsMenu))
                 return false;
             _allPluginsMenuHandle = allPluginsMenuHandle;
-            return true;
-        }
-
-        public static bool TryGetThisPluginMenuItemText(string pluginMenuName, int index, out string text)
-        {
-            if (!TryGetThisPluginMenu(pluginMenuName, out IntPtr hMenu))
-            {
-                text = null;
-                return false;
-            }
-            return TryGetMenuItemText(hMenu, index, out text);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="pluginMenuName">the name of the menu for all plugins. This is normally "&amp;Plugins", but will vary depending on Notepad++ UI language</param>
-        /// <param name="index"></param>
-        /// <param name="newText"></param>
-        /// <returns></returns>
-        public static bool SetThisPluginMenuItemText(string pluginMenuName, int index, string newText)
-        {
-            if (!TryGetThisPluginMenu(pluginMenuName, out IntPtr hMenu))
-                return false;
-            return SetMenuItemText(hMenu, index, newText);
-        }
-
-        /// <summary>
-        /// attempt to change the names of this plugin's menu items to newNames, assuming that pluginMenuName is the name of the Plugins submenu of the Notepad++ main menu.<br></br>
-        /// Returns true if and only if all the menu items could be renamed.
-        /// </summary>
-        /// <param name="pluginMenuName"></param>
-        /// <param name="newNames"></param>
-        /// <returns></returns>
-        public static bool ChangePluginMenuItemNames(string pluginMenuName, List<string> newNames)
-        {
-            if (newNames.Count != _funcItems.Items.Count || !TryGetThisPluginMenu(pluginMenuName, out IntPtr hMenu))
-                return false;
-            for (int ii = 0; ii < newNames.Count; ii++)
-            {
-                string newName = newNames[ii];
-                if (newName != "---" && !SetMenuItemText(hMenu, ii, newName))
-                    return false;
-            }
             return true;
         }
 

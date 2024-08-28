@@ -278,17 +278,19 @@ namespace NppDemo.Utils
         /// When the UI language of Notepad++ changes, attempt to translate JsonTools to the Notepad++ UI language automatically.<br></br>
         /// If translation fails, or if the current UI language is english, restore the language of JsonTools to the default english.
         /// </summary>
-        public static bool ResetTranslations(IntPtr allPluginsMenuHandle = default, string langName = "")
+        /// <returns>true if and only if translation was successful AND the plugin was translated to a language other than English</returns>
+        public static bool ResetTranslations(string langName = "")
         {
-            if (allPluginsMenuHandle != IntPtr.Zero && !string.IsNullOrWhiteSpace(langName))
+            if (!string.IsNullOrEmpty(langName) || Npp.notepad.TryGetNativeLangName(out langName))
             {
                 if (!TryGetTranslationFileName(langName, out _))
-                    return ResetTranslationsHelper(true, "", true, allPluginsMenuHandle);
+                    return ResetTranslationsHelper(true);
                 if (languageName == langName)
-                    return true; // we're already in that language
+                    return false; // we're already in that language
                 languageName = langName;
-                return ResetTranslationsHelper(langName == DEFAULT_LANG, "", true, allPluginsMenuHandle);
+                return ResetTranslationsHelper(langName == DEFAULT_LANG);
             }
+            string oldLanguageName = languageName;
             languageName = DEFAULT_LANG;
             if (!TryGetNppNativeLangXmlText(out string nativeLangXml))
                 return ResetTranslationsHelper(true);
@@ -296,21 +298,22 @@ namespace NppDemo.Utils
             string newLanguageName = "";
             if (langNameMtch.Success)
                 newLanguageName = langNameMtch.Groups[1].Value.Trim().ToLower();
-            if (newLanguageName == languageName)
-                return true;
+            if (newLanguageName == oldLanguageName)
+                return false; // unchanged, don't waste time
             languageName = newLanguageName;
-            if (languageName == DEFAULT_LANG)
-                return ResetTranslationsHelper(true);
-            // find the name of the plugins menu, so that we can find the submenu for our plugin
-            Match pluginsItemNameMtch = Regex.Match(nativeLangXml, "<Item menuId=\"Plugins\" name=\"([^\"]+)\"");
-            if (!pluginsItemNameMtch.Success)
-                return ResetTranslationsHelper(true);
-            string pluginMenuName = pluginsItemNameMtch.Groups[1].Value.Replace("&amp;", "&");
-            return ResetTranslationsHelper(false, pluginMenuName);
+            return ResetTranslationsHelper(languageName == DEFAULT_LANG);
         }
 
-        private static bool ResetTranslationsHelper(bool restoreToEnglish, string pluginMenuName = DEFAULT_PLUGINS_MENU_NAME, bool useHandle = false, IntPtr allPluginsMenuHandle = default)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="restoreToEnglish"></param>
+        /// <returns>true if and only if translation was successful AND the plugin was translated to a language other than English</returns>
+        private static bool ResetTranslationsHelper(bool restoreToEnglish)
         {
+            IntPtr allPluginsMenuHandle = Win32.SendMessage(PluginBase.nppData._nppHandle, (uint)NppMsg.NPPM_GETMENUHANDLE, (int)NppMsg.NPPPLUGINMENU, 0);
+            if (allPluginsMenuHandle == IntPtr.Zero)
+                return false;
             bool result = true;
             List<string> newMenuItemNames = PluginBase.GetUntranslatedFuncItemNames();
             if (restoreToEnglish)
@@ -325,10 +328,7 @@ namespace NppDemo.Utils
                 LoadTranslations(false, languageName);
                 newMenuItemNames = newMenuItemNames.Select(x => GetTranslatedMenuItem(x)).ToList();
             }
-            if (useHandle && allPluginsMenuHandle != IntPtr.Zero)
-                PluginBase.ChangePluginMenuItemNames(allPluginsMenuHandle, newMenuItemNames);
-            else
-                PluginBase.ChangePluginMenuItemNames(pluginMenuName, newMenuItemNames);
+            PluginBase.ChangePluginMenuItemNames(allPluginsMenuHandle, newMenuItemNames);
             if (Main.selectionRememberingForm != null && !Main.selectionRememberingForm.IsDisposed)
             {
                 TranslateForm(Main.selectionRememberingForm);

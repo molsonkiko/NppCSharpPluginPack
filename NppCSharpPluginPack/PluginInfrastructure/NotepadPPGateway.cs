@@ -53,6 +53,12 @@ namespace Kbg.NppPluginNET.PluginInfrastructure
         /// <returns></returns>
         bool AllocateIndicators(int numberOfIndicators, out int[] indicators);
 
+        /// <summary>
+        /// get the English name of the Notepad++ UI language.<br></br>
+		/// a return value of false indicates that something went wrong and fname should not be used
+        /// </summary>
+        bool TryGetNativeLangName(out string langName);
+
     }
 
 	/// <summary>
@@ -265,6 +271,27 @@ namespace Kbg.NppPluginNET.PluginInfrastructure
 					indicators[ii] = indicators[ii - 1] + 1;
 				return success != IntPtr.Zero;
 			}
+		}
+
+		public unsafe bool TryGetNativeLangName(out string langName)
+		{
+			langName = "";
+			int fnameLen = Win32.SendMessage(PluginBase.nppData._nppHandle, (uint)NppMsg.NPPM_GETNATIVELANGFILENAME, IntPtr.Zero, IntPtr.Zero).ToInt32() + 1;
+			if (fnameLen == 1)
+				return false;
+			var fnameArr = new byte[fnameLen];
+			fixed (byte * fnameBuf = fnameArr)
+			{
+				IntPtr fnamePtr = (IntPtr)fnameBuf;
+				Win32.SendMessage(PluginBase.nppData._nppHandle, (uint)NppMsg.NPPM_GETNATIVELANGFILENAME, (IntPtr)fnameLen, fnamePtr);
+				langName = Marshal.PtrToStringAnsi(fnamePtr);
+            }
+			if (!string.IsNullOrEmpty(langName) && langName.EndsWith(".xml"))
+			{
+				langName = langName.Substring(0, langName.Length - 4);
+				return true;
+			}
+			return false;
 		}
 
     }
