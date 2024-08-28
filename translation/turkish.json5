@@ -1,0 +1,165 @@
+// Eğer eklentinizi ($PluginName$ olarak adlandıralım) başka bir dile çevirmek istiyorsanız, aşağıdaki adımları izleyin (aşağıdaki örnekte "fooish" diline çeviriyoruz):
+// 1. Bu dosyanın bir kopyasını, $PluginName$ eklenti dizinine (yani $PluginName$.dll ikili dosyasının yüklendiği dizine, *eklenti yapılandırma dizini değil*) göreli olarak "translation/fooish.json5" yoluna oluşturun.
+// 2. JSON sözdizimi kurallarını %100 anlamadığınızdan emin değilseniz, https://www.json.org/json-en.html adresini okuyun.
+// 3. Bu belgede çeşitli anahtarlara bağlı değerleri düzenleyin. İzlemeniz gereken bazı kurallar şunlardır:
+//     i. HİÇBİR NESNENİN ANAHTARLARINI DEĞİŞTİRMEYİN, ANAHTAR EKLEMEYİN VEYA ÇIKARMAYIN! SADECE DEĞERLERİ DEĞİŞTİRİN.
+//     ii. Bu değerlerin bazılarında "{integer}" şeklinde metinler bulunacaktır,
+//         örneğin, "Found '{0}' after key {1} when colon expected" ifadesindeki "{0}" ve "{1}" gibi.
+//         Bir değerde "{1}" gördüğünüzde, bu "bu mesajı oluşturmak için gereken ekstra bilginin 2. parçasını ekle" anlamına gelir.
+//         Bu değerleri çevirirken, çevirinizin tüm "{integer}" oluşumlarını içerdiğinden emin olmanız ÇOK ÖNEMLİDİR.
+//         "Found '{0}' after key {1} when colon expected" ifadesinin İtalyancaya ÇEVİRİ ÖRNEKLERİ:
+//         İYİ: "Trovato '{0}' dopo la chiave {1} quando erano previsti i due punti"
+//         KÖTÜ (eksik "{0}"): "Trovato '' dopo la chiave {1} quando erano previsti i due punti"
+//         KÖTÜ (eksik "{1}"): "Trovato '{0}' dopo la chiave {} quando erano previsti i due punti"
+//         KÖTÜ ("{0.}" yerine "{0}" var): "Trovato '{0.}' dopo la chiave {1} quando erano previsti i due punti"
+// 4. Bu dosyanın geçerli bir yorum içeren JSON dosyası olduğunu doğrulamak için JsonTools eklentisini (https://github.com/molsonkiko/JsonToolsNppPlugin) veya başka bir aracı kullanın.
+// 5. Notepad++'ı kapatın ve yeniden açın, ardından çeşitli $PluginName$ formlarını ve menü öğelerini kontrol ederek çevirinin tatmin edici olup olmadığını görün.
+{
+    // Bu, bu yapılandırma dosyasında yer alan diğer anahtarlar ve değerlerde görünebilecek küresel sabitlerin bir listesini içerir.
+    // Örneğin, "$PluginName$" sabiti "FooBar" ise,
+    //     {"$PluginName$ settings": "About $PluginName$"} nesnesi
+    //     {"FooBar settings": "About FooBar"} olarak çevrilecektir.
+    // Sabit adları, aşağıda gösterildiği gibi, "\A\$[a-zA-Z_]+\$\z" düzenli ifadesiyle eşleşmelidir.
+    "$constants$": {
+        "$PluginName$": "CSharpPluginPack"
+    },
+    "forms": {
+        "AboutForm": {
+            // bu, bu formun başlık çubuğunda görünen addır
+            "title": "NppCSharpPluginPack Hakkında",
+            // Bu nesnedeki her bir anahtar, NppCSharpPluginPack kod tabanındaki kontrol adıdır.
+            //     Bir kontrol adı eksikse, o kontrol çevrilmez.
+            "controls": {
+                // Eğer bir kontrol adıyla ilişkili değer bir dize ise,
+                //     bu kontrolün metnini belirler.
+                "Description": "C# ile bir Notepad++ eklentisi yapmanın nasıl olduğunu gösteren bir demo.",
+                "GitHubLink": {
+                    // Bu bir LinkLabel'dır, yani tıklanabilir bir bağlantıya (repo URL'nize) sahiptir.
+                    "text": "Eklenti repo linkinizi buraya ekleyin:\r\nhttps://github.com/yourName/yourRepo",
+                    // Bu LinkLabel'ın metnini değiştirirseniz,
+                    //      linkStart özelliğini değiştirerek yalnızca URL'nin vurgulanan bölgede olduğundan emin olun.
+					//
+                    "linkStart": 38,
+                    "linkLength": 36
+                },
+                "DebugInfoLabel": "Notepad++ sürümü: X.Y.Z. Kurulumunuz hakkında daha fazla bilgi için ana durum çubuğundaki ? -> Hata Ayıklama Bilgisi'ne gidin.",
+                "ThanksWowLinkLabel": {
+                    "text": "Özel teşekkürler:\r\n* Notepad++'ı yaptığı için Don Ho'ya\r\n* Bu eklenti paketinin temelini yaptığı için kbilsted'e\r\n* Ve tabii ki bu eklentiyi daha iyi hale getirmek için katkıda bulunan herkese\r\n  teşekkürler!\r\n* Bu işi değerli kılan harika topluluğa\r\n  Teşekkürler!",
+                    // sadece sonundaki "Wow!" kelimesi vurgulansın diye linkStart ayarlayın
+                    "linkStart": 228,
+                    "linkLength": 4
+                }
+            }
+        },
+        "DarkModeTestForm": {
+            "title": "Karanlık Mod Test Formu",
+            "controls": {
+                "checkBox1": {
+                    // Kutu *işaretlendiğinde* metni ayarlamak için bu değeri değiştirin
+                    "checked": "checkBox1 işaretli",
+                    // Kutu *işaretsiz* olduğunda metni ayarlamak için bu değeri değiştirin
+                    "unchecked": "checkBox1 işaretli değil"
+                },
+                // Bu, metnin bir açılır listeden seçilebileceği bir ComboBox'tır.
+                // BU DİZİNİN ELEMAN SAYISINI DEĞİŞTİRMEYİN!
+                "comboBox1": [
+                    "comboBox1",
+                    "bu",
+                    "bir",
+                    "comboBox",
+					"tur"
+                ],
+                "ShowPopupDialogButton": "Açılır Pencereyi Göster"
+            }
+        },
+        "PopupDialog": {
+            // bu formun başlığı listelenmemiş, bu yüzden çevrilmeyecek
+            "controls": {
+                "ComboBox1EnabledCheckBox": "ComboBox1'i etkinleştir?"
+            }
+        },
+        "SelectionRememberingForm": {
+            "title": "Seçimleri hatırla ve ayarla",
+            "controls": {
+                "SelectionRememberingFormTitle": "Seçimleri hatırla ve ayarla",
+                "CopySelectionsToStartEndsButton": "Mevcut seçimleri virgülle ayrılmış sayılar listesi olarak panoya kopyala",
+                "SelectionStartEndsBoxLabel": "Başlangıç ve bitişleri girin\r\n(0 belgenin başlangıcıdır)\r\nseçilecek bölgelerin\r\nvirgülle ayrılmış\r\nsayılar olarak\r\nboşlukla ayrılmış listesi",
+                "SetSelectionsFromStartEndsButton": "Yukarıdaki metin kutusundaki tüm bölgeleri seç",
+                "SaveCurrentSelectionsToFileButton": "Mevcut seçimleri dosyaya kaydet",
+                "LoadSelectionsFromFileButton": "Seçimleri konfigürasyon dosyasından yükle",
+                "OpenDarkModeTestFormButton": "Karanlık mod test formunu aç"
+            }
+        },
+        "SettingsForm": {
+            "title": "Ayarlar - $PluginName$ eklentisi",
+            "controls": {
+                "Cancel": "&İptal",
+                "Reset": "&Sıfırla",
+                "Ok": "&Tamam"
+            }
+        }
+    },
+    // bu, Notepad++ eklenti menüsündeki $PluginName$ ile ilişkilendirilmiş
+    //      ana menü öğelerinin metnini kontrol eder.
+    "menuItems": {
+        // Metindeki "&D", bu menü öğesine "D" hızlandırıcı tuşu ile erişilebileceği anlamına gelir,
+        //     yani Alt-P-C-D tuş kombinasyonu ile bu menü öğesine erişilebilir.
+        // Menü öğelerini çevirirken, bir hızlandırıcı tuşu eklemek iyi bir uygulamadır,
+        //     ve hızlandırıcı tuşun İngilizce çevirisinde olduğu gibi olması *daha da iyidir*.
+        // Dolayısıyla, İtalyanca çevirisi "&Documentazione" olabilir.
+        //
+        // *ÇOK ÇOK ÖNEMLİ*: Her menü öğesi, UTF-16 ile kodlandığında 63 karakterden az olmalıdır.
+        //     Herhangi bir menü öğesinin çok uzun olup olmadığını kontrol etmenin en kolay yolu, JsonTools (https://github.com/molsonkiko/JsonToolsNppPlugin) ağaç görünümünü açmak
+        //     ve sol üst köşedeki metin kutusuna aşağıdaki satırı yazmaktır:
+        //     @.menuItems[s_len(@) >= 64]
+        //     Yukarıdaki satırdaki sorgu, 64 veya daha fazla UTF-16 karakterine sahip tüm menü öğelerini seçecektir.
+        //
+        //     Notepad++ ile seçerek uzunluğu kontrol edemezsiniz, çünkü Notepad++ durum çubuğunda UTF-8 bayt sayısını gösterir.
+        "&Documentation": "&Dokümantasyon",
+        "A&bout": "H&akkında",
+        "&Settings": "&Ayarlar",
+        "Selection &Remembering Form": "Seçim &Hatırlama Formu",
+        "Run &tests": "Testleri &çalıştır",
+        "Use NanInf class for -inf, inf, nan!!": "-inf, inf, nan için NanInf sınıfını kullan!!",
+        "Hello Notepad++": "Merhaba Notepad++",
+        "What is Notepad++?": "Notepad++ nedir?",
+        "Current &Full Path": "Geçerli &Tam Yol",
+        "Current Directory": "Geçerli Dizin",
+        "Close HTML/&XML tag automatically": "HTML/&XML etiketini otomatik olarak kapat",
+        "Get File Names Demo": "Dosya Adlarını Al Demo",
+        "Get Session File Names Demo": "Oturum Dosya Adlarını Al Demo",
+        "Show files opened and closed this session": "Bu oturumda açılan ve kapatılan dosyaları göster",
+        "Save Current Session Demo": "Geçerli Oturumu Kaydet Demo",
+        "Print Scroll and Row Information": "Kaydırma ve Satır Bilgilerini Yazdır",
+        "Open a pop-up dialog": "Bir açılır pencere aç",
+        "Allocate indicators demo": "Göstergeleri ayırma demo"
+    },
+    // $PluginName$.ini konfigürasyon dosyası (eklenti konfigürasyon klasörünüzde)
+    //     bu çevrilmiş açıklamaları her ayarın üzerindeki yorumlar olarak içerir.
+    //     Ayarlar formu da, adı geçen ayar seçildiğinde bu çevrilmiş açıklamaları gösterecektir.
+    "settingsDescriptions": {
+        "toolbar_icons": "Göstermek istediğiniz her araç çubuğu simgesi için bu karakterlerden birini, istediğiniz sırada belirtin:\r\n('a' = hakkında formu, 's' = seçim hatırlama formu, 'h' = HTML etiketlerini otomatik olarak kapat)\r\nBu ayar, Notepad++ bir sonraki başlatışınızda etkili olacaktır.\r\nAraç çubuğu simgelerinin HİÇBİRİ olmasın istiyorsanız, bir simgeyi temsil etmeyen bir karakter girin; bu alanı boş bırakmayın.",
+        "close_html_tag": "Geçerli dosya uzantısı \"html\" veya \"xml\" olduğunda HTML/XML etiketlerini otomatik olarak kapat?",
+        "use_npp_styling": "Bu eklentinin formları için düzenleyici penceresindeki renkleri kullan?",
+        "ask_before_testing": "Testleri çalıştırmadan önce sor, çünkü test kullanıcı panosunu ele geçirebilir"
+    },
+    "messageBoxes": {
+        // Bu nesne, mesaj kutularını (tamam, evet, hayır, iptal düğmeleriyle açılan küçük kutular) çevirmek için kullanılır.
+        // Bu nesnedeki her anahtar, bir mesaj kutusunun başlığıdır.
+        // Her mesaj kutusu çevirisinde "text" ve "caption" alanları bulunur:
+        //      "caption" alanı, mesaj kutusunun başlığının (mesaj kutusunun başlık satırı, X'in solundaki kapatma düğmesi) çevirisidir.
+        //      "text" alanı, mesaj kutusunun içindeki metnin çevirisidir.
+        // ===== Main.cs içindeki MessageBoxes =====
+        "Could not open url in web browser": {"caption": "URL tarayıcıda açılamadı", "text": "{0} URL'sini tarayıcıda açmaya çalışırken şu istisna ile karşılaşıldı:\r\n{1}"},
+        // ===== SettingsBase.cs içindeki MessageBoxes =====
+        // Geliştiricilere Not: Bu anahtarları eklentinizin adıyla eşleştirdiğinizden emin olun!
+        "Unknown error while parsing $PluginName$ config file": {"caption": "$PluginName$ konfigürasyon dosyası parse edilirken bilinmeyen hata", "text": "$PluginName$ konfigürasyon dosyasını parse ederken, \"{0}\" ayarının türü {1} olmasını bekleniyordu, ancak bir hata oluştu.\r\nBu ayar varsayılan değeri {2} olarak ayarlandı.\r\nVerilen değer {3}, bilinmeyen bir nedenle dönüştürülemedi."},
+        "Error while parsing $PluginName$ config file": {"caption": "$PluginName$ konfigürasyon dosyası parse edilirken hata", "text": "$PluginName$ konfigürasyon dosyasını parse ederken, \"{0}\" ayarının türü {1} olmasını bekleniyordu, ancak bir hata oluştu.\r\nBu ayar varsayılan değeri {2} olarak ayarlandı.\r\nVerilen değer {3}, şu hatayı yükseltti:\r\n{4}"},
+        "Invalid value for setting {0}": {"caption": "{0} ayarı için geçersiz değer", "text": "{0} ayarının değeri {1} olarak değiştirilemedi, bu yüzden {2} olarak kalacaktır.\r\nŞu istisna ile karşılaşıldı:\r\n{3}"},
+        // ===== Npp.cs içindeki MessageBoxes =====
+        "Nothing to copy to clipboard": {"caption": "Panoya kopyalanacak bir şey yok", "text": "Panoya kopyalanacak bir şey bulunamadı"},
+        "File too long for $PluginName$": {"caption": "$PluginName$ için dosya çok uzun", "text": "$PluginName$ bu eklenti komutunu 2147483647 bayttan büyük bir dosyada çalıştıramaz.\r\nDosya çok uzun olduğunda bildirimleri göstermeyi durdurmak istiyor musunuz?"},
+        // ===== TestRunner.cs içindeki MessageBoxes =====
+        "Do you want to run tests?": {"caption": "Testleri çalıştırmak istiyor musunuz?", "text": "Testlerin çalıştırılması, panonuzun içeriğini geçici olarak değiştirebilir. Yine de testleri çalıştırmak istiyor musunuz?"}
+    }
+}
