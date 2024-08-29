@@ -53,7 +53,8 @@ namespace Kbg.NppPluginNET
         /// </summary>
         private static NppListener nppListener = null;
         /// <summary>
-        /// If this is true, <see cref="nppListener"/> will be initialized.<br></br>
+        /// If the Notepad++ version is higher than 8.6.9, this boolean does not matter.<br></br>
+        /// If this is true, and the Notepad++ version is 8.6.9 or lower, <see cref="nppListener"/> will be initialized.<br></br>
         /// <b>SETTING THIS TO <c>true</c> COMES AT A REAL PERFORMANCE COST <i>EVEN WHEN YOUR PLUGIN IS NOT IN USE</i></b> (possibly up to 10% of all CPU usage associated with Notepad++)<br></br>
         /// <i>Do NOT</i> set this to true unless it is very important to you that your plugin's UI language can dynamically adjust to the Notepad++ UI language.<br></br>
         /// Note that <b>translation will work even if this is <c>false</c></b>, so the only upside of this is that
@@ -70,8 +71,6 @@ namespace Kbg.NppPluginNET
             // see https://github.com/oleg-shilo/cs-script.npp/issues/66#issuecomment-1086657272 for more info
             AppDomain.CurrentDomain.AssemblyResolve += LoadDependency;
 
-            // next load the translations file so we can translate the menu items
-            Translator.LoadTranslations();
             // Initialization of your plugin commands
 
             // with function :
@@ -116,9 +115,9 @@ namespace Kbg.NppPluginNET
             PluginBase.SetCommand(20, "Open a pop-up dialog", OpenPopupDialog);
             PluginBase.SetCommand(21, "---", null);
             PluginBase.SetCommand(22, "Allocate indicators demo", AllocateIndicatorsDemo);
-            // start listening to messages that aren't broadcast by the plugin manager.
-            if (FOLLOW_NPP_UI_LANGUAGE)
+            if (FOLLOW_NPP_UI_LANGUAGE && (Npp.nppVersion[0] < 8 || (Npp.nppVersion[0] == 8 && (Npp.nppVersion[1] < 6 || (Npp.nppVersion[1] == 6 && Npp.nppVersion[2] <= 9)))))
             {
+                // start listening to messages that aren't broadcast by the plugin manager (for versions of Notepad++ 8.6.9 or earlier, because later versions have NPPN_NATIVELANGCHANGED)
                 nppListener = new NppListener();
                 nppListener.AssignHandle(PluginBase.nppData._nppHandle);
             }
@@ -232,11 +231,15 @@ namespace Kbg.NppPluginNET
                 if (bufferModified == activeFname)
                     modsSinceBufferOpened++;
                 break;
-                //if (code > int.MaxValue) // windows messages
-                //{
-                //    int wm = -(int)code;
-                //    }
-                //}
+            //if (code > int.MaxValue) // windows messages
+            //{
+            //    int wm = -(int)code;
+            //    }
+            //}
+            case (uint)NppMsg.NPPN_READY:
+            case (uint)NppMsg.NPPN_NATIVELANGCHANGED:
+                Translator.ResetTranslations();
+                break;
             }
         }
 
@@ -250,7 +253,7 @@ namespace Kbg.NppPluginNET
             }
             isShuttingDown = true;
         }
-        #endregion
+#endregion
 
         #region " Menu functions "
 
