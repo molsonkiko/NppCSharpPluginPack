@@ -68,9 +68,13 @@ If you are interested in helping users of your plugin who don't speak English, t
     - If no translation file was found, or if parsing failed, the default English will be used.
 5. If parsing was successful, `Translator.cs` will use the translation file as described below.
 
-For versions of NppCSharpPluginPack *older than v0.0.3.11*, translation is only done once, when Notepad++ starts up. If the user changes their Notepad++ UI language, this change is only reflected in the plugin after the user closes and re-opens Notepad++. For versions of NppCSharpPluginPack *v0.0.3.11 or newer*, it is *possible* to also change the plugin's UI language whenever the user changes their language preference in the Notepad++ preferences form, although this capability is turned off by default to improve performance.
+When the user changes their Notepad++ UI language, the plugin will respond to this change as follows (according to the version number of NppCSharpPluginPack):
 
-To be clear, *the plugin may not be in the same language of the Notepad++ UI.* The steps described above represent my best effort to automatically translate the plugin into a language that the user will find useful, without requiring the user to select their language from a list of available languages in the settings form.
+| CSharpPluginPack version | Translation at startup | Translation *possible* (but slow) as soon as user changes their preference | Translation *guaranteed* when user changes their preference |
+|--------------------------|------------------------|----------------------------------------------------------------------------|-------------------------------------------------------------|
+|  v0.0.3.7 to 0.0.3.10    |   __YES__              |   __NO__                                                                   |                   __NO__                                    |
+|  v0.0.3.11               |   __YES__              |   __YES__                                                                  |                   __NO__                                    |
+|  v0.0.3.14 or higher     |   __YES__              |   __YES__                                                                  |   __YES__ (only for Notepad++ 8.6.9 or higher)              |
 
 To translate your plugin to another language, just look at [`english.json5` in the translations directory of this repo](https://github.com/molsonkiko/NppCSharpPluginPack/blob/main/translation/english.json5) and follow the instructions in that file.
 
