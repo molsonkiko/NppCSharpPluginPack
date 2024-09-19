@@ -238,7 +238,7 @@ namespace Kbg.NppPluginNET
             //}
             case (uint)NppMsg.NPPN_READY:
             case (uint)NppMsg.NPPN_NATIVELANGCHANGED:
-                Translator.ResetTranslations();
+                Translator.ResetTranslations(code == (uint)NppMsg.NPPN_READY);
                 break;
             }
         }

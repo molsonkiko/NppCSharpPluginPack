@@ -242,6 +242,9 @@
       <DEBUG32 Include="bin\Debug\*.*" />
       <NPP64BIT Include="$(NppPath64)\plugins\CSharpPluginPack" />
       <NPP32BIT Include="$(NppPath32)\plugins\CSharpPluginPack" />
+      <TRANSLATION_ORIGIN Include="..\translation\*.json5" />
+      <TRANSLATION32 Include="$(NppPath32)\plugins\CSharpPluginPack\translation" />
+      <TRANSLATION64 Include="$(NppPath64)\plugins\CSharpPluginPack\translation" />
     </ItemGroup>
     <MakeDir Directories="@(NPP64BIT)" Condition=" '$(Platform)' == 'x64' " />
     <MakeDir Directories="@(NPP32BIT)" Condition=" '$(Platform)' == 'x86' " />
@@ -250,6 +253,11 @@
     <Copy Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' " SourceFiles="@(DEPENDENCY_DLLS)" DestinationFolder="bin\Release" SkipUnchangedFiles="true" />
     <Copy Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' " SourceFiles="@(DEPENDENCY_DLLS)" DestinationFolder="bin\Debug-x64" SkipUnchangedFiles="true" />
     <Copy Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' " SourceFiles="@(DEPENDENCY_DLLS)" DestinationFolder="bin\Debug" SkipUnchangedFiles="true" />
+    <!-- copy all translation files to NPP plugin dir's subdirectory -->
+    <MakeDir Directories="@(TRANSLATION64)" Condition=" '$(Platform)' == 'x64' " />
+    <MakeDir Directories="@(TRANSLATION32)" Condition=" '$(Platform)' == 'x86' " />
+    <Copy Condition=" '$(Platform)' == 'x64' " SourceFiles="@(TRANSLATION_ORIGIN)" DestinationFolder="@(TRANSLATION64)" SkipUnchangedFiles="true" />
+    <Copy Condition=" '$(Platform)' == 'x86' " SourceFiles="@(TRANSLATION_ORIGIN)" DestinationFolder="@(TRANSLATION32)" SkipUnchangedFiles="true" />
     <!-- copy all files in current bin directory to NPP plugin dir -->
     <Copy SourceFiles="@(RELEASE64)" Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' " DestinationFolder="@(NPP64BIT)" SkipUnchangedFiles="true" />
     <Copy SourceFiles="@(RELEASE32)" Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' " DestinationFolder="@(NPP32BIT)" SkipUnchangedFiles="true" />

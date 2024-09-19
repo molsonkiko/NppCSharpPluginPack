@@ -32,33 +32,8 @@ namespace NppDemo.Utils
         /// </summary>
         /// <param name="atStartup">Is this method being called as the plugin is starting up?</param>
         /// <param name="preferredLang">If null, use the logic described in README.md to determine which language to load. Otherwise, do not attempt to load any language other than preferredLang.</param>
-        public static void LoadTranslations(bool atStartup = true, string preferredLang = null)
+        private static void LoadTranslations(bool atStartup = true)
         {
-            if (atStartup && HasLoadedAtStartup)
-                return;
-            HasLoadedAtStartup = true;
-            if (preferredLang == null)
-            {
-                // first try to use the Notepad++ nativeLang.xml config file to determine the user's language preference
-                if (!TryGetNppNativeLangXmlText(out string nativeLangXml))
-                    return;
-                Match match = Regex.Match(nativeLangXml, "<Native-Langue .*? filename=\"(.*?)\\.xml\"");
-                if (match.Success)
-                    languageName = match.Groups[1].Value.Trim().ToLower();
-                // as a fallback, try to determine the user's language by asking Windows for their current culture
-                if (languageName == DEFAULT_LANG || !TryGetTranslationFileName(languageName, out _))
-                {
-                    CultureInfo currentCulture = CultureInfo.CurrentCulture;
-                    string languageFullname = currentCulture.EnglishName;
-                    languageName = languageFullname.Split(' ')[0].ToLower();
-                    if (languageName == "Unknown")
-                        languageName = currentCulture.Parent.EnglishName.Split(' ')[0].ToLower();
-                }
-            }
-            else
-            {
-                languageName = preferredLang;
-            }
             if (atStartup && languageName == DEFAULT_LANG)
             {
                 //MessageBox.Show("Not loading translations, because english is the current culture language");
@@ -279,29 +254,58 @@ namespace NppDemo.Utils
         /// If translation fails, or if the current UI language is english, restore the language of JsonTools to the default english.
         /// </summary>
         /// <returns>true if and only if translation was successful AND the plugin was translated to a language other than English</returns>
-        public static bool ResetTranslations(string langName = "")
+        public static bool ResetTranslations(bool atStartup)
         {
-            if (!string.IsNullOrEmpty(langName) || Npp.notepad.TryGetNativeLangName(out langName))
-            {
-                if (!TryGetTranslationFileName(langName, out _))
-                    return ResetTranslationsHelper(true);
-                if (languageName == langName)
-                    return false; // we're already in that language
-                languageName = langName;
-                return ResetTranslationsHelper(langName == DEFAULT_LANG);
-            }
+            if (atStartup && HasLoadedAtStartup)
+                return false;
+            HasLoadedAtStartup = true;
             string oldLanguageName = languageName;
             languageName = DEFAULT_LANG;
-            if (!TryGetNppNativeLangXmlText(out string nativeLangXml))
-                return ResetTranslationsHelper(true);
-            Match langNameMtch = Regex.Match(nativeLangXml, "<Native-Langue .*? filename=\"(.*?)\\.xml\"");
             string newLanguageName = "";
-            if (langNameMtch.Success)
-                newLanguageName = langNameMtch.Groups[1].Value.Trim().ToLower();
-            if (newLanguageName == oldLanguageName)
-                return false; // unchanged, don't waste time
+            // first try using the NPPM_GETNATIVELANGNAME API introduced in v8.7.0
+            if (Npp.notepad.TryGetNativeLangName(out newLanguageName))
+            {
+                newLanguageName = GetEmptyStringIfLangInvalid(newLanguageName, atStartup);
+            }
+            else
+            {
+                // if that failed, try to use the Notepad++ nativeLang.xml config file to determine the user's language preference
+                if (TryGetNppNativeLangXmlText(out string nativeLangXml))
+                {
+                    Match langNameMtch = Regex.Match(nativeLangXml, "<Native-Langue .*? filename=\"(.*?)\\.xml\"");
+                    if (langNameMtch.Success)
+                        newLanguageName = langNameMtch.Groups[1].Value.Trim().ToLower();
+                    newLanguageName = GetEmptyStringIfLangInvalid(newLanguageName, atStartup);
+                }
+            }
+            // at startup only, if neither of the above worked, try to determine the user's language by asking Windows for their current culture
+            // Doing this any time other than startup can have confusing consequences
+            if (atStartup && newLanguageName.Length == 0)
+            {
+                CultureInfo currentCulture = CultureInfo.CurrentCulture;
+                string languageFullname = currentCulture.EnglishName;
+                newLanguageName = languageFullname.Split(' ')[0].ToLower();
+                if (newLanguageName == "Unknown")
+                    newLanguageName = currentCulture.Parent.EnglishName.Split(' ')[0].ToLower();
+                if (!TryGetTranslationFileName(newLanguageName, out _))
+                    newLanguageName = DEFAULT_LANG;
+                newLanguageName = GetEmptyStringIfLangInvalid(newLanguageName, atStartup);
+            }
+            if (newLanguageName.Length == 0 || newLanguageName == oldLanguageName)
+            {
+                // the new language is invalid or unchanged, so we do nothing
+                languageName = oldLanguageName;
+                return false;
+            }
             languageName = newLanguageName;
-            return ResetTranslationsHelper(languageName == DEFAULT_LANG);
+            return ResetTranslationsHelper(languageName == DEFAULT_LANG, atStartup);
+        }
+
+        private static string GetEmptyStringIfLangInvalid(string langName, bool atStartup)
+        {
+            return ((atStartup && langName == DEFAULT_LANG) || !TryGetTranslationFileName(langName, out _))
+                ? "" // not a valid language, or it's English and we're starting up so no translation needed
+                : langName;
         }
 
         /// <summary>
@@ -309,26 +313,20 @@ namespace NppDemo.Utils
         /// </summary>
         /// <param name="restoreToEnglish"></param>
         /// <returns>true if and only if translation was successful AND the plugin was translated to a language other than English</returns>
-        private static bool ResetTranslationsHelper(bool restoreToEnglish)
+        private static bool ResetTranslationsHelper(bool restoreToEnglish, bool atStartup)
         {
-            IntPtr allPluginsMenuHandle = Win32.SendMessage(PluginBase.nppData._nppHandle, (uint)NppMsg.NPPM_GETMENUHANDLE, (int)NppMsg.NPPPLUGINMENU, 0);
-            if (allPluginsMenuHandle == IntPtr.Zero)
-                return false;
             bool result = true;
             List<string> newMenuItemNames = PluginBase.GetUntranslatedFuncItemNames();
+            LoadTranslations(atStartup);
             if (restoreToEnglish)
-            {
-                languageName = DEFAULT_LANG;
-                // we need to temporarily load translations back to English, because the forms don't remember the untranslated text for their controls
-                LoadTranslations(false, DEFAULT_LANG);
                 result = false;
-            }
             else
-            {
-                LoadTranslations(false, languageName);
                 newMenuItemNames = newMenuItemNames.Select(x => GetTranslatedMenuItem(x)).ToList();
-            }
-            PluginBase.ChangePluginMenuItemNames(allPluginsMenuHandle, newMenuItemNames);
+            IntPtr allPluginsMenuHandle = Win32.SendMessage(PluginBase.nppData._nppHandle, (uint)NppMsg.NPPM_GETMENUHANDLE, (int)NppMsg.NPPPLUGINMENU, 0);
+            if (allPluginsMenuHandle == IntPtr.Zero)
+                result = false;
+            else if (!(atStartup && restoreToEnglish))
+                PluginBase.ChangePluginMenuItemNames(allPluginsMenuHandle, newMenuItemNames);
             if (Main.selectionRememberingForm != null && !Main.selectionRememberingForm.IsDisposed)
             {
                 TranslateForm(Main.selectionRememberingForm);

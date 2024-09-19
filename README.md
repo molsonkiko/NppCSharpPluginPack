@@ -55,18 +55,19 @@ Every version of the template works on [Windows 10 May 2019 update](https://blog
 If you are interested in helping users of your plugin who don't speak English, this plugin pack makes it easy to translate your plugin to other languages beginning in [v0.0.3.7](/CHANGELOG.md#004---unreleased-yyyy-mm-dd).
 
 [`Translator.cs`](https://github.com/molsonkiko/NppCSharpPluginPack/blob/main/NppCSharpPluginPack/Utils/Translator.cs) infers your preferred language and attempts to translate in the following way:
-1. It checks your [Notepad++ `nativeLang.xml` config file](https://npp-user-manual.org/docs/binary-translation/#creating-or-editing-a-translation) (at [XPath path](https://www.w3schools.com/xml/xml_xpath.asp) `/NotepadPlus/Native-Langue/@name`) to determine what language you prefer to use, and sets `lowerEnglishName` to the appropriate value and __skips to step 3__. For example, if this file says `galician`, we will attempt to translate your plugin to `galician`. __If the Notepad++ native language is `english` *or* if your plugin does not have a translation file for the Notepad++ native language, `Translator.cs` then does the following:__
-    1. `Translator.cs` looks up your [`current culture`](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/get-culture?view=powershell-7.4) (which can be checked using the `get-culture` command in Powershell).
-    2. Next, we find the `EnglishName` property of the `current culture` (which can be found by the `$foo = get-culture; $foo.EnglishName` command in Powershell), take the first word, and convert it to lowercase. Call this `lowerEnglishName`.
+1. It first attempts to use [NPPM_GETNATIVELANGFILENAME](https://npp-user-manual.org/docs/plugin-communication/#2140nppm_getnativelangfilename) (introduced in Notepad++ 8.7) to get the name of the Notepad++ UI language.
+2. If step 1 fails, it checks your [Notepad++ `nativeLang.xml` config file](https://npp-user-manual.org/docs/binary-translation/#creating-or-editing-a-translation) (at [XPath path](https://www.w3schools.com/xml/xml_xpath.asp) `/NotepadPlus/Native-Langue/@name`) to determine what language you prefer to use, and sets `lowerEnglishName` to the appropriate value and __skips to step 3__. For example, if this file says `galician`, we will attempt to translate your plugin to `galician`. __If the Notepad++ native language is `english` *or* if your plugin does not have a translation file for the Notepad++ native language, `Translator.cs` then does the following:__
+3. If steps 1 and 2 fail, `Translator.cs` looks up your [`current culture`](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/get-culture?view=powershell-7.4) (which can be checked using the `get-culture` command in Powershell).
+    * Next, we find the `EnglishName` property of the `current culture` (which can be found by the `$foo = get-culture; $foo.EnglishName` command in Powershell), take the first word, and convert it to lowercase, and set `lowerEnglishName` to this.
         - Example: the `EnglishName` of the `en-us` culture is `English (United States)`, so `lowerEnglishName` is `english`
         - Example: the `EnglishName` of the `it-it` culture is `Italian (Italy)`, so `lowerEnglishName` is `italian`
-3. `Translator.cs` then does one of the following:
+4. `Translator.cs` then does one of the following:
     - If `lowerEnglishName` is `english`, it does nothing (because the plugin is naturally in English)
     - Otherwise, it looks in the `translation` subdirectory of the `CSharpPluginPack` plugin folder (where `CSharpPluginPack.dll` lives) for a file named `{lowerEnglishName}.json5`
     - __NOTE:__ because the translation files are in a subdirectory of the plugin folder, *translation does not work for versions of Notepad++ older than [version 8](https://notepad-plus-plus.org/downloads/v8/),* since those older versions do not have separate folders for each plugin.
-4. If `Translator.cs` found `translation\{lowerEnglishName}.json5`, it attempts to parse the file. If parsing fails, a message box will appear warning the user of this.
+5. If `Translator.cs` found `translation\{lowerEnglishName}.json5`, it attempts to parse the file. If parsing fails, a message box will appear warning the user of this.
     - If no translation file was found, or if parsing failed, the default English will be used.
-5. If parsing was successful, `Translator.cs` will use the translation file as described below.
+6. If parsing was successful, `Translator.cs` will use the translation file as described below.
 
 When the user changes their Notepad++ UI language, the plugin will respond to this change as follows (according to the version number of NppCSharpPluginPack):
 
@@ -74,7 +75,7 @@ When the user changes their Notepad++ UI language, the plugin will respond to th
 |--------------------------|------------------------|----------------------------------------------------------------------------|-------------------------------------------------------------|
 |  v0.0.3.7 to 0.0.3.10    |   __YES__              |   __NO__                                                                   |                   __NO__                                    |
 |  v0.0.3.11               |   __YES__              |   __YES__                                                                  |                   __NO__                                    |
-|  v0.0.3.14 or higher     |   __YES__              |   __YES__                                                                  |   __YES__ (only for Notepad++ 8.6.9 or higher)              |
+|  v0.0.3.14 or higher     |   __YES__              |   __YES__                                                                  |   __YES__ (only for Notepad++ 8.7 or higher)                |
 
 To translate your plugin to another language, just look at [`english.json5` in the translations directory of this repo](https://github.com/molsonkiko/NppCSharpPluginPack/blob/main/translation/english.json5) and follow the instructions in that file.
 

@@ -25,7 +25,7 @@ namespace NppDemo.Utils
                 case (int)Resource.NPPM_INTERNAL_RELOADNATIVELANG:
                     base.WndProc(ref m);
                     if (reloadNativeLangToggle)
-                        Translator.ResetTranslations();
+                        Translator.ResetTranslations(false);
                     reloadNativeLangToggle = !reloadNativeLangToggle;
                     return;
                 }

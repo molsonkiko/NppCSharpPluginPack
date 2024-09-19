@@ -128,6 +128,8 @@ namespace CsvQuery.PluginInfrastructure
                         allConvertedCorrectly = false;
                         // use the default value for the property, since the config file couldn't be read in this case.
                         SetPropertyInfoToDefault(propertyInfo);
+                        if (!Translator.HasTranslations)
+                            Translator.ResetTranslations(!Translator.HasLoadedAtStartup);
                         if (ex is null)
                         {
                             Translator.ShowTranslatedMessageBox(
@@ -178,8 +180,6 @@ namespace CsvQuery.PluginInfrastructure
         {
             filename = filename ?? IniFilePath;
             Npp.CreateConfigSubDirectoryIfNotExists();
-            if (!Translator.HasTranslations)
-                Translator.LoadTranslations(false);
 
             // Win32.WritePrivateProfileSection (that NppPlugin uses) doesn't work well with non-ASCII characters. So we roll our own.
             using (var fp = new StreamWriter(filename, false, Encoding.UTF8))
