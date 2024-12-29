@@ -456,14 +456,11 @@ The current scroll ratio is {Math.Round(scrollPercentage, 2)}%.
 
         static void GetFileNamesDemo()
         {
-            int nbFile = (int)Win32.SendMessage(PluginBase.nppData._nppHandle, (uint)NppMsg.NPPM_GETNBOPENFILES, 0, 0);
-            MessageBox.Show(nbFile.ToString(), "Number of opened files:");
-
-            using (ClikeStringArray cStrArray = new ClikeStringArray(nbFile, Win32.MAX_PATH))
-            {
-                if (Win32.SendMessage(PluginBase.nppData._nppHandle, (uint)NppMsg.NPPM_GETOPENFILENAMES, cStrArray.NativePointer, nbFile) != IntPtr.Zero)
-                    foreach (string file in cStrArray.ManagedStringsUnicode) MessageBox.Show(file);
-            }
+            string[] fileNames = Npp.notepad.GetOpenFileNames();
+            MessageBox.Show(fileNames.Length.ToString(), "Number of opened files:");
+                    
+            foreach (string file in fileNames)
+                MessageBox.Show(file);
         }
         static void GetSessionFileNamesDemo()
         {

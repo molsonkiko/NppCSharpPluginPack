@@ -51,7 +51,9 @@ namespace Kbg.NppPluginNET.PluginInfrastructure
         ALL_OPEN_FILES = 0,
         PRIMARY_VIEW = 1,
         SECOND_VIEW = 2,
-
+        /// <summary>
+        /// DO NOT USE! The internal Notepad++ implementation uses the dangerous deprecated function <c>lstrcpy</c>.
+        /// </summary>
         NPPM_GETOPENFILENAMES = Constants.NPPMSG + 8,
 
         NPPM_MODELESSDIALOG = Constants.NPPMSG + 12,

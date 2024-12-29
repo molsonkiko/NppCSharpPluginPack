@@ -1,9 +1,11 @@
 ﻿// NPP plugin platform for .Net v0.94.00 by Kasper B. Graversen etc.
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Text;
 using NppDemo.PluginInfrastructure;
+using NppDemo.Utils;
 
 namespace Kbg.NppPluginNET.PluginInfrastructure
 {
@@ -225,19 +227,27 @@ namespace Kbg.NppPluginNET.PluginInfrastructure
 			return new int[] { major, minor, bugfix };
         }
 
+        /// <summary>
+		/// Get all open filenames in both views (all in first view, then all in second view).<br></br>
+		/// Note that if the second view is not open, the last name in the array will be "new 1" because that is the name of the placeholder buffer that is always in an empty view.
+		/// </summary>
+		/// <returns></returns>
         public string[] GetOpenFileNames()
         {
-            int nbFile = (int)Win32.SendMessage(PluginBase.nppData._nppHandle, (uint)NppMsg.NPPM_GETNBOPENFILES, 0, 0);
-
-            using (ClikeStringArray cStrArray = new ClikeStringArray(nbFile, Win32.MAX_PATH))
+            var bufs = new List<string>();
+            for (int view = 0; view < 2; view++)
             {
-                if (Win32.SendMessage(PluginBase.nppData._nppHandle, (uint)NppMsg.NPPM_GETOPENFILENAMES, cStrArray.NativePointer, nbFile) != IntPtr.Zero)
-                    return cStrArray.ManagedStringsUnicode.ToArray();
+                int nbOpenFiles = (int)Win32.SendMessage(PluginBase.nppData._nppHandle, (uint)NppMsg.NPPM_GETNBOPENFILES, 0, view + 1);
+                for (int ii = 0; ii < nbOpenFiles; ii++)
+                {
+                    IntPtr bufId = Win32.SendMessage(PluginBase.nppData._nppHandle, (uint)NppMsg.NPPM_GETBUFFERIDFROMPOS, ii, view);
+                    bufs.Add(Npp.notepad.GetFilePath(bufId));
+                }
             }
-            return null;
+            return bufs.ToArray();
         }
 
-		public void AddModelessDialog(IntPtr formHandle)
+        public void AddModelessDialog(IntPtr formHandle)
 		{
 			Win32.SendMessage(PluginBase.nppData._nppHandle, (uint)NppMsg.NPPM_MODELESSDIALOG, IntPtr.Zero, formHandle);
 		}

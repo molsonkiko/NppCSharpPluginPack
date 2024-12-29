@@ -39,6 +39,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 5. Fix bug (related to fixed bug 4 above) where *all settings with non-integer floating-point values* would cause Notepad++ to crash on start-up if the localization used `,` as the decimal separator. 
 6. Fix bug with [makerelease.bat](/makerelease.bat) where it did not properly copy the dependency DLLs into the zip files.
 7. Fix bug when too-large integers are entered in the selection-remembering form.
+8. Fix potential crash when running `Get File Names Demo` plugin command, by [removing reference to dangerous `NPPM_GETOPENFILENAMES` command](https://community.notepad-plus-plus.org/post/98818).
 
 ## [0.0.3] - 2024-02-26
 
