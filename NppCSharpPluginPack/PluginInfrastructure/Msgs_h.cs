@@ -52,7 +52,8 @@ namespace Kbg.NppPluginNET.PluginInfrastructure
         PRIMARY_VIEW = 1,
         SECOND_VIEW = 2,
         /// <summary>
-        /// DO NOT USE! The internal Notepad++ implementation uses the dangerous deprecated function <c>lstrcpy</c>.
+        /// DO NOT USE! The internal Notepad++ implementation uses the dangerous deprecated function <c>lstrcpy</c>
+        /// without properly testing if destination buffers are NULL or large enough to receive a string.
         /// </summary>
         NPPM_GETOPENFILENAMES = Constants.NPPMSG + 8,
 
@@ -61,6 +62,10 @@ namespace Kbg.NppPluginNET.PluginInfrastructure
         MODELESSDIALOGREMOVE = 1,
 
         NPPM_GETNBSESSIONFILES = Constants.NPPMSG + 13,
+        /// <summary>
+        /// DO NOT USE! The internal Notepad++ implementation uses the dangerous deprecated function <c>lstrcpy</c>
+        /// without properly testing if destination buffers are NULL or large enough to receive a string.
+        /// </summary>
         NPPM_GETSESSIONFILES = Constants.NPPMSG + 14,
         NPPM_SAVESESSION = Constants.NPPMSG + 15,
         NPPM_SAVECURRENTSESSION = Constants.NPPMSG + 16,

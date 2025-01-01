@@ -25,6 +25,11 @@ namespace NppDemo.Utils
 
         public const string DEFAULT_LANG = "english";
         public const string DEFAULT_PLUGINS_MENU_NAME = "&Plugins";
+        /// <summary>
+        /// whether to use the Windows culture (see below) to determine translation language in some cases<br></br>
+        /// This is currently false because of issue 82 (https://github.com/molsonkiko/JsonToolsNppPlugin/issues/82)
+        /// </summary>
+        private const bool CHECK_WINDOWS_CULTURE = false;
         public static readonly string translationDir = Path.Combine(Npp.pluginDllDirectory, "translation");
 
         /// <summary>
@@ -280,7 +285,7 @@ namespace NppDemo.Utils
             }
             // at startup only, if neither of the above worked, try to determine the user's language by asking Windows for their current culture
             // Doing this any time other than startup can have confusing consequences
-            if (atStartup && newLanguageName.Length == 0)
+            if (CHECK_WINDOWS_CULTURE && atStartup && newLanguageName.Length == 0)
             {
                 CultureInfo currentCulture = CultureInfo.CurrentCulture;
                 string languageFullname = currentCulture.EnglishName;
@@ -336,7 +341,7 @@ namespace NppDemo.Utils
             return result;
         }
 
-        #endregion // translating menu items
+#endregion // translating menu items
 
         /// <summary>
         /// Finds the appropriate translation for a <see cref="MessageBox"/> (using <paramref name="caption"/> as key in the <c>"messageBoxes"</c> field), then displays it and returns the result of <see cref="MessageBox.Show(string, string, MessageBoxButtons, MessageBoxIcon)"/><br></br>

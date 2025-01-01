@@ -113,7 +113,6 @@
       <DependentUpon>DarkModeTestForm.cs</DependentUpon>
     </Compile>
     <!-- infrastructure -->
-    <Compile Include="PluginInfrastructure\ClikeStringArray.cs" />
     <Compile Include="PluginInfrastructure\DllExport\DllExportAttribute.cs" />
     <Compile Include="PluginInfrastructure\Docking_h.cs" />
     <Compile Include="PluginInfrastructure\GatewayDomain.cs" />

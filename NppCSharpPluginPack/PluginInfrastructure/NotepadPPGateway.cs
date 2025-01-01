@@ -61,6 +61,12 @@ namespace Kbg.NppPluginNET.PluginInfrastructure
         /// </summary>
         bool TryGetNativeLangName(out string langName);
 
+		/// <summary>
+		/// returns [0] if only the mainView is open, [0, 1] if both the mainView and subView are open, and [1] if only the subView is open.<br></br>
+		/// Thus, GetVisibleViews().Count will return 2 if the Notepad++ window is split into two views, and 1 otherwise.
+		/// </summary>
+		List<int> GetVisibleViews();
+
     }
 
 	/// <summary>
@@ -234,11 +240,8 @@ namespace Kbg.NppPluginNET.PluginInfrastructure
         public string[] GetOpenFileNames()
         {
             var bufs = new List<string>();
-            for (int view = 0; view < 2; view++)
+            foreach (int view in GetVisibleViews())
             {
-                int curBufIdx = (int)Win32.SendMessage(PluginBase.nppData._nppHandle, (uint)NppMsg.NPPM_GETCURRENTDOCINDEX, 0, view);
-                if (curBufIdx == -1)
-                    continue; // NPPM_GETCURRENTDOCINDEX(0, view) returns -1 if that view is invisible
                 int nbOpenFiles = (int)Win32.SendMessage(PluginBase.nppData._nppHandle, (uint)NppMsg.NPPM_GETNBOPENFILES, 0, view + 1);
                 for (int ii = 0; ii < nbOpenFiles; ii++)
                 {
@@ -306,6 +309,17 @@ namespace Kbg.NppPluginNET.PluginInfrastructure
 			return false;
 		}
 
+		public List<int> GetVisibleViews()
+		{
+			var openViews = new List<int>();
+			for (int view = 0; view < 2; view++)
+			{
+				// NPPM_GETCURRENTDOCINDEX(0, view) returns -1 if that view is invisible
+				if ((int)Win32.SendMessage(PluginBase.nppData._nppHandle, (uint)NppMsg.NPPM_GETCURRENTDOCINDEX, 0, view) >= 0)
+					openViews.Add(view);
+			}
+			return openViews;
+		}
     }
 
 	/// <summary>
