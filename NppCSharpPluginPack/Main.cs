@@ -463,37 +463,31 @@ The current scroll ratio is {Math.Round(scrollPercentage, 2)}%.
                 MessageBox.Show(file);
         }
 
-        /// <summary>
-        /// This method previously used the deprecated <see cref="NppMsg.NPPM_GETSESSIONFILES"/> message,
-        /// but it now uses the C# standard library to achieve the same effect.
-        /// </summary>
         static void GetSessionFileNamesDemo()
         {
             if (!Directory.Exists(PluginConfigDirectory) || !File.Exists(sessionFilePath))
             {
                 MessageBox.Show($"No valid session file at path \"{sessionFilePath}\" in order to point to a valid session file",
-                    "No valid session file", 
+                    "No valid session file",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            int nbFile = (int)Win32.SendMessage(PluginBase.nppData._nppHandle, (uint)NppMsg.NPPM_GETNBSESSIONFILES, 0, sessionFilePath);
 
-            var sessionFileInfo = new FileInfo(sessionFilePath);
-
-            string sessionFileText;
-
-            using (StreamReader reader = sessionFileInfo.OpenText())
+            if (nbFile < 1)
             {
-                sessionFileText = reader.ReadToEnd();
+                MessageBox.Show($"No valid session file at path \"{sessionFilePath}\" in order to point to a valid session file",
+                    "No valid session file",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
+            MessageBox.Show($"Number of session files: {nbFile}");
 
-            var sessionFileNameRegex = new Regex("^[\\x20\\t]*<File.*filename=\"([^\"]+)", RegexOptions.Multiline);
-
-            var sessionFileNameMatches = sessionFileNameRegex.Matches(sessionFileText);
-
-            MessageBox.Show($"Number of session files: {sessionFileNameMatches.Count}");
-
-            foreach (Match mtch in sessionFileNameMatches)
-                MessageBox.Show(mtch.Groups[1].Value);
+            using (ClikeStringArray cStrArray = new ClikeStringArray(nbFile, Win32.MAX_PATH))
+            {
+                if (Win32.SendMessage(PluginBase.nppData._nppHandle, (uint)NppMsg.NPPM_GETSESSIONFILES, cStrArray.NativePointer, sessionFilePath) != IntPtr.Zero)
+                    foreach (string file in cStrArray.ManagedStringsUnicode) MessageBox.Show(file);
+            }
         }
         static void SaveCurrentSessionDemo()
         {
