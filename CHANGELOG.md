@@ -20,7 +20,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 - Closing HTML/XML tags works inconsistently in Notepad++ v7.3.3.
 - Holding down `Enter` in a multiline textbox does not add multiple new lines; it only adds one newline on keyup.
-- Toolbar icon hover text is not translated to other languages. See issue #14.
+- Toolbar icon hover text is not translated to other languages. See [issue #14](https://github.com/molsonkiko/NppCSharpPluginPack/issues/14).
 
 ## [0.0.4] - (UNRELEASED) YYYY-MM-DD
 
@@ -31,8 +31,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 3. Made it so all forms subclass a base class, making it easier to implement recommended methods.
 4. `Npp.TryGetLengthAsInt` and `Npp.TryGetText` methods, which gracefully handle files that are too large to put all their text in a string.
 5. `NotepadPPGateway.GetVisibleViews` method to quickly determine whether Notepad++ is in split-window mode and, if not, which view is currently visible.
-6. When building plugin, automatically create `plugins/yourPluginName` folder in your Notepad++ installation, rather than defaulting to `CSharpPluginPack` as the name for the plugin folder. Fix #13.
-7. When building plugin, automatically sync `plugins/yourPluginName/testfiles` folder in your Notepad++ installation with the `testfiles` folder in this repo. Fix #12.
+6. When building plugin, automatically create `plugins/yourPluginName` folder in your Notepad++ installation, rather than defaulting to `CSharpPluginPack` as the name for the plugin folder. Fix [issue #13](https://github.com/molsonkiko/NppCSharpPluginPack/issues/13).
+7. When building plugin, automatically sync `plugins/yourPluginName/testfiles` folder in your Notepad++ installation with the `testfiles` folder in this repo. Fix [issue #12](https://github.com/molsonkiko/NppCSharpPluginPack/issues/12).
 
 ### Fixed
 
