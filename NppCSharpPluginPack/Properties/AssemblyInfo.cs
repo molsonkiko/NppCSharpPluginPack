@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Mark Johnston Olson")]
 [assembly: AssemblyProduct("C# Demo plugin for Notepad++")]
-[assembly: AssemblyCopyright("Copyright © molsonkiko 2024")]
+[assembly: AssemblyCopyright("Copyright © molsonkiko 2024-2025")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -28,5 +28,5 @@ using System.Runtime.InteropServices;
 //      Build Number
 //      Revision
 //
-[assembly: AssemblyVersion("0.0.3.19")]
-[assembly: AssemblyFileVersion("0.0.3.19")]
+[assembly: AssemblyVersion("0.0.3.20")]
+[assembly: AssemblyFileVersion("0.0.3.20")]

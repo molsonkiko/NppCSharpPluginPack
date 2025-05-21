@@ -240,11 +240,14 @@
       <DEBUG64 Include="bin\Debug-x64\*.*" />
       <RELEASE32 Include="bin\Release\*.*" />
       <DEBUG32 Include="bin\Debug\*.*" />
-      <NPP64BIT Include="$(NppPath64)\plugins\CSharpPluginPack" />
-      <NPP32BIT Include="$(NppPath32)\plugins\CSharpPluginPack" />
+      <NPP64BIT Include="$(NppPath64)\plugins\$(AssemblyName)" />
+      <NPP32BIT Include="$(NppPath32)\plugins\$(AssemblyName)" />
       <TRANSLATION_ORIGIN Include="..\translation\*.json5" />
-      <TRANSLATION32 Include="$(NppPath32)\plugins\CSharpPluginPack\translation" />
-      <TRANSLATION64 Include="$(NppPath64)\plugins\CSharpPluginPack\translation" />
+      <TRANSLATION32 Include="$(NppPath32)\plugins\$(AssemblyName)\translation" />
+      <TRANSLATION64 Include="$(NppPath64)\plugins\$(AssemblyName)\translation" />
+      <TESTFILES_ORIGIN Include="..\testfiles\*.*" />
+      <TESTFILES32 Include="$(NppPath32)\plugins\$(AssemblyName)\testfiles" />
+      <TESTFILES64 Include="$(NppPath64)\plugins\$(AssemblyName)\testfiles" />
     </ItemGroup>
     <MakeDir Directories="@(NPP64BIT)" Condition=" '$(Platform)' == 'x64' " />
     <MakeDir Directories="@(NPP32BIT)" Condition=" '$(Platform)' == 'x86' " />
@@ -258,6 +261,11 @@
     <MakeDir Directories="@(TRANSLATION32)" Condition=" '$(Platform)' == 'x86' " />
     <Copy Condition=" '$(Platform)' == 'x64' " SourceFiles="@(TRANSLATION_ORIGIN)" DestinationFolder="@(TRANSLATION64)" SkipUnchangedFiles="true" />
     <Copy Condition=" '$(Platform)' == 'x86' " SourceFiles="@(TRANSLATION_ORIGIN)" DestinationFolder="@(TRANSLATION32)" SkipUnchangedFiles="true" />
+    <!-- copy all test files to NPP plugin dir's subdirectory -->
+    <MakeDir Directories="@(TESTFILES64)" Condition=" '$(Platform)' == 'x64' " />
+    <MakeDir Directories="@(TESTFILES32)" Condition=" '$(Platform)' == 'x86' " />
+    <Copy Condition=" '$(Platform)' == 'x64' " SourceFiles="@(TESTFILES_ORIGIN)" DestinationFolder="@(TESTFILES64)" SkipUnchangedFiles="true" />
+    <Copy Condition=" '$(Platform)' == 'x86' " SourceFiles="@(TESTFILES_ORIGIN)" DestinationFolder="@(TESTFILES32)" SkipUnchangedFiles="true" />
     <!-- copy all files in current bin directory to NPP plugin dir -->
     <Copy SourceFiles="@(RELEASE64)" Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' " DestinationFolder="@(NPP64BIT)" SkipUnchangedFiles="true" />
     <Copy SourceFiles="@(RELEASE32)" Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' " DestinationFolder="@(NPP32BIT)" SkipUnchangedFiles="true" />

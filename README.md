@@ -38,7 +38,7 @@ If you have any issues, see if [updating to the latest release](https://github.c
 4. Try building the project using Visual Studio using `x64` build target (this build for 64-bit Notepad++). You will know that the project is working correctly when Notepad++ starts up, and `CSharpPluginPack` appears on the list of plugins.
 5. Try changing the assembly version in [NppCSharpPluginPack/Properties/AssemblyInfo.cs](https://github.com/molsonkiko/NppCSharpPluginPack/blob/main/NppCSharpPluginPack/Properties/AssemblyInfo.cs) to `1.0.3.0`.
 6. Try building the project again, then select `Plugins->CSharpPluginPack->About` from the Notepad++ dropdown menu. The title of the [about form](/docs/README.md#about-form) should read `NppCSharpPluginPack v1.0.3`. If it does not, your project is not building correctly.
-7. Copy the `testfiles` directory of the repo to the `%ProgramFiles%/Notepad++/plugins/CSharpPluginPack` directory.
+7. Copy the `testfiles` directory of the repo to the `%ProgramFiles%/Notepad++/plugins/CSharpPluginPack` directory. *Note: this step is __not necessary__ starting in v0.0.3.20, because that is the first version that automatically syncs the `testfiles` directory in the repo with the `testfiles` directory in the directory targeted by the build process.*
 8. Run the tests. The third line of the test results file should read `No tests failed`. If you see `Tests failed: Performance of something` on the third line, that's because you forgot step 7.
 9. To test your project for 32-bit Notepad++, repeat steps 3-8 for `%ProgramFiles (x86)%/Notepad++/plugins` and change your build target to `x86`.
 
@@ -46,7 +46,7 @@ If you have any issues, see if [updating to the latest release](https://github.c
 
 This plugin is verified to work on versions of Notepad++ as old as [v7.3.3](https://notepad-plus-plus.org/downloads/v7.3.3/), but it may have some bugs ([see the CHANGELOG](/CHANGELOG.md) to see the what bugs may still exist).
 
-It has also been tested and verified to work normally on the newest versions of Notepad++, [v8.6.1](https://notepad-plus-plus.org/downloads/v8.6.1/) and [v8.6.2 RC](https://community.notepad-plus-plus.org/topic/25341/notepad-v8-6-2-release-candidate/19).
+It has also been tested and verified to work normally on the newest versions of Notepad++, [v8.8.1](https://notepad-plus-plus.org/downloads/v8.8.1/).
 
 Every version of the template works on [Windows 10 May 2019 update](https://blogs.windows.com/windowsexperience/2019/05/21/how-to-get-the-windows-10-may-2019-update/) or later, or you must install [.NET Framework 4.8](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net48).
 
