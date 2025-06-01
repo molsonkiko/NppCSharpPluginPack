@@ -8,9 +8,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
  
 ### To Be Added
 
-1. toggle highlighting of `close HTML/XML tag` toolbar icon based on whether the setting is true.
-2. add more UI tests for [ScintillaGateway.cs](/NppCSharpPluginPack/PluginInfrastructure/ScintillaGateway.cs) and [NotepadPPGateway.cs](/NppCSharpPluginPack/PluginInfrastructure/NotepadPPGateway.cs) methods to make sure they work.
-3. In [ToolsForMaintainersOfTheProjectTemplate](/ToolsForMaintainersOfTheProjectTemplate/), I need to add auto-generation of calls to `GetNullStrippedStringFromMessageThatReturnsLength(SciMsg msg, IntPtr wParam=default)` instead of the old fixed-size 10000-byte buffers
+1. Add more UI tests for [ScintillaGateway.cs](/NppCSharpPluginPack/PluginInfrastructure/ScintillaGateway.cs) and [NotepadPPGateway.cs](/NppCSharpPluginPack/PluginInfrastructure/NotepadPPGateway.cs) methods to make sure they work.
+2. In [ToolsForMaintainersOfTheProjectTemplate](/ToolsForMaintainersOfTheProjectTemplate/), I need to add auto-generation of calls to `GetNullStrippedStringFromMessageThatReturnsLength(SciMsg msg, IntPtr wParam=default)` instead of the old fixed-size 10000-byte buffers
 
 ### To Be Changed
 
@@ -20,7 +19,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 - Closing HTML/XML tags works inconsistently in Notepad++ v7.3.3.
 - Holding down `Enter` in a multiline textbox does not add multiple new lines; it only adds one newline on keyup.
-- Toolbar icon hover text is not translated to other languages. See [issue #14](https://github.com/molsonkiko/NppCSharpPluginPack/issues/14).
+- Plugin menu command descriptions are not always retranslated when the Notepad++ native language preference is changed. The translation is always correct at startup.
 
 ## [0.0.4] - (UNRELEASED) YYYY-MM-DD
 
@@ -33,6 +32,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 5. `NotepadPPGateway.GetVisibleViews` method to quickly determine whether Notepad++ is in split-window mode and, if not, which view is currently visible.
 6. When building plugin, automatically create `plugins/yourPluginName` folder in your Notepad++ installation, rather than defaulting to `CSharpPluginPack` as the name for the plugin folder. Fix [issue #13](https://github.com/molsonkiko/NppCSharpPluginPack/issues/13).
 7. When building plugin, automatically sync `plugins/yourPluginName/testfiles` folder in your Notepad++ installation with the `testfiles` folder in this repo. Fix [issue #12](https://github.com/molsonkiko/NppCSharpPluginPack/issues/12).
+8. Toggle highlighting of `close HTML/XML tag` toolbar icon based on whether the setting is true.
+9. Toolbar icon hover text is now translated to other languages. Fix [issue #14](https://github.com/molsonkiko/NppCSharpPluginPack/issues/14).
 
 ### Fixed
 

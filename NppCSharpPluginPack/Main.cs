@@ -70,6 +70,9 @@ namespace Kbg.NppPluginNET
             // first make it so that all references to any third-party dependencies point to the correct location
             // see https://github.com/oleg-shilo/cs-script.npp/issues/66#issuecomment-1086657272 for more info
             AppDomain.CurrentDomain.AssemblyResolve += LoadDependency;
+            
+            // load translations at startup
+            Translator.ResetTranslations(true);
 
             // Initialization of your plugin commands
 
@@ -82,39 +85,39 @@ namespace Kbg.NppPluginNET
             //            );
             
             // the "&" before the "D" means that D is an accelerator key for selecting this option 
-            PluginBase.SetCommand(0, "&Documentation", Docs);
+            PluginBase.SetCommand(0, Translator.GetTranslatedMenuItem("&Documentation"), Docs);
             // the "&" before the "b" means that B is an accelerator key for selecting this option 
-            PluginBase.SetCommand(1, "A&bout", ShowAboutForm); IdAboutForm = 1;
-            PluginBase.SetCommand(2, "&Settings", OpenSettings);
-            PluginBase.SetCommand(3, "Selection &Remembering Form", OpenSelectionRememberingForm); IdSelectionRememberingForm = 3;
-            PluginBase.SetCommand(4, "Run &tests", TestRunner.RunAll);
+            PluginBase.SetCommand(1, Translator.GetTranslatedMenuItem("A&bout"), ShowAboutForm); IdAboutForm = 1;
+            PluginBase.SetCommand(2, Translator.GetTranslatedMenuItem("&Settings"), OpenSettings);
+            PluginBase.SetCommand(3, Translator.GetTranslatedMenuItem("Selection &Remembering Form"), OpenSelectionRememberingForm); IdSelectionRememberingForm = 3;
+            PluginBase.SetCommand(4, Translator.GetTranslatedMenuItem("Run &tests"), TestRunner.RunAll);
             
             // this inserts a separator
-            PluginBase.SetCommand(5, "---", null);
-            PluginBase.SetCommand(6, "Use NanInf class for -inf, inf, nan!!", PrintNanInf);
-            PluginBase.SetCommand(7, "Hello Notepad++", HelloFX);
-            PluginBase.SetCommand(8, "What is Notepad++?", WhatIsNpp);
+            PluginBase.SetCommand(5, Translator.GetTranslatedMenuItem("---"), null);
+            PluginBase.SetCommand(6, Translator.GetTranslatedMenuItem("Use NanInf class for -inf, inf, nan!!"), PrintNanInf);
+            PluginBase.SetCommand(7, Translator.GetTranslatedMenuItem("Hello Notepad++"), HelloFX);
+            PluginBase.SetCommand(8, Translator.GetTranslatedMenuItem("What is Notepad++?"), WhatIsNpp);
 
-            PluginBase.SetCommand(9, "---", null);
-            PluginBase.SetCommand(10, "Current &Full Path", InsertCurrentFullFilePath);
-            PluginBase.SetCommand(11, "Current Directory", InsertCurrentDirectory);
+            PluginBase.SetCommand(9, Translator.GetTranslatedMenuItem("---"), null);
+            PluginBase.SetCommand(10, Translator.GetTranslatedMenuItem("Current &Full Path"), InsertCurrentFullFilePath);
+            PluginBase.SetCommand(11, Translator.GetTranslatedMenuItem("Current Directory"), InsertCurrentDirectory);
 
-            PluginBase.SetCommand(12, "---", null);
+            PluginBase.SetCommand(12, Translator.GetTranslatedMenuItem("---"), null);
             
-            PluginBase.SetCommand(13, "Close HTML/&XML tag automatically", CheckInsertHtmlCloseTag,
+            PluginBase.SetCommand(13, Translator.GetTranslatedMenuItem("Close HTML/&XML tag automatically"), CheckInsertHtmlCloseTag,
                 new ShortcutKey(true, true, true, Keys.X), // this adds a keyboard shortcut for Ctrl+Alt+Shift+X
                 settings.close_html_tag // this may check the plugin menu item on startup depending on settings
                 ); IdCloseHtmlTag = 13;
 
-            PluginBase.SetCommand(14, "---", null);
-            PluginBase.SetCommand(15, "Get File Names Demo", GetFileNamesDemo);
-            PluginBase.SetCommand(16, "Get Session File Names Demo", GetSessionFileNamesDemo);
-            PluginBase.SetCommand(17, "Show files opened and closed this session", ShowFilesOpenedAndClosedThisSession);
-            PluginBase.SetCommand(18, "Save Current Session Demo", SaveCurrentSessionDemo);
-            PluginBase.SetCommand(19, "Print Scroll and Row Information", PrintScrollInformation);
-            PluginBase.SetCommand(20, "Open a pop-up dialog", OpenPopupDialog);
-            PluginBase.SetCommand(21, "---", null);
-            PluginBase.SetCommand(22, "Allocate indicators demo", AllocateIndicatorsDemo);
+            PluginBase.SetCommand(14, Translator.GetTranslatedMenuItem("---"), null);
+            PluginBase.SetCommand(15, Translator.GetTranslatedMenuItem("Get File Names Demo"), GetFileNamesDemo);
+            PluginBase.SetCommand(16, Translator.GetTranslatedMenuItem("Get Session File Names Demo"), GetSessionFileNamesDemo);
+            PluginBase.SetCommand(17, Translator.GetTranslatedMenuItem("Show files opened and closed this session"), ShowFilesOpenedAndClosedThisSession);
+            PluginBase.SetCommand(18, Translator.GetTranslatedMenuItem("Save Current Session Demo"), SaveCurrentSessionDemo);
+            PluginBase.SetCommand(19, Translator.GetTranslatedMenuItem("Print Scroll and Row Information"), PrintScrollInformation);
+            PluginBase.SetCommand(20, Translator.GetTranslatedMenuItem("Open a pop-up dialog"), OpenPopupDialog);
+            PluginBase.SetCommand(21, Translator.GetTranslatedMenuItem("---"), null);
+            PluginBase.SetCommand(22, Translator.GetTranslatedMenuItem("Allocate indicators demo"), AllocateIndicatorsDemo);
             if (FOLLOW_NPP_UI_LANGUAGE && (Npp.nppVersion[0] < 8 || (Npp.nppVersion[0] == 8 && (Npp.nppVersion[1] < 6 || (Npp.nppVersion[1] == 6 && Npp.nppVersion[2] <= 9)))))
             {
                 // start listening to messages that aren't broadcast by the plugin manager (for versions of Notepad++ 8.6.9 or earlier, because later versions have NPPN_NATIVELANGCHANGED)
@@ -236,9 +239,13 @@ namespace Kbg.NppPluginNET
             //    int wm = -(int)code;
             //    }
             //}
+            // set "Close HTML tag" menu item check at startup
             case (uint)NppMsg.NPPN_READY:
+                settings.SetXmlMenuItemCheck();
+                break;
+            // reset translations when NPP native language changes
             case (uint)NppMsg.NPPN_NATIVELANGCHANGED:
-                Translator.ResetTranslations(code == (uint)NppMsg.NPPN_READY);
+                Translator.ResetTranslations(false);
                 break;
             }
         }
@@ -387,9 +394,8 @@ The current scroll ratio is {Math.Round(scrollPercentage, 2)}%.
         /// </summary>
         static void CheckInsertHtmlCloseTag()
         {
-            bool doCloseTag = settings.close_html_tag;
-            PluginBase.CheckMenuItemToggle(IdCloseHtmlTag, ref doCloseTag);
-            settings.close_html_tag = doCloseTag;
+            settings.close_html_tag = !settings.close_html_tag;
+            settings.SetXmlMenuItemCheck();
             settings.SaveToIniFile();
         }
 

@@ -378,9 +378,6 @@ namespace Kbg.NppPluginNET.PluginInfrastructure
         public static extern int GetMenuItemCount(IntPtr hMenu);
 
         [DllImport("user32")]
-        public static extern int CheckMenuItem(IntPtr hMenu, int uIDCheckItem, int uCheck);
-
-        [DllImport("user32")]
         public static extern bool EnableMenuItem(IntPtr hMenu, int uIDEnableItem, int uEnable);
 
         public const int WM_CREATE = 1;

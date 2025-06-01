@@ -43,19 +43,6 @@ namespace Kbg.NppPluginNET.PluginInfrastructure
             _funcItems.Add(funcItem);
         }
 
-        /// <summary>
-        /// if a menu item (for your plugin's drop-down menu) has a checkmark, check/uncheck it, and call its associated funcId.
-        /// </summary>
-        /// <param name="funcId">the index of the menu item of interest</param>
-        /// <param name="isChecked">whether the menu item should be checked</param>
-        public static void CheckMenuItem(int funcId, bool isChecked)
-        {
-            Win32.CheckMenuItem(
-                Win32.GetMenu(nppData._nppHandle),
-                PluginBase._funcItems.Items[funcId]._cmdID,
-                Win32.MF_BYCOMMAND | (isChecked ? Win32.MF_CHECKED : Win32.MF_UNCHECKED));
-        }
-
         //private static IntPtr GetThisPluginMenuHandle()
         //{
         //    IntPtr mainMenuHandle = Win32.GetMenu(nppData._nppHandle);
@@ -180,21 +167,6 @@ namespace Kbg.NppPluginNET.PluginInfrastructure
                     return false;
             }
             return true;
-        }
-
-        /// <summary>
-        /// if a menu item (for your plugin's drop-down menu) has a checkmark:<br></br>
-        /// - if it's checked, uncheck it<br></br>
-        /// - if it's unchecked, check it.
-        /// Either way, call its associated funcId.
-        /// </summary>
-        /// <param name="funcId">the index of the menu item of interest</param>
-        /// <param name="isChecked">whether the menu item is currently checked</param>
-        internal static void CheckMenuItemToggle(int funcId, ref bool isCurrentlyChecked)
-        {
-            // toggle value
-            isCurrentlyChecked = !isCurrentlyChecked;
-            CheckMenuItem(funcId, isCurrentlyChecked);
         }
 
         internal static IntPtr GetCurrentScintilla()
