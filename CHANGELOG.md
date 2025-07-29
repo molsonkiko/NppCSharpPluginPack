@@ -46,6 +46,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 7. Fix bug when too-large integers are entered in the selection-remembering form.
 8. Fix potential crash when running `Get File Names Demo` and `Get Session File Names Demo` plugin commands, by doubling size of buffer in CLikeStringArray (need 2 bytes/char)
 9. Fix bug where `NotepadPPGateway.GetOpenFileNames` would list a `new 1` file for an invisible view if only one view is open (i.e., if Notepad++ does not have a split window)
+10. Fix potential bug by using a null-terminated string in some `ScintillaGateway` methods (currently just `InsertText` and `SetText`) where previously I was just using the raw UTF8 bytes.
 
 ## [0.0.3] - 2024-02-26
 
