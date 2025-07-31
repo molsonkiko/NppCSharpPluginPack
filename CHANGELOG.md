@@ -51,6 +51,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 
 1. Removed the `IScintillaGateway` interface, because it is pointless to have an interface that will only be implemented in one class, and the need to update both `IScintillaGateway` and `ScintillaGateway` whenever the interface changed was annoying busywork.
+2. Removed the `INotepadPPGateway` interface for the same reasons that I removed `IScintillaGateway`
 
 ## [0.0.3] - 2024-02-26
 

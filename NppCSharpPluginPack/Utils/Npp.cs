@@ -25,7 +25,7 @@ namespace NppDemo.Utils
         /// <summary>
         /// connector to Notepad++
         /// </summary>
-        public static INotepadPPGateway notepad = new NotepadPPGateway();
+        public static NotepadPPGateway notepad = new NotepadPPGateway();
 
         /// <summary>
         /// this should only be instantiated once in your entire project
