@@ -21,7 +21,7 @@ namespace NppDemo.Utils
         /// <summary>
         /// connector to Scintilla
         /// </summary>
-        public static IScintillaGateway editor = new ScintillaGateway(PluginBase.GetCurrentScintilla());
+        public static ScintillaGateway editor = new ScintillaGateway(PluginBase.GetCurrentScintilla());
         /// <summary>
         /// connector to Notepad++
         /// </summary>
@@ -140,7 +140,7 @@ namespace NppDemo.Utils
         }
 
         /// <summary>
-        /// if <see cref="IScintillaGateway.GetLength"/> returns a number greater than <see cref="int.MaxValue"/>, return false and set len to -1.<br></br>
+        /// if <see cref="ScintillaGateway.GetLength"/> returns a number greater than <see cref="int.MaxValue"/>, return false and set len to -1.<br></br>
         /// Otherwise, return true and set len to the length of the document.<br></br>
         /// If showMessageOnFail, show a message box warning the user that the command could not be executed.
         /// </summary>
@@ -155,8 +155,8 @@ namespace NppDemo.Utils
         }
 
         /// <summary>
-        /// if <see cref="IScintillaGateway.GetLength"/> returns a number greater than <see cref="int.MaxValue"/>, return false and set text to an empty string.<br></br>
-        /// Otherwise, return true and set text with <see cref="IScintillaGateway.TryGetText(out string, int)"/>.<br></br>
+        /// if <see cref="ScintillaGateway.GetLength"/> returns a number greater than <see cref="int.MaxValue"/>, return false and set text to an empty string.<br></br>
+        /// Otherwise, return true and set text with <see cref="ScintillaGateway.TryGetText(out string, int)"/>.<br></br>
         /// If showMessageOnFail, show a message box warning the user that the command could not be executed.
         /// </summary>
         public static bool TryGetText(out string text, bool showMessageOnFail = true, int length = -1)

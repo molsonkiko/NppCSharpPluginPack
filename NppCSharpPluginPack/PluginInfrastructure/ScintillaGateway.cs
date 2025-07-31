@@ -12,7 +12,7 @@ namespace Kbg.NppPluginNET.PluginInfrastructure
     ///
     /// See http://www.scintilla.org/ScintillaDoc.html for further details.
     /// </summary>
-    public class ScintillaGateway : IScintillaGateway
+    public class ScintillaGateway
     {
         private const int Unused = 0;
 
@@ -193,6 +193,12 @@ namespace Kbg.NppPluginNET.PluginInfrastructure
             return (long)Win32.SendMessage(scintilla, SciMsg.SCI_GETLENGTH, (IntPtr) Unused, (IntPtr) Unused);
         }
 
+        /// <summary>
+        /// If <see cref="GetLength"/> would return a value greater than <see cref="int.MaxValue"/>, return false and set result to -1.<br></br>
+        /// Otherwise, return true and set result to the number of bytes in the document.
+        /// </summary>
+        /// <param name="result"></param>
+        /// <returns></returns>
         public bool TryGetLengthAsInt(out int result)
         {
             long longRes = GetLength();
@@ -1794,6 +1800,12 @@ namespace Kbg.NppPluginNET.PluginInfrastructure
             }
         }
 
+        /// <summary>
+        /// You may wish to use Npp.TryGetLengthAsInt instead, as it indicates when the length of the document is too great.<br></br>
+        /// If length = -1 and the document has more than <see cref="int.MaxValue"/> characters, return "".<br></br>
+        /// Otherwise, returns all the text in the document if length = -1 (or the first length chars of the document).<br></br>
+        /// (Scintilla feature 2182)
+        /// </summary>
         public unsafe string GetText(int length = -1)
         {
             if (length < 1 && !TryGetLengthAsInt(out length))

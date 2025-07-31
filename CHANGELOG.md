@@ -48,6 +48,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 9. Fix bug where `NotepadPPGateway.GetOpenFileNames` would list a `new 1` file for an invisible view if only one view is open (i.e., if Notepad++ does not have a split window)
 10. Fix potential bug by using a null-terminated string in some `ScintillaGateway` methods (currently just `InsertText` and `SetText`) where previously I was just using the raw UTF8 bytes.
 
+### Changed
+
+1. Removed the `IScintillaGateway` interface, because it is pointless to have an interface that will only be implemented in one class, and the need to update both `IScintillaGateway` and `ScintillaGateway` whenever the interface changed was annoying busywork.
+
 ## [0.0.3] - 2024-02-26
 
 ### Added
