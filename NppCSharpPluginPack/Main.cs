@@ -203,7 +203,15 @@ namespace Kbg.NppPluginNET
                 modsSinceBufferOpened = 0;
                 return;
             // when the lexer language changed, re-check whether this is a document where we close HTML tags.
+            // also display some text from the document and info about the current lexer if the name of the current file starts with "lexer test CSharpPluginPack".
             case (uint)NppMsg.NPPN_LANGCHANGED:
+                if (Npp.notepad.GetCurrentFilePath().StartsWith("lexer test CSharpPluginPack"))
+                {
+                    MessageBox.Show($"The current line's text is {Npp.editor.GetCurLine().TrimEnd(new char[] {'\r', '\n'})}.\r\n" +
+                                    (Npp.editor.GetNamedStyles() < 2 ? "There are fewer than two named styles for this lexer.\r\n" : $"The first two named styles for this lexer are {Npp.editor.NameOfStyle(0)} and {Npp.editor.NameOfStyle(1)}.\r\n") +
+                                    "This notification appeared because the lexer language just changed and the name of the current file starts with \"lexer test CSharpPluginPack\"",
+                                    "CSharpPluginPack notification when lexer language is changed");
+                }
                 DoesCurrentLexerSupportCloseHtmlTag();
                 break;
             // when closing a file

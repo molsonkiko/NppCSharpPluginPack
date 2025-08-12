@@ -34,6 +34,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 7. When building plugin, automatically sync `plugins/yourPluginName/testfiles` folder in your Notepad++ installation with the `testfiles` folder in this repo. Fix [issue #12](https://github.com/molsonkiko/NppCSharpPluginPack/issues/12).
 8. Toggle highlighting of `close HTML/XML tag` toolbar icon based on whether the setting is true.
 9. Toolbar icon hover text is now translated to other languages. Fix [issue #14](https://github.com/molsonkiko/NppCSharpPluginPack/issues/14).
+10. Added support for ANSI-encoded documents containing non-ASCII text. Previously, if a document was ANSI encoded, and the plugin asked for some text from the document, Notepad++ would send ANSI-encoded text and the plugin would attempt to decode it as UTF-8.
 
 ### Fixed
 
